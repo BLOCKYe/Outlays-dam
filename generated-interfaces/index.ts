@@ -12,6 +12,7 @@ export interface User {
     refreshTokens: RefreshToken[],
     createdAt: Date,
     updatedAt: Date,
+    outlays: Outlay[],
 }
 
 export interface RefreshToken {
@@ -22,4 +23,16 @@ export interface RefreshToken {
     revoked: boolean,
     createdAt: Date,
     updatedAt: Date,
+}
+
+export interface Outlay {
+    id: string,
+    title: string,
+    description: string,
+    date: Date,
+    createdAt: Date,
+    updatedAt: Date,
+    userId: string,
+    user: User,
+    value: number,
 }

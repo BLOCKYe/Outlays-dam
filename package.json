@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-interfaces": "npx @kalissaac/prisma-typegen ./interfaces ./schema.prisma"
+    "types": "npx @kalissaac/prisma-typegen ./generated-interfaces ./prisma/schema.prisma"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.6",

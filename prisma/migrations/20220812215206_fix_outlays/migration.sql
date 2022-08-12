@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Outlay" ALTER COLUMN "date" DROP DEFAULT;
