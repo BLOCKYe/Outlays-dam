@@ -13,6 +13,7 @@ export interface User {
     createdAt: Date,
     updatedAt: Date,
     outlays: Outlay[],
+    categories: Category[],
 }
 
 export interface RefreshToken {
@@ -35,4 +36,14 @@ export interface Outlay {
     userId: string,
     user: User,
     value: number,
+    categories: Category[],
+}
+
+export interface Category {
+    id: string,
+    name: string,
+    color: string,
+    userId: string,
+    user: User,
+    outays: Outlay[],
 }

@@ -10,7 +10,11 @@ import {PrismaClient} from "@prisma/client";
 import {IOutlayCreateData} from "./IOutlays";
 
 export default class OutlaysServices {
-    private prisma = new PrismaClient()
+    private readonly prisma: PrismaClient
+
+    constructor() {
+        this.prisma = new PrismaClient()
+    }
 
     /**
      * This method is used to
@@ -25,7 +29,13 @@ export default class OutlaysServices {
                 description: data.description,
                 date: data.date,
                 value: data.value,
-                userId: data.userId
+                userId: data.userId,
+                categories: {
+                    connect: data.categories
+                }
+            },
+            include: {
+                categories: true
             }
         })
     }
@@ -41,6 +51,9 @@ export default class OutlaysServices {
         return this.prisma.outlay.findMany({
             where: {
                 userId: userId
+            },
+            include: {
+                categories: true
             }
         })
     }

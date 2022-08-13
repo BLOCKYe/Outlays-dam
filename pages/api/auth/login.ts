@@ -13,45 +13,19 @@ import * as uuid from 'uuid'
 import Jwt from "../../../server/utils/jwt/jwt";
 import AuthServices from "../../../server/modules/auth/auth.services";
 import * as bcrypt from 'bcrypt'
+import UsersRepository from "../../../server/modules/users/users.repository";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-    if (req.method === 'POST') {
-        try {
-            const {email, password} = req.body;
+    const usersRepository = new UsersRepository();
 
-            // validate body
-            if (!email || !password) {
-                return Error.res(res, 400, 'You must provide email and password')
-            }
+    switch (req.method) {
 
-            // check if user already exists
-            const usersService = new UsersServices()
-            const existingUser: any = await usersService.findUserByEmail(email)
-            if (!existingUser) {
-                return Error.res(res, 403, 'Invalid login credentials.')
-            }
-
-            // validate password
-            const validPassword = await bcrypt.compare(password, existingUser.password);
-            if (!validPassword) {
-                return Error.res(res, 400, 'Invalid password.')
-            }
-
-            // create user
-            const jwt = new Jwt()
-            const authServices = new AuthServices()
-            const jti = uuid.v4();
-            const {accessToken, refreshToken} = jwt.generateTokens(existingUser, jti);
-            await authServices.addRefreshTokenToWhitelist({jti, refreshToken, userId: existingUser.id})
-
-            res.status(200).json({status: 200, data: {accessToken, refreshToken}})
-
-        } catch (e) {
-            return Error.res(res, 500, 'Something went wrong')
+        case 'POST': {
+            return usersRepository.login(req, res)
         }
 
-
-    } else {
-        return Error.res(res, 405, 'Forbidden method')
+        default: {
+            return Error.res(res, 405, 'Forbidden method')
+        }
     }
 }

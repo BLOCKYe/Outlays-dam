@@ -7,7 +7,6 @@
 */
 
 import {PrismaClient} from '@prisma/client'
-import {User} from "../../../generated-interfaces";
 import * as bcrypt from 'bcrypt'
 import {ICreateUserReqBody} from "./IUsers";
 

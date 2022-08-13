@@ -25,7 +25,7 @@ export default class Jwt {
         if(!JWTSecretKey) return
 
         return sign({ userId: user.id }, JWTSecretKey, {
-            expiresIn: '5m',
+            expiresIn: '50m',
         });
     }
 

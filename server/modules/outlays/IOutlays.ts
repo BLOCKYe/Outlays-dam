@@ -3,5 +3,6 @@ export interface IOutlayCreateData {
     description: string,
     date: Date,
     userId: string,
-    value: number
+    value: number,
+    categories: any[]
 }
