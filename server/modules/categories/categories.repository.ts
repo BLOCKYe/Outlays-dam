@@ -58,9 +58,9 @@ export default class CategoriesRepository {
             if (typeof payload === 'string') return
 
             const category: any = await this.categoriesServices.findById(payload.userId, id)
-            if (!category || category.length === 0) return Error.res(res, 404, 'Category not found')
+            if (!category) return Error.res(res, 404, 'Category not found')
 
-            return res.status(200).json({status: 200, data: category[0]});
+            return res.status(200).json({status: 200, data: category});
         } catch (err) {
             return Error.res(res, 500, 'Something went wrong')
         }

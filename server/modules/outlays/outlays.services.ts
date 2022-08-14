@@ -7,7 +7,7 @@
 */
 
 import {PrismaClient} from "@prisma/client";
-import {IOutlayCreateData} from "./IOutlays";
+import {IOutlayCreateData, IOutlayEditData} from "./IOutlays";
 
 export default class OutlaysServices {
     private readonly prisma: PrismaClient
@@ -51,6 +51,74 @@ export default class OutlaysServices {
         return this.prisma.outlay.findMany({
             where: {
                 userId: userId
+            },
+            include: {
+                categories: true
+            }
+        })
+    }
+
+
+    /**
+     * This method is used to
+     * delete one outlay by id
+     * @param userId
+     * @param outlayId
+     */
+
+    public deleteById(userId: string, outlayId: string) {
+        return this.prisma.outlay.delete({
+            where: {
+                id: outlayId
+            },
+            include: {
+                categories: true
+            }
+        })
+    }
+
+
+    /**
+     * This method is used to
+     * get one outlay by id
+     * @param userId
+     * @param outlayId
+     */
+
+    public findById(userId: string, outlayId: string) {
+        return this.prisma.outlay.findFirst({
+            where: {
+                userId: userId,
+                id: outlayId
+            },
+            include: {
+                categories: true
+            }
+        })
+    }
+
+
+    /**
+     * This method is used to
+     * edit outlay by id
+     * @param userId
+     * @param outlayId
+     * @param data
+     */
+
+    public editOutlay(userId: string, outlayId: string, data: IOutlayEditData) {
+        return this.prisma.outlay.update({
+            where: {
+                id: outlayId
+            },
+            data: {
+                title: data.title,
+                description: data.description,
+                date: data.date,
+                value: data.value,
+                categories: {
+                    connect: data.categories
+                }
             },
             include: {
                 categories: true

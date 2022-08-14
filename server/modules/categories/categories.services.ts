@@ -41,7 +41,7 @@ export default class CategoriesServices {
      */
 
     public findById(userId: string, categoryId: string) {
-        return this.prisma.category.findMany({
+        return this.prisma.category.findFirst({
             where: {
                 userId: userId,
                 id: categoryId
