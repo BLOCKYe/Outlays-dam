@@ -8,6 +8,8 @@
 
 import React from 'react';
 import Image from "next/image";
+import Button from "../../../common/components/buttons/Button";
+import Input from "../../../common/components/inputs/Input";
 
 const LoginView = () => {
     return (
@@ -22,6 +24,15 @@ const LoginView = () => {
                     <div className={'mt-2'}>
                         Zaloguj się na swoje konto
                     </div>
+                </div>
+
+                <div className={'mt-10 grid gap-2'}>
+                    <Input placeholder={'Email'}/>
+                    <Input placeholder={'Hasło'}/>
+                </div>
+
+                <div className={'mt-10 grid gap-2'}>
+                    <Button type={'CONTAINED'} text={'Zaloguj'}/>
                 </div>
 
             </div>

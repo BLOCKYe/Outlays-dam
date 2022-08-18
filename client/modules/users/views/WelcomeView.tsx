@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Image from "next/image";
+import Button from "../../../common/components/buttons/Button";
 
 const WelcomeView = () => {
     return (
@@ -27,6 +28,11 @@ const WelcomeView = () => {
                     <div className={'mt-2'}>
                         Monitoruj swoje wydatki
                     </div>
+                </div>
+
+                <div className={'mt-10 grid gap-2'}>
+                    <Button type={'CONTAINED'} text={'Zaloguj się'}/>
+                    <Button type={'OUTLINED'} text={'Zarejestruj się'}/>
                 </div>
 
             </div>
