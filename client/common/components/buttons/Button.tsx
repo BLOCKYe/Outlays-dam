@@ -7,11 +7,15 @@
 */
 
 import React from 'react';
+import Link from "next/link";
 
 interface IButtonProps {
-    type: ButtonVariants,
+    variant: ButtonVariants,
     text: string
     onClick?: () => void;
+    link?: string
+    type?: 'button' | 'submit'
+    disabled?: boolean
 }
 
 type ButtonVariants = 'CONTAINED' | 'OUTLINED'
@@ -26,8 +30,8 @@ const Button: React.FC<IButtonProps> = (props) => {
      */
 
     const buttonVariantFactory = (type: ButtonVariants): string => {
-        const containedStyles: string = 'px-5 py-2 rounded bg-c-light text-c transition-all hover:bg-w-darker'
-        const outlinedStyles: string = 'px-5 py-2 rounded border-2 border-d text-b transition-all hover:bg-w-dark'
+        const containedStyles: string = 'px-5 py-2 rounded bg-c-light text-c transition-all hover:bg-w-darker disabled:opacity-50 disabled:hover:bg-c-light disabled:cursor-not-allowed'
+        const outlinedStyles: string = 'px-5 py-2 rounded border-2 border-d text-b transition-all hover:bg-w-dark disabled:opacity-50 disabled:hover:bg-none disabled:cursor-not-allowed'
 
         switch (type) {
             case "CONTAINED": {
@@ -56,9 +60,25 @@ const Button: React.FC<IButtonProps> = (props) => {
     }
 
     return (
-        <button className={buttonVariantFactory(props.type)} onClick={() => handleOnClick()}>
-            {props?.text}
-        </button>
+        <>
+            {/* <--- Default ---> */}
+            {!props.link && (
+                <button type={props.type || 'button'} className={buttonVariantFactory(props.variant)}
+                    onClick={() => handleOnClick()} disabled={props.disabled}>
+                    {props?.text}
+                </button>
+            )}
+
+            {/* <--- Variant with redirect method ---> */}
+            {props.link && (
+                <Link href={props.link}>
+                    <button type={props.type || 'button'} className={buttonVariantFactory(props.variant)}
+                        onClick={() => handleOnClick()} disabled={props.disabled}>
+                        {props?.text}
+                    </button>
+                </Link>
+            )}
+        </>
     );
 };
 

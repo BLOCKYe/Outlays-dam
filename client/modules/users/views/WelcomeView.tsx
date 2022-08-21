@@ -9,34 +9,36 @@
 import React from 'react';
 import Image from "next/image";
 import Button from "../../../common/components/buttons/Button";
+import Link from "next/link";
+import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 
 const WelcomeView = () => {
     return (
-        <div className={'w-full min-h-screen p-3 mb:p-10 grid justify-center pt-10 md:pt-20'}>
-            <div className={'w-full max-w-xl'}>
+        <MainWrapper>
 
+            <Link href={'/'}>
                 <div className={'relative max-w-[250px] mx-auto'}>
                     <Image src={'/welcome-image.svg'} width={200} height={200} layout={'responsive'}
                         alt={'Outlays Dam'} />
                 </div>
+            </Link>
 
-                <div className={'mt-5 text-center'}>
-                    <div className={'text-3xl font-bold'}>
-                        Outlays Dam
-                    </div>
-
-                    <div className={'mt-2'}>
-                        Monitoruj swoje wydatki
-                    </div>
+            <div className={'mt-5 text-center'}>
+                <div className={'text-3xl font-bold'}>
+                    Outlays Dam
                 </div>
 
-                <div className={'mt-10 grid gap-2'}>
-                    <Button type={'CONTAINED'} text={'Zaloguj się'}/>
-                    <Button type={'OUTLINED'} text={'Zarejestruj się'}/>
+                <div className={'mt-2'}>
+                    Najwygodniejsza aplikacja pozwalająca na monitorowanie swoich wydatków.
                 </div>
-
             </div>
-        </div>
+
+            <div className={'mt-10 grid gap-2'}>
+                <Button variant={'CONTAINED'} link={'/login'} text={'Zaloguj się'} />
+                <Button variant={'OUTLINED'} link={'/register'} text={'Zarejestruj się'} />
+            </div>
+
+        </MainWrapper>
     );
 };
 

@@ -11,6 +11,7 @@
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import {ILoginSchema} from "../utils/LoginFormik";
 
 /**
  * This method is used to
@@ -22,11 +23,8 @@ export const login = createAsyncThunk(
     "user/login",
     async (values: any, thunkAPI) => {
         try {
-            const response = await axios.post<any>("/auth/login", values);
-
-            if (response.data.acessToken) {
-                localStorage.setItem('token', response.data.acessToken)
-            }
+            const response = await axios.post<any>("api/auth/login", values);
+            return response.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.data);
         }
