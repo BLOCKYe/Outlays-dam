@@ -12,6 +12,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {ILoginSchema} from "../utils/LoginFormik";
+import {setCookies} from "cookies-next";
 
 /**
  * This method is used to
@@ -24,6 +25,7 @@ export const login = createAsyncThunk(
     async (values: any, thunkAPI) => {
         try {
             const response = await axios.post<any>("api/auth/login", values);
+            setCookies('token', response.data.data.accessToken);
             return response.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.data);

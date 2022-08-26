@@ -9,6 +9,9 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
 import LoginView from "../../client/modules/users/views/LoginView";
+import {wrapper} from "../../client/common/redux/store";
+import {getCookie} from "cookies-next";
+
 
 const Login: NextPage = () => {
     return (
@@ -25,4 +28,13 @@ const Login: NextPage = () => {
     )
 }
 
+export const getServerSideProps = wrapper.getServerSideProps(
+    (req, res) => {
+        console.log(getCookie('token', {req, res}))
+    }
+);
+
 export default Login
+
+
+
