@@ -15,9 +15,9 @@ import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import {useFormik} from "formik";
 import {ILoginSchema, loginSchema} from "../utils/LoginFormik";
 import {useDispatch} from "react-redux";
-import {login} from "../redux/UserRepository";
+import {fetchUserProfile, login} from "../redux/UserRepository";
 import {AppDispatch} from "../../../common/redux/store";
-import {setCookie} from "cookies-next";
+import {getCookie, setCookie} from "cookies-next";
 import {useToast} from "@chakra-ui/react";
 
 const LoginView = () => {

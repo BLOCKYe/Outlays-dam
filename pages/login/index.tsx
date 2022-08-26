@@ -33,7 +33,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
         const token = getCookie('token', {req, res});
 
-        if (token) {
+        if (false) {
             return {
                 redirect: {
                     permanent: false,

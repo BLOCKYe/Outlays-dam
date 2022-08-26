@@ -17,10 +17,8 @@ const HomeView = () => {
 
     return (
         <MainWrapper>
-            Strona główna
-
             <div className={'p-2'}>
-                {user?.name}
+                Witaj {user?.name} 👋
             </div>
         </MainWrapper>
     );

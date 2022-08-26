@@ -14,6 +14,7 @@ import HomeView from "../../client/modules/outlays/views/HomeView";
 import {wrapper} from "../../client/common/redux/store";
 import {getCookie} from "cookies-next";
 import {fetchUserProfile} from "../../client/modules/users/redux/UserRepository";
+import axios from "axios";
 
 const Home: NextPage = () => {
     return (
@@ -34,7 +35,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     (store) => async ({req, res}) => {
 
         const token = getCookie('token', {req, res});
-        store.dispatch(fetchUserProfile())
+        await store.dispatch(fetchUserProfile(token))
 
         return {
             props: {},

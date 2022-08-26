@@ -21,10 +21,10 @@ export const login = createAsyncThunk(
     "user/login",
     async (values: ILoginRequest, thunkAPI) => {
         try {
-            const response = await axios.post<ILoginResponse>("api/auth/login", values);
-            return response.data
+            const response = await axios.post<ILoginResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/auth/login", values);
+            return response?.data
         } catch (error: any) {
-            return thunkAPI.rejectWithValue(error.response.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 );
@@ -37,17 +37,16 @@ export const login = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
     "user/profile",
-    async ({}, thunkAPI) => {
+    async (token: CookieValueTypes, thunkAPI) => {
         try {
-            const response = await axios.get<IUserResponse>("api/profile/user", {
+            const response = await axios.get<IUserResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/profile/user", {
                 headers: {
-                    'Authorization': `Bearer 123`
+                    'Authorization': `${token}`
                 }
             });
-
-            return response.data
+            return response?.data
         } catch (error: any) {
-            return thunkAPI.rejectWithValue(error.response.data);
+            return thunkAPI.rejectWithValue(error.response);
         }
     }
 )

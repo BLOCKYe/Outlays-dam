@@ -3,21 +3,25 @@ import user from '../../modules/users/redux/userSlice'
 import {createWrapper, HYDRATE} from "next-redux-wrapper";
 
 const combinedReducer = combineReducers({
-    user: user,
+    user
 });
 
 const reducer: typeof combinedReducer = (state, action) => {
     if (action.type === HYDRATE) {
-        return {
-            ...state,
-            ...action.payload,
+        const nextState = {
+            ...state, // use previous state
+            ...action.payload, // apply delta from hydration
         };
+        return nextState;
     } else {
         return combinedReducer(state, action);
     }
 };
 
-export const makeStore = () => configureStore({reducer});
+export const makeStore = () =>
+    configureStore({
+        reducer,
+    });
 
 type Store = ReturnType<typeof makeStore>;
 
