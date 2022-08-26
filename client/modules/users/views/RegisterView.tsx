@@ -17,7 +17,7 @@ const RegisterView = () => {
 
             <Link href={'/'}>
                 <div className={'relative max-w-[250px] mx-auto'}>
-                    <Image src={'/welcome-image.svg'} width={200} height={200} layout={'responsive'}
+                    <Image src={'/logo.svg'} width={200} height={200} layout={'responsive'}
                         alt={'Outlays Dam'} />
                 </div>
             </Link>

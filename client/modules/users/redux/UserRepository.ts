@@ -6,13 +6,10 @@
  * Time: 19:16
 */
 
-
-
-
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
-import {ILoginSchema} from "../utils/LoginFormik";
-import {setCookies} from "cookies-next";
+import {ILoginRequest, ILoginResponse, IUserResponse} from "./UserInterfaces";
+import {CookieValueTypes} from "cookies-next";
 
 /**
  * This method is used to
@@ -22,10 +19,9 @@ import {setCookies} from "cookies-next";
 
 export const login = createAsyncThunk(
     "user/login",
-    async (values: any, thunkAPI) => {
+    async (values: ILoginRequest, thunkAPI) => {
         try {
-            const response = await axios.post<any>("api/auth/login", values);
-            setCookies('token', response.data.data.accessToken);
+            const response = await axios.post<ILoginResponse>("api/auth/login", values);
             return response.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.data);
@@ -41,10 +37,17 @@ export const login = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
     "user/profile",
-    async (thunkAPI) => {
+    async ({}, thunkAPI) => {
         try {
+            const response = await axios.get<IUserResponse>("api/profile/user", {
+                headers: {
+                    'Authorization': `Bearer 123`
+                }
+            });
 
+            return response.data
         } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.data);
         }
     }
 )

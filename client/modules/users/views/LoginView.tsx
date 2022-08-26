@@ -13,78 +13,81 @@ import Input from "../../../common/components/inputs/Input";
 import Link from "next/link";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import {useFormik} from "formik";
-import * as Yup from 'yup';
 import {ILoginSchema, loginSchema} from "../utils/LoginFormik";
 import {useDispatch} from "react-redux";
 import {login} from "../redux/UserRepository";
-import {set} from "immer/dist/utils/common";
-
+import {AppDispatch} from "../../../common/redux/store";
+import {setCookie} from "cookies-next";
+import {useToast} from "@chakra-ui/react";
 
 const LoginView = () => {
-    const dispatch = useDispatch();
-    const [isProcessing, setIsProcessing] = useState<boolean>(false)
+        const dispatch = useDispatch<AppDispatch>();
+        const toast = useToast()
+        const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
-    const formik = useFormik({
-        validationSchema: loginSchema,
-        validateOnChange: false,
-        validateOnBlur: false,
-        initialValues: {
-            email: '',
-            password: ''
-        },
+        const formik = useFormik({
+            validationSchema: loginSchema,
+            validateOnChange: false,
+            validateOnBlur: false,
+            initialValues: {
+                email: '',
+                password: ''
+            },
 
-        onSubmit: values => submitForm(values).then()
-    })
+            onSubmit: values => submitForm(values).then()
+        })
 
 
-    /**
-     * This method is used to submit form
-     * and sign in user
-     * @param values
-     */
+        /**
+         * This method is used to submit form
+         * and save token in cookies
+         * @param values
+         */
 
-    const submitForm = async (values: ILoginSchema) => {
-        setIsProcessing(true)
-        const response = await dispatch(login(values)).unwrap()
-        console.log(response)
-        setIsProcessing(false)
+        const submitForm = async (values: ILoginSchema) => {
+            setIsProcessing(true)
+            const response = await dispatch(login(values)).unwrap()
+            setCookie('token', response.data?.accessToken)
+            setIsProcessing(false)
+        }
+
+
+        return (
+            <MainWrapper>
+
+                <Link href={'/'}>
+                    <div className={'relative max-w-[250px] mx-auto'}>
+                        <Image src={'/logo.svg'} width={200} height={200} layout={'responsive'}
+                            alt={'Outlays Dam'} />
+                    </div>
+                </Link>
+
+                <div className={'mt-5 text-center'}>
+                    <div className={'text-3xl font-bold'}>
+                        Outlays Dam
+                    </div>
+
+                    <div className={'mt-2'}>
+                        Zaloguj się na swoje konto, aby uzyskać dostęp do aplikacji.
+                    </div>
+                </div>
+
+                <form onSubmit={formik.handleSubmit}>
+                    <div className={'mt-10 grid gap-3'}>
+                        <Input placeholder={'Email'} onChange={formik.handleChange} value={formik.values.email}
+                            label={'Adres email'} type={'email'} err={formik.errors.email} name={'email'} />
+                        <Input placeholder={'Hasło'} onChange={formik.handleChange} value={formik.values.password}
+                            label={'Twoje hasło'} type={'password'} name={'password'} err={formik.errors.password} />
+                    </div>
+
+                    <div className={'mt-10 grid gap-2'}>
+                        <Button variant={'CONTAINED'} text={'Zaloguj'} type={'submit'} disabled={isProcessing} />
+                    </div>
+                </form>
+
+            </MainWrapper>
+        );
     }
-
-    return (
-        <MainWrapper>
-
-            <Link href={'/'}>
-                <div className={'relative max-w-[250px] mx-auto'}>
-                    <Image src={'/welcome-image.svg'} width={200} height={200} layout={'responsive'}
-                        alt={'Outlays Dam'} />
-                </div>
-            </Link>
-
-            <div className={'mt-5 text-center'}>
-                <div className={'text-3xl font-bold'}>
-                    Outlays Dam
-                </div>
-
-                <div className={'mt-2'}>
-                    Zaloguj się na swoje konto, aby uzyskać dostęp do aplikacji.
-                </div>
-            </div>
-
-            <form onSubmit={formik.handleSubmit}>
-                <div className={'mt-10 grid gap-3'}>
-                    <Input placeholder={'Email'} onChange={formik.handleChange} value={formik.values.email}
-                        label={'Adres email'} type={'email'} err={formik.errors.email} name={'email'} />
-                    <Input placeholder={'Hasło'} onChange={formik.handleChange} value={formik.values.password}
-                        label={'Twoje hasło'} type={'password'} name={'password'} err={formik.errors.password} />
-                </div>
-
-                <div className={'mt-10 grid gap-2'}>
-                    <Button variant={'CONTAINED'} text={'Zaloguj'} type={'submit'} disabled={isProcessing}/>
-                </div>
-            </form>
-
-        </MainWrapper>
-    );
-};
+;
 
 export default LoginView;
