@@ -19,10 +19,12 @@ import {fetchUserProfile, login} from "../redux/UserRepository";
 import {AppDispatch} from "../../../common/redux/store";
 import {getCookie, setCookie} from "cookies-next";
 import {useToast} from "@chakra-ui/react";
+import {useRouter} from "next/router";
 
 const LoginView = () => {
         const dispatch = useDispatch<AppDispatch>();
         const toast = useToast()
+        const router = useRouter()
         const [isProcessing, setIsProcessing] = useState<boolean>(false)
 
         const formik = useFormik({
@@ -46,8 +48,23 @@ const LoginView = () => {
 
         const submitForm = async (values: ILoginSchema) => {
             setIsProcessing(true)
-            const response = await dispatch(login(values)).unwrap()
-            setCookie('token', response.data?.accessToken)
+            try {
+                const response = await dispatch(login(values)).unwrap()
+                setCookie('token', response.data?.accessToken)
+
+                toast({
+                    title: 'Zalogowano',
+                    status: 'success'
+                })
+
+                await router.push('/home')
+            } catch (e: any) {
+                toast({
+                    title: e?.message,
+                    status: 'error'
+                })
+            }
+
             setIsProcessing(false)
         }
 

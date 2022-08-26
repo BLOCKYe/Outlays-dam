@@ -8,13 +8,12 @@
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
-import {ILoginRequest, ILoginResponse, IUserResponse} from "./UserInterfaces";
+import {ILoginRequest, ILoginResponse, IRegisterRequest, IUserResponse} from "./UserInterfaces";
 import {CookieValueTypes} from "cookies-next";
 
 /**
  * This method is used to
- * sign-in user and save
- * token in cookies
+ * sign-in user
  */
 
 export const login = createAsyncThunk(
@@ -22,6 +21,24 @@ export const login = createAsyncThunk(
     async (values: ILoginRequest, thunkAPI) => {
         try {
             const response = await axios.post<ILoginResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/auth/login", values);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+
+/**
+ * This method is used to
+ * sign-up user
+ */
+
+export const register = createAsyncThunk(
+    "user/register",
+    async (values: IRegisterRequest, thunkAPI) => {
+        try {
+            const response = await axios.post<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/auth/register", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
