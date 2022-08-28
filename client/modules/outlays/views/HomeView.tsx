@@ -8,19 +8,23 @@
 
 import React from 'react';
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
-import {useSelector} from "react-redux";
-import {selectUserProfile} from "../../users/redux/userSlice";
+import TopBar from "../../../common/components/menu/TopBar";
+import {useDispatch} from "react-redux";
+import {setLoading} from "../../../common/redux/UISlice";
 
 const HomeView = () => {
+    const dispatch = useDispatch(
 
-    const user = useSelector(selectUserProfile)
-
+    )
     return (
-        <MainWrapper>
-            <div className={'p-2'}>
-                Witaj {user?.name} 👋
-            </div>
-        </MainWrapper>
+        <>
+            <TopBar />
+            <MainWrapper>
+                <div className={'p-2'} onClick={() => dispatch(setLoading(true))}>
+                    Strona główna
+                </div>
+            </MainWrapper>
+        </>
     );
 };
 
