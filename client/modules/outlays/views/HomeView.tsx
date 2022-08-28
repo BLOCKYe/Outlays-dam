@@ -9,21 +9,27 @@
 import React from 'react';
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
-import {useDispatch} from "react-redux";
-import {setLoading} from "../../../common/redux/UISlice";
+import Header from "../components/Header";
+import AddButton from "../../../common/components/buttons/AddButton";
+import BottomBar from "../../../common/components/menu/BottomBar";
+import HistoryList from "../components/HistoryList";
 
 const HomeView = () => {
-    const dispatch = useDispatch(
-
-    )
     return (
         <>
             <TopBar />
             <MainWrapper>
-                <div className={'p-2'} onClick={() => dispatch(setLoading(true))}>
-                    Strona główna
+                <Header />
+
+                <div className={'pt-10'}>
+                    <AddButton text={'Dodaj wydatek'} />
+                </div>
+
+                <div className={'pt-10'}>
+                    <HistoryList />
                 </div>
             </MainWrapper>
+            <BottomBar selected={'HISTORY'} />
         </>
     );
 };

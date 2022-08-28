@@ -13,8 +13,8 @@ interface IMainWrapperProps {
 }
 
 const MainWrapper: React.FC<IMainWrapperProps> = (props) => (
-    <div className={'w-full min-h-screen p-3 mb:p-10 grid justify-center pt-10 md:pt-14'}>
-        <div className={'w-full max-w-md justify-items-stretch'}>
+    <div className={'p-3 mb:p-10 grid pt-10 md:pt-14 place-items-center'}>
+        <div className={'w-full max-w-md'}>
             {props.children}
         </div>
     </div>
