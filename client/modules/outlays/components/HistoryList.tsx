@@ -12,6 +12,7 @@ import {useSelector} from "react-redux";
 import {selectOutlays} from "../redux/outlaysSlice";
 import {IOutlayData} from "../redux/OutlaysInterfaces";
 import OutlayItem from "./OutlayItem";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 const HistoryList: React.FC = () => {
 

@@ -10,7 +10,7 @@ import React from 'react';
 
 const Header: React.FC = () => {
     return (
-        <div className={'grid gap-1 w-full'}>
+        <div className={'w-full'}>
             <div>
                 Wydatki
             </div>

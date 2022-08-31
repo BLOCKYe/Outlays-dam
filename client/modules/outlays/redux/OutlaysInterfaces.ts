@@ -1,3 +1,5 @@
+import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
+
 export interface IOutlaysResponse {
     status?: number;
     data:   IOutlayData[];
@@ -12,5 +14,5 @@ export interface IOutlayData {
     updatedAt?:   Date;
     userId?:      string;
     value?:       number;
-    categories?:  any[];
+    categories?:  ICategoryData[];
 }
