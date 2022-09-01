@@ -30,7 +30,7 @@ const Button: React.FC<IButtonProps> = (props) => {
      */
 
     const buttonVariantFactory = (type: ButtonVariants): string => {
-        const containedStyles: string = 'px-5 py-2 rounded bg-c-light text-c transition-all hover:bg-w-darker disabled:opacity-50 disabled:hover:bg-c-light disabled:cursor-not-allowed'
+        const containedStyles: string = 'px-5 py-2 rounded border-2 border-c-light bg-c-light text-c transition-all hover:bg-w-darker disabled:opacity-50 disabled:hover:bg-c-light disabled:cursor-not-allowed'
         const outlinedStyles: string = 'px-5 py-2 rounded border-2 border-d text-b transition-all hover:bg-w-dark disabled:opacity-50 disabled:hover:bg-none disabled:cursor-not-allowed'
 
         switch (type) {

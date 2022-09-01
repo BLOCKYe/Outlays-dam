@@ -19,7 +19,7 @@ const Header: React.FC = () => {
                 <div className={'font-bold text-3xl'}>
                     5 621 PLN
                 </div>
-                <div className={'py-1 px-3 bg-c-light text-c font-bold text-xs rounded-full'}>
+                <div className={'py-1 px-3 bg-c-light text-c font-bold text-xs rounded'}>
                     +452 PLN
                 </div>
             </div>

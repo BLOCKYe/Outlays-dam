@@ -33,7 +33,7 @@ const HistoryList: React.FC = () => {
             </div>
 
             {/* <--- Display history ---> */}
-            <div className={'grid gap-3 mt-3'}>
+            <div className={'grid gap-3 mt-3 pb-20'}>
                 {[].slice.call(outlays).map((outlay: IOutlayData) =>
                     <OutlayItem data={outlay} key={outlay.id} />
                 )}

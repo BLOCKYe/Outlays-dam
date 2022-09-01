@@ -64,7 +64,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                 <div className={'flex flex-wrap gap-1 justify-self-end'}>
                     {[].slice.call(props.data.categories).map((category: ICategoryData) =>
                         <div key={category.id}
-                            className={'py-1 px-3 rounded-full text-xs justify-self-end ' + categoryColorFactory(category.color)}>
+                            className={'py-1 px-3 rounded text-xs justify-self-end ' + categoryColorFactory(category.color)}>
                             {category.name}
                         </div>
                     )}
