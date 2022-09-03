@@ -21,6 +21,13 @@ import {
 import Button from "./Button";
 import Input from "../inputs/Input";
 import {SingleDatepicker} from "chakra-dayzed-datepicker";
+import {useFormik} from "formik";
+import {IOutlayRequest} from "../../../modules/outlays/redux/OutlaysInterfaces";
+import {login} from "../../../modules/users/redux/UserRepository";
+import {getCookie, setCookie} from "cookies-next";
+import {useDispatch} from "react-redux";
+import {createOutlay, fetchOutlays} from "../../../modules/outlays/redux/OutlaysRepository";
+import {useToast} from "@chakra-ui/react";
 
 interface IAddButtonProps {
     text: string
@@ -29,6 +36,60 @@ interface IAddButtonProps {
 const AddButton: React.FC<IAddButtonProps> = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [date, setDate] = useState<Date>(new Date());
+    const dispatch = useDispatch()
+    const toast = useToast()
+
+    const initialValues: IOutlayRequest = {
+        date: date,
+        title: '',
+        description: '',
+        value: 0,
+        categories: []
+    }
+
+    // create formik instance
+    const formik = useFormik({
+        validateOnChange: false,
+        validateOnBlur: false,
+        initialValues: initialValues,
+        onSubmit: values => submitForm(values).then()
+    })
+
+
+    /**
+     * This function is used to
+     * create new outlay
+     * @param values
+     */
+
+    const submitForm = async (values: IOutlayRequest) => {
+        try {
+            const reqData: IOutlayRequest = {
+                title: values.title,
+                description: values.description,
+                value: values.value,
+                date: date,
+                categories: []
+            }
+
+            await dispatch(createOutlay(reqData))
+            const token = getCookie('token');
+            await dispatch(fetchOutlays(token))
+
+            toast({
+                title: 'Dodano nowy wydatek',
+                status: 'success'
+            })
+
+        } catch (e: any) {
+            toast({
+                title: e?.message,
+                status: 'error'
+            })
+        }
+
+        onClose()
+    }
 
     return (
         <>
@@ -55,13 +116,13 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
                             Aby utworzyć nowy dodatek wypełnij formularz. Wprowadź tytuł, kwotę oraz datę.
                         </div>
 
-                        <form className={'grid gap-3 mt-3'}>
-                            <Input onChange={() => {
-                            }} type={'text'} label={'Tytuł wydatku'} placeholder={'Tytuł wydatku'} />
-                            <Input onChange={() => {
-                            }} type={'text'} label={'Opis'} placeholder={'Opis'} />
-                            <Input onChange={() => {
-                            }} type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'} />
+                        <form className={'grid gap-3 mt-3'} onSubmit={formik.handleSubmit}>
+                            <Input onChange={formik.handleChange} value={formik.values.title} name={'title'}
+                                type={'text'} label={'Tytuł wydatku'} placeholder={'Tytuł wydatku'} />
+                            <Input onChange={formik.handleChange} value={formik.values.description} name={'description'}
+                                type={'text'} label={'Opis'} placeholder={'Opis'} />
+                            <Input onChange={formik.handleChange} value={formik.values.value} name={'value'}
+                                type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'} />
                             <div className={'grid gap-1'}>
                                 <div className={'text-xs text-d-light'}>
                                     Wybierz datę
@@ -71,12 +132,14 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
                                     name="date-input" date={date} onDateChange={setDate}
                                 />
                             </div>
+
+                            <ModalFooter className={'flex gap-3'}>
+                                <Button variant={'OUTLINED'} text={'Anuluj'} onClick={onClose} />
+                                <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'} />
+                            </ModalFooter>
                         </form>
                     </ModalBody>
-                    <ModalFooter className={'flex gap-3'}>
-                        <Button variant={'OUTLINED'} text={'Anuluj'} onClick={onClose} />
-                        <Button variant={'CONTAINED'} text={'Zapisz'} onClick={onClose} />
-                    </ModalFooter>
+
                 </ModalContent>
             </Modal>
         </>

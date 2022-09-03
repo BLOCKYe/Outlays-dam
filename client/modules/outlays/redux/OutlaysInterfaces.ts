@@ -16,3 +16,11 @@ export interface IOutlayData {
     value?:       number;
     categories?:  ICategoryData[];
 }
+
+export interface IOutlayRequest {
+    title:        string;
+    description?: string;
+    value:        number;
+    date:         Date;
+    categories?:  any[];
+}

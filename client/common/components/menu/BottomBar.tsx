@@ -67,7 +67,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
 
     return (
         <div className={'bg-w-dark px-5 py-2 grid place-items-center fixed left-0 bottom-0 w-full'}>
-            <div className={'max-w-md flex gap-2 flex-wrap justify-between w-full px-5 text-2xl items-center'}>
+            <div className={'max-w-lg flex gap-2 flex-wrap justify-between w-full px-5 text-2xl items-center'}>
                 {[].slice.call(bottomBarParams).map((param: IBottomBarParam) =>
                     <Link href={param.link} key={param.tab}>
                         {param.icon}

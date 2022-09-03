@@ -20,7 +20,7 @@ const TopBar: React.FC = () => {
     return (
         <>
             <div className={'bg-w-dark px-5 py-2 grid place-items-center'}>
-                <div className={'max-w-md flex gap-2 flex-wrap w-full'}>
+                <div className={'max-w-lg flex gap-2 flex-wrap w-full'}>
                     <div className={'text-sm pt-1'}>
                         Witaj
                     </div>

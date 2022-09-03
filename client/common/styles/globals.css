@@ -36,3 +36,7 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.item-cols {
+  grid-template-columns: 1fr 120px 100px;
+}

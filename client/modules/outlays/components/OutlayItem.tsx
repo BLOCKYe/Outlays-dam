@@ -23,7 +23,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     const parent = useRef(null)
 
     useEffect(() => {
-        parent.current && autoAnimate(parent.current, {duration: 100})
+        parent.current && autoAnimate(parent.current, {duration: 200})
     }, [parent])
 
     /**
@@ -55,8 +55,8 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
 
     return (
-        <div ref={parent} onClick={() => setMoreInformation(!moreInformation)}>
-            <div className={'grid place-items-center grid-cols-3 cursor-pointer'}>
+        <div ref={parent} onClick={() => setMoreInformation(!moreInformation)} className={'py-3'}>
+            <div className={'grid place-items-center item-cols cursor-pointer'}>
                 <div className={'font-bold justify-self-start text-xs'}>
                     {props.data.title}
                 </div>

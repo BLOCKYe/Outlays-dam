@@ -10,7 +10,7 @@ import React from 'react';
 
 interface IInputProps {
     placeholder?: string
-    value?: string
+    value?: string | number
     name?: string
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     type?: 'text' | 'number' | 'email' | 'password'

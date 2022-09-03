@@ -36,8 +36,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     (store) => async ({req, res}) => {
 
         const token = getCookie('token', {req, res});
-        await store.dispatch(fetchUserProfile(token))
         await store.dispatch(fetchOutlays(token))
+        await store.dispatch(fetchUserProfile(token))
 
         return {
             props: {},

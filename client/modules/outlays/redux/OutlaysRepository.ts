@@ -8,8 +8,8 @@
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
-import {CookieValueTypes} from "cookies-next";
-import {IOutlaysResponse} from "./OutlaysInterfaces";
+import {CookieValueTypes, getCookie} from "cookies-next";
+import {IOutlayRequest, IOutlaysResponse} from "./OutlaysInterfaces";
 
 
 /**
@@ -32,3 +32,26 @@ export const fetchOutlays = createAsyncThunk(
         }
     }
 )
+
+
+/**
+ * This method is used to
+ * create new outlay
+ */
+
+export const createOutlay = createAsyncThunk(
+    "outlays/create",
+    async (values: IOutlayRequest, thunkAPI) => {
+        const token = getCookie('token');
+        try {
+            const response = await axios.post<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/outlays", values, {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            });
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);
