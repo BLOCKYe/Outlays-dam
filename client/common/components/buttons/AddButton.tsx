@@ -28,6 +28,7 @@ import {getCookie, setCookie} from "cookies-next";
 import {useDispatch} from "react-redux";
 import {createOutlay, fetchOutlays} from "../../../modules/outlays/redux/OutlaysRepository";
 import {useToast} from "@chakra-ui/react";
+import Textarea from "../inputs/Textarea";
 
 interface IAddButtonProps {
     text: string
@@ -119,8 +120,12 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
                         <form className={'grid gap-3 mt-3'} onSubmit={formik.handleSubmit}>
                             <Input onChange={formik.handleChange} value={formik.values.title} name={'title'}
                                 type={'text'} label={'Tytuł wydatku'} placeholder={'Tytuł wydatku'} />
-                            <Input onChange={formik.handleChange} value={formik.values.description} name={'description'}
-                                type={'text'} label={'Opis'} placeholder={'Opis'} />
+                            {/*<Input onChange={formik.handleChange} value={formik.values.description} name={'description'}*/}
+                            {/*    type={'text'} label={'Opis'} placeholder={'Opis'} />*/}
+
+                            <Textarea onChange={formik.handleChange} value={formik.values.description}
+                                name={'description'} label={'Opis'} placeholder={'Opis'} />
+
                             <Input onChange={formik.handleChange} value={formik.values.value} name={'value'}
                                 type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'} />
                             <div className={'grid gap-1'}>

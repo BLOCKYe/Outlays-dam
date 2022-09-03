@@ -80,7 +80,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
             {moreInformation && (
                 <div className={'mt-1'}>
                     <div className={'text-d-light text-xs'}>
-                        {moment(props.data.date).format('MMMM Do YYYY, h:mm:ss a')}
+                        {moment(props.data.date).format('Do MMMM YYYY')}
                     </div>
 
                     <div className={'text-xs'}>

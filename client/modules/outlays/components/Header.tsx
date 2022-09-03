@@ -7,12 +7,13 @@
 */
 
 import React from 'react';
+import moment from "moment";
 
 const Header: React.FC = () => {
     return (
         <div className={'w-full'}>
             <div>
-                Wydatki
+                Wydatki w tym miesiącu
             </div>
 
             <div className={'flex flex-wrap gap-3 items-center'}>
@@ -25,7 +26,7 @@ const Header: React.FC = () => {
             </div>
 
             <div className={'text-xs text-d-light'}>
-                sierpień 2022
+                {moment().format('MMMM YYYY')}
             </div>
         </div>
     );

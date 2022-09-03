@@ -38,5 +38,5 @@ a {
 @tailwind utilities;
 
 .item-cols {
-  grid-template-columns: 1fr 120px 100px;
+  grid-template-columns: 1fr 120px 120px;
 }
