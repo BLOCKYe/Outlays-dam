@@ -2,12 +2,14 @@ import {Action, combineReducers, configureStore, ThunkAction} from "@reduxjs/too
 import user from '../../modules/users/redux/userSlice'
 import ui from './UISlice'
 import outlays from '../../modules/outlays/redux/outlaysSlice'
+import categories from '../../modules/categories/redux/categoriesSlice'
 import {createWrapper, HYDRATE} from "next-redux-wrapper";
 
 const combinedReducer = combineReducers({
     user,
     ui,
-    outlays
+    outlays,
+    categories
 });
 
 const reducer: typeof combinedReducer = (state, action) => {

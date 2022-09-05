@@ -10,7 +10,7 @@ import React from 'react';
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import Header from "../components/Header";
-import AddButton from "../../../common/components/buttons/AddButton";
+import AddOutlayButton from "../components/AddOutlayButton";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import HistoryList from "../components/HistoryList";
 
@@ -22,7 +22,7 @@ const HomeView = () => {
                 <Header />
 
                 <div className={'pt-10'}>
-                    <AddButton text={'Dodaj wydatek'} />
+                    <AddOutlayButton text={'Dodaj wydatek'} />
                 </div>
 
                 <div className={'pt-10'}>

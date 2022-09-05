@@ -14,7 +14,7 @@ export interface IOutlayData {
     updatedAt?:   Date;
     userId?:      string;
     value?:       number;
-    categories?:  ICategoryData[];
+    categories:  ICategoryData[];
 }
 
 export interface IOutlayRequest {

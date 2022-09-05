@@ -12,6 +12,7 @@ import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
 import moment, {duration} from "moment";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import autoAnimate from "@formkit/auto-animate";
+import {Tooltip} from "@chakra-ui/react";
 
 interface OutlayItemProps {
     data: IOutlayData
@@ -44,7 +45,15 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
             }
 
             case 'Blue': {
-                return 'bg-blue-100 text-blue-800'
+                return 'bg-sky-100 text-sky-800'
+            }
+
+            case 'Pink': {
+                return 'bg-pink-100 text-pink-800'
+            }
+
+            case 'Emerald': {
+                return 'bg-emerald-100 text-emerald-800'
             }
 
             default: {
@@ -61,16 +70,19 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                     {props.data.title}
                 </div>
 
-                <div className={'flex flex-wrap gap-1 justify-self-end'}>
+                {/* <--- Render categories ---> */}
+                <div className={'flex flex-wrap gap-1 justify-self-end justify-end'}>
                     {[].slice.call(props.data.categories).map((category: ICategoryData) =>
-                        <div key={category.id}
-                            className={'py-1 px-3 rounded text-xs justify-self-end ' + categoryColorFactory(category.color)}>
-                            {category.name}
-                        </div>
+                        <Tooltip key={category.id} label={category.name}>
+                            <div key={category.id} className={'py-1 px-3 font-bold rounded text-xs justify-self-end ' + categoryColorFactory(category.color)}>
+                                {props.data.categories?.length > 1 && (category.name[0])}
+                                {props.data.categories?.length === 1 && (category.name)}
+                            </div>
+                        </Tooltip>
                     )}
                 </div>
 
-                <div className={'justify-self-end font-bold'}>
+                <div className={'justify-self-end text-sm font-bold'}>
                     -{props.data.value} <span className={'text-xs text-d-light font-normal'}>PLN</span>
                 </div>
             </div>

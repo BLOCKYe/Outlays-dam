@@ -43,7 +43,7 @@ export default class OutlaysRepository {
             const {title, description, date, value, categories} = req.body;
             // validate body
             const outlaySchema = yup.object().shape({
-                title: yup.string().min(1).max(255).required(),
+                title: yup.string().min(1).max(20).required(),
                 description: yup.string().max(255),
                 date: yup.string().max(255).required(),
                 value: yup.number().positive().required(),

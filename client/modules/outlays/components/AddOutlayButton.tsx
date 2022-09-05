@@ -18,42 +18,44 @@ import {
     ModalHeader,
     ModalOverlay
 } from "@chakra-ui/modal";
-import Button from "./Button";
-import Input from "../inputs/Input";
+import Button from "../../../common/components/buttons/Button";
+import Input from "../../../common/components/inputs/Input";
 import {SingleDatepicker} from "chakra-dayzed-datepicker";
 import {useFormik} from "formik";
-import {IOutlayRequest} from "../../../modules/outlays/redux/OutlaysInterfaces";
-import {login} from "../../../modules/users/redux/UserRepository";
+import {IOutlayRequest} from "../redux/OutlaysInterfaces";
 import {getCookie, setCookie} from "cookies-next";
-import {useDispatch} from "react-redux";
-import {createOutlay, fetchOutlays} from "../../../modules/outlays/redux/OutlaysRepository";
+import {useDispatch, useSelector} from "react-redux";
+import {createOutlay, fetchOutlays} from "../redux/OutlaysRepository";
 import {useToast} from "@chakra-ui/react";
-import Textarea from "../inputs/Textarea";
+import Textarea from "../../../common/components/inputs/Textarea";
+import {initialValues, outlaySchema} from "../utils/OutlayFormik";
+import {Store} from "redux";
+import {selectCategories} from "../../categories/redux/categoriesSlice";
+import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
+import CategoryItem from "./CategoryItem";
 
 interface IAddButtonProps {
     text: string
 }
 
-const AddButton: React.FC<IAddButtonProps> = (props) => {
+const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [date, setDate] = useState<Date>(new Date());
-    const dispatch = useDispatch()
+    const categories = useSelector(selectCategories)
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+    const dispatch: any = useDispatch()
     const toast = useToast()
-
-    const initialValues: IOutlayRequest = {
-        date: date,
-        title: '',
-        description: '',
-        value: 0,
-        categories: []
-    }
 
     // create formik instance
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
         initialValues: initialValues,
-        onSubmit: values => submitForm(values).then()
+        validationSchema: outlaySchema,
+        onSubmit: (values, {resetForm}) => {
+            submitForm(values).then();
+            resetForm()
+        }
     })
 
 
@@ -65,17 +67,23 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
 
     const submitForm = async (values: IOutlayRequest) => {
         try {
+            let parsedSelectedCategories: { id: string }[] = []
+            for (const category of selectedCategories) {
+                parsedSelectedCategories.push({id: category})
+            }
+
             const reqData: IOutlayRequest = {
                 title: values.title,
                 description: values.description,
                 value: values.value,
                 date: date,
-                categories: []
+                categories: parsedSelectedCategories
             }
 
             await dispatch(createOutlay(reqData))
             const token = getCookie('token');
             await dispatch(fetchOutlays(token))
+            setSelectedCategories([])
 
             toast({
                 title: 'Dodano nowy wydatek',
@@ -90,6 +98,22 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
         }
 
         onClose()
+    }
+
+
+    /**
+     * This method is used to
+     * select category
+     * @param id
+     */
+
+    const selectCategory = (id: string): void => {
+        if (selectedCategories.includes(id)) {
+            const filteredCategories = selectedCategories.filter((selectedId: string) => selectedId !== id)
+            setSelectedCategories(filteredCategories)
+        } else {
+            setSelectedCategories([...selectedCategories, id])
+        }
     }
 
     return (
@@ -119,15 +143,17 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
 
                         <form className={'grid gap-3 mt-3'} onSubmit={formik.handleSubmit}>
                             <Input onChange={formik.handleChange} value={formik.values.title} name={'title'}
-                                type={'text'} label={'Tytuł wydatku'} placeholder={'Tytuł wydatku'} />
-                            {/*<Input onChange={formik.handleChange} value={formik.values.description} name={'description'}*/}
-                            {/*    type={'text'} label={'Opis'} placeholder={'Opis'} />*/}
+                                err={formik.errors.title} type={'text'} label={'Tytuł wydatku'}
+                                placeholder={'Tytuł wydatku'} />
 
                             <Textarea onChange={formik.handleChange} value={formik.values.description}
-                                name={'description'} label={'Opis'} placeholder={'Opis'} />
+                                name={'description'} label={'Opis'} placeholder={'Opis'}
+                                err={formik.errors.description} />
 
                             <Input onChange={formik.handleChange} value={formik.values.value} name={'value'}
-                                type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'} />
+                                type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'}
+                                err={formik.errors.value} />
+
                             <div className={'grid gap-1'}>
                                 <div className={'text-xs text-d-light'}>
                                     Wybierz datę
@@ -138,9 +164,24 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
                                 />
                             </div>
 
+                            {/* <--- Categories ---> */}
+                            <div>
+                                <div className={'text-xs text-d-light'}>
+                                    Wybierz kategorie
+                                </div>
+
+                                <div className={'flex-wrap flex gap-2 items-center mt-1'}>
+                                    {[].slice.call(categories).map((category: ICategoryData) => (
+                                        <CategoryItem selectedCategories={selectedCategories} key={category.id}
+                                            selectedCategory={() => selectCategory(category.id)} data={category} />
+                                    ))}
+                                </div>
+                            </div>
+
                             <ModalFooter className={'flex gap-3'}>
                                 <Button variant={'OUTLINED'} text={'Anuluj'} onClick={onClose} />
-                                <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'} />
+                                <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'}
+                                    disabled={!formik.dirty} />
                             </ModalFooter>
                         </form>
                     </ModalBody>
@@ -151,4 +192,4 @@ const AddButton: React.FC<IAddButtonProps> = (props) => {
     );
 };
 
-export default AddButton;
+export default AddOutlayButton;

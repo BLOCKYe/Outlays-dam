@@ -12,5 +12,5 @@ export interface IOutlayEditData {
     description?: string,
     date?: Date,
     value?: number,
-    categories?: any[]
+    categories: any[]
 }

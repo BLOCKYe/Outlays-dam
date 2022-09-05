@@ -16,6 +16,7 @@ import {getCookie} from "cookies-next";
 import {fetchUserProfile} from "../../client/modules/users/redux/UserRepository";
 import axios from "axios";
 import {fetchOutlays} from "../../client/modules/outlays/redux/OutlaysRepository";
+import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
 
 const Home: NextPage = () => {
     return (
@@ -38,6 +39,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         const token = getCookie('token', {req, res});
         await store.dispatch(fetchOutlays(token))
         await store.dispatch(fetchUserProfile(token))
+        await store.dispatch(fetchCategories(token))
 
         return {
             props: {},

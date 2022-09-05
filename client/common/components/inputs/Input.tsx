@@ -13,7 +13,7 @@ interface IInputProps {
     value?: string | number
     name?: string
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    type?: 'text' | 'number' | 'email' | 'password'
+    type?: 'text' | 'number' | 'email' | 'password' | 'search'
     label?: string
     err?: string
 }
@@ -31,7 +31,7 @@ const Input: React.FC<IInputProps> = (props) => {
 
             {/* <--- Input core ---> */}
             <input className={'px-5 py-2 rounded border-2 focus:outline-d-light bg-w hover:bg-w-dark transition-all'}
-                value={props.value} onChange={props.onChange} placeholder={props.placeholder}
+                value={props.value || ''} onChange={props.onChange} placeholder={props.placeholder}
                 type={props.type || 'text'} name={props.name}/>
 
             {/* <--- Display error ---> */}
