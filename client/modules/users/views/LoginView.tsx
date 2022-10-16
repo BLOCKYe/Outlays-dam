@@ -20,6 +20,7 @@ import {AppDispatch} from "../../../common/redux/store";
 import {getCookie, setCookie} from "cookies-next";
 import {useToast} from "@chakra-ui/react";
 import {useRouter} from "next/router";
+import Paths from "../../../common/router/paths";
 
 const LoginView = () => {
         const dispatch = useDispatch<AppDispatch>();
@@ -57,7 +58,7 @@ const LoginView = () => {
                     status: 'success'
                 })
 
-                await router.push('/home')
+                await router.push(Paths.HISTORY)
             } catch (e: any) {
                 toast({
                     title: e?.message,

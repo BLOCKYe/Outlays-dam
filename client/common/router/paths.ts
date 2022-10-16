@@ -10,4 +10,6 @@ export default class Paths {
     public static readonly HISTORY: string = '/home'
     public static readonly CATEGORIES: string = '/categories'
     public static readonly STATS: string = '/stats'
+    public static readonly LOGIN: string = '/login'
+    public static readonly REGISTER: string = '/register'
 }

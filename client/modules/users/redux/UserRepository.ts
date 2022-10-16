@@ -7,9 +7,8 @@
 */
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
 import {ILoginRequest, ILoginResponse, IRegisterRequest, IUserResponse} from "./UserInterfaces";
-import {CookieValueTypes} from "cookies-next";
+import httpClient from "../../../common/axios/HttpClient";
 
 /**
  * This method is used to
@@ -20,7 +19,7 @@ export const login = createAsyncThunk(
     "user/login",
     async (values: ILoginRequest, thunkAPI) => {
         try {
-            const response = await axios.post<ILoginResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/auth/login", values);
+            const response = await httpClient.post<ILoginResponse>("/api/auth/login", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
@@ -38,7 +37,7 @@ export const register = createAsyncThunk(
     "user/register",
     async (values: IRegisterRequest, thunkAPI) => {
         try {
-            const response = await axios.post<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/auth/register", values);
+            const response = await httpClient.post<any>("/api/auth/register", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
@@ -54,13 +53,9 @@ export const register = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
     "user/profile",
-    async (token: CookieValueTypes, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
-            const response = await axios.get<IUserResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/profile/user", {
-                headers: {
-                    'Authorization': `${token}`
-                }
-            });
+            const response = await httpClient.get<IUserResponse>("/api/profile/user");
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);

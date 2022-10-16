@@ -11,6 +11,7 @@ import Image from "next/image";
 import Button from "../../../common/components/buttons/Button";
 import Link from "next/link";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
+import Paths from "../../../common/router/paths";
 
 const WelcomeView = () => {
     return (
@@ -34,8 +35,8 @@ const WelcomeView = () => {
             </div>
 
             <div className={'mt-10 grid gap-2'}>
-                <Button variant={'CONTAINED'} link={'/login'} text={'Zaloguj się'} />
-                <Button variant={'OUTLINED'} link={'/register'} text={'Zarejestruj się'} />
+                <Button variant={'CONTAINED'} link={Paths.LOGIN} text={'Zaloguj się'} />
+                <Button variant={'OUTLINED'} link={Paths.REGISTER} text={'Zarejestruj się'} />
             </div>
 
         </MainWrapper>

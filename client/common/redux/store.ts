@@ -3,13 +3,15 @@ import user from '../../modules/users/redux/userSlice'
 import ui from './UISlice'
 import outlays from '../../modules/outlays/redux/outlaysSlice'
 import categories from '../../modules/categories/redux/categoriesSlice'
+import analytics from '../../modules/analytics/redux/analyticsSlice'
 import {createWrapper, HYDRATE} from "next-redux-wrapper";
 
 const combinedReducer = combineReducers({
     user,
     ui,
     outlays,
-    categories
+    categories,
+    analytics
 });
 
 const reducer: typeof combinedReducer = (state, action) => {
@@ -24,10 +26,11 @@ const reducer: typeof combinedReducer = (state, action) => {
     }
 };
 
-export const makeStore = () =>
-    configureStore({
-        reducer,
-    });
+export const store = configureStore({
+    reducer,
+})
+
+export const makeStore = () => store
 
 type Store = ReturnType<typeof makeStore>;
 

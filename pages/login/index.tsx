@@ -28,26 +28,6 @@ const Login: NextPage = () => {
     )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({req, res}) => {
-
-        const token = getCookie('token', {req, res});
-
-        if (false) {
-            return {
-                redirect: {
-                    permanent: false,
-                    destination: `/home`
-                },
-            };
-        }
-
-        return {
-            props: {},
-        };
-    }
-);
-
 export default Login
 
 

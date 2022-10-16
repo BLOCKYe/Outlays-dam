@@ -6,7 +6,7 @@
  * Time: 20:25
 */
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {IoMdSearch} from "react-icons/io";
 import {useSelector} from "react-redux";
 import {selectOutlays} from "../redux/outlaysSlice";
@@ -38,6 +38,25 @@ const HistoryList: React.FC = () => {
     })
 
 
+    /**
+     * Used to filter by keyword
+     */
+
+    const filteredOutlays = useMemo(() =>
+            (outlays || []).filter((outlay: IOutlayData) => {
+                return outlay.title?.toLowerCase().includes(formik.values.keyword.toLowerCase()) ||
+                    outlay.description?.toLowerCase().includes(formik.values.keyword.toLowerCase()) ||
+                   String(outlay.value).toLowerCase().includes(formik.values.keyword.toLowerCase())
+            })
+        , [formik.values.keyword, outlays])
+
+
+    useEffect(() => {
+        if (!displaySearch) {
+            formik.setFieldValue('keyword', '')
+        }
+    }, [displaySearch])
+
     return (
         <div>
             {/* <--- Header ---> */}
@@ -45,7 +64,7 @@ const HistoryList: React.FC = () => {
                 {/* <--- Display history list text ---> */}
                 {!displaySearch && (
                     <div className={'text-lg font-bold flex gap-2 items-center'}>
-                        <IoList /> Historia operacji
+                        <IoList/> Historia operacji
                     </div>
                 )}
 
@@ -53,25 +72,25 @@ const HistoryList: React.FC = () => {
                 {displaySearch && (
                     <form onSubmit={formik.handleSubmit} className={'w-full'}>
                         <Input onChange={formik.handleChange} name={'keyword'} value={formik.values.keyword}
-                            type={'search'} placeholder={'Wyszukaj...'} />
+                            type={'search'} placeholder={'Wyszukaj po tytule, opisie lub wartości...'}/>
                     </form>
                 )}
 
                 <div>
                     {displaySearch && <IoClose onClick={() => setDisplaySearch(!displaySearch)}
-                        className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'} />}
+                        className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'}/>}
 
                     {!displaySearch && (
                         <IoMdSearch onClick={() => setDisplaySearch(!displaySearch)}
-                            className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'} />
+                            className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'}/>
                     )}
                 </div>
             </div>
 
             {/* <--- Display history ---> */}
             <div className={'grid mt-3 pb-20 divide-y'}>
-                {[].slice.call(outlays).map((outlay: IOutlayData) =>
-                    <OutlayItem data={outlay} key={outlay.id} />
+                {[].slice.call(filteredOutlays).map((outlay: IOutlayData) =>
+                    <OutlayItem data={outlay} key={outlay.id}/>
                 )}
             </div>
         </div>

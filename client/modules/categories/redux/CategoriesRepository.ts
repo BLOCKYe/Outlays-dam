@@ -7,8 +7,7 @@
 */
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {CookieValueTypes, getCookie} from "cookies-next";
+import httpClient from "../../../common/axios/HttpClient";
 
 
 /**
@@ -18,13 +17,9 @@ import {CookieValueTypes, getCookie} from "cookies-next";
 
 export const fetchCategories = createAsyncThunk(
     "categories/all",
-    async (token: CookieValueTypes, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
-            const response = await axios.get<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/categories", {
-                headers: {
-                    'Authorization': `${token}`
-                }
-            });
+            const response = await httpClient.get<any>("/api/categories");
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
@@ -41,13 +36,8 @@ export const fetchCategories = createAsyncThunk(
 export const createCategory = createAsyncThunk(
     "categories/create",
     async (values: any, thunkAPI) => {
-        const token = getCookie('token');
         try {
-            const response = await axios.post<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/categories", values, {
-                headers: {
-                    'Authorization': `${token}`
-                }
-            });
+            const response = await httpClient.post<any>("/api/categories", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);

@@ -33,6 +33,8 @@ import {Store} from "redux";
 import {selectCategories} from "../../categories/redux/categoriesSlice";
 import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
 import CategoryItem from "./CategoryItem";
+import {setLoading} from "../../../common/redux/UISlice";
+import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
 
 interface IAddButtonProps {
     text: string
@@ -67,6 +69,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
 
     const submitForm = async (values: IOutlayRequest) => {
         try {
+            await dispatch(setLoading(true))
             let parsedSelectedCategories: { id: string }[] = []
             for (const category of selectedCategories) {
                 parsedSelectedCategories.push({id: category})
@@ -81,8 +84,8 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
             }
 
             await dispatch(createOutlay(reqData))
-            const token = getCookie('token');
-            await dispatch(fetchOutlays(token))
+            await dispatch(fetchLastSpending())
+            await dispatch(fetchOutlays())
             setSelectedCategories([])
 
             toast({
@@ -90,11 +93,15 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                 status: 'success'
             })
 
+            await dispatch(setLoading(false))
+
         } catch (e: any) {
             toast({
                 title: e?.message,
                 status: 'error'
             })
+
+            await dispatch(setLoading(false))
         }
 
         onClose()
@@ -119,7 +126,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center w-full px-5 py-2 items-center gap-3 rounded bg-w-dark font-bold text-xl transition-all hover:bg-w-darker'}>
+                className={'flex justify-center w-full px-5 py-3 items-center gap-3 rounded bg-w-dark font-bold text-xl transition-all hover:bg-w-darker'}>
                 <div>
                     <HiPlusCircle />
                 </div>
@@ -176,6 +183,12 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                                             selectedCategory={() => selectCategory(category.id)} data={category} />
                                     ))}
                                 </div>
+
+                                {categories && categories.length === 0 && (
+                                    <div className={'text-xs text-pink-600 mt-1'}>
+                                        Nie utworzyłeś jeszcze żadnych kategorii.
+                                    </div>
+                                )}
                             </div>
 
                             <ModalFooter className={'flex gap-3'}>

@@ -7,9 +7,8 @@
 */
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {CookieValueTypes, getCookie} from "cookies-next";
 import {IOutlayRequest, IOutlaysResponse} from "./OutlaysInterfaces";
+import httpClient from "../../../common/axios/HttpClient";
 
 
 /**
@@ -19,13 +18,9 @@ import {IOutlayRequest, IOutlaysResponse} from "./OutlaysInterfaces";
 
 export const fetchOutlays = createAsyncThunk(
     "outlays/all",
-    async (token: CookieValueTypes, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
-            const response = await axios.get<IOutlaysResponse>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/outlays", {
-                headers: {
-                    'Authorization': `${token}`
-                }
-            });
+            const response = await httpClient.get<IOutlaysResponse>("/api/outlays");
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
@@ -42,13 +37,8 @@ export const fetchOutlays = createAsyncThunk(
 export const createOutlay = createAsyncThunk(
     "outlays/create",
     async (values: IOutlayRequest, thunkAPI) => {
-        const token = getCookie('token');
         try {
-            const response = await axios.post<any>(process.env.NEXT_PUBLIC_BACKEND_API + "/api/outlays", values, {
-                headers: {
-                    'Authorization': `${token}`
-                }
-            });
+            const response = await httpClient.post<any>("/api/outlays", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);

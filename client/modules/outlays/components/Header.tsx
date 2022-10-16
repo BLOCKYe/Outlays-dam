@@ -8,8 +8,13 @@
 
 import React from 'react';
 import moment from "moment";
+import {useSelector} from "react-redux";
+import {selectLastSpending} from "../../analytics/redux/analyticsSlice";
 
 const Header: React.FC = () => {
+
+    const lastSpending = useSelector(selectLastSpending)
+
     return (
         <div className={'w-full'}>
             <div>
@@ -18,10 +23,10 @@ const Header: React.FC = () => {
 
             <div className={'flex flex-wrap gap-3 items-center'}>
                 <div className={'font-bold text-3xl'}>
-                    5 621 PLN
+                    {lastSpending?._sum?.value} PLN
                 </div>
                 <div className={'py-1 px-3 bg-c-light text-c font-bold text-xs rounded'}>
-                    +452 PLN
+                    +0 PLN
                 </div>
             </div>
 
