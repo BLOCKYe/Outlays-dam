@@ -126,10 +126,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center w-full px-5 py-3 items-center gap-3 rounded bg-w-dark font-bold text-xl transition-all hover:bg-w-darker'}>
-                <div>
-                    <HiPlusCircle />
-                </div>
+                className={'flex justify-center w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
                 <div>
                     {props.text}
                 </div>
@@ -139,12 +136,12 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Dodaj nowy wydatek</ModalHeader>
+                    <ModalHeader className={'bg-d'}>Dodaj nowy wydatek</ModalHeader>
                     <ModalCloseButton />
 
                     {/* <--- Form ---> */}
-                    <ModalBody>
-                        <div className={'text-d-light'}>
+                    <ModalBody className={'bg-d'}>
+                        <div className={'text-w-darker'}>
                             Aby utworzyć nowy dodatek wypełnij formularz. Wprowadź tytuł, kwotę oraz datę.
                         </div>
 
@@ -162,18 +159,18 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                                 err={formik.errors.value} />
 
                             <div className={'grid gap-1'}>
-                                <div className={'text-xs text-d-light'}>
+                                <div className={'text-xs text-w-darker'}>
                                     Wybierz datę
                                 </div>
                                 <SingleDatepicker
-                                    propsConfigs={{inputProps: {className: 'unset !box-border !px-5 !py-2 !border-solid !rounded !border-2 !border-w-darker !outline-w-darker !focus:outline-d-light !bg-w hover:!bg-w-dark !transition-all'}}}
+                                    propsConfigs={{inputProps: {className: 'unset !box-border !px-5 !py-2 !border-solid !rounded !border-[1px] !border-d-light !outline-w-darker !focus:outline-d-light !bg-d hover:!bg-d-light !transition-all'}}}
                                     name="date-input" date={date} onDateChange={setDate}
                                 />
                             </div>
 
                             {/* <--- Categories ---> */}
                             <div>
-                                <div className={'text-xs text-d-light'}>
+                                <div className={'text-xs text-w-darker'}>
                                     Wybierz kategorie
                                 </div>
 

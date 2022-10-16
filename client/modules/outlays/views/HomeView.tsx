@@ -21,11 +21,11 @@ const HomeView = () => {
             <MainWrapper>
                 <Header />
 
-                <div className={'pt-10'}>
-                    <AddOutlayButton text={'Dodaj wydatek'} />
+                <div className={'pt-3'}>
+                    <AddOutlayButton text={'Nowy wydatek'} />
                 </div>
 
-                <div className={'pt-10'}>
+                <div className={'pt-3'}>
                     <HistoryList />
                 </div>
             </MainWrapper>

@@ -33,8 +33,8 @@ const TopBar: React.FC = () => {
 
     return (
         <>
-            <div className={'bg-w-dark px-5 py-2 grid place-items-center'}>
-                <div className={'flex max-w-lg items-center justify-between gap-2 w-full'}>
+            <div className={'bg-d border-b-[1px] border-b-d-lighter px-5 py-3 grid place-items-center'}>
+                <div className={'flex max-w-3xl items-center justify-between gap-2 w-full'}>
                     <div className={'flex gap-2 flex-wrap w-full'}>
                         <div className={'text-sm pt-1'}>
                             Witaj
@@ -46,7 +46,7 @@ const TopBar: React.FC = () => {
                     </div>
 
                     <Tooltip label={'Wyloguj się'}>
-                        <div className={'cursor-pointer p-2 hover:bg-w-darker rounded-full transition-all'}
+                        <div className={'cursor-pointer p-2 hover:bg-d-light rounded-full transition-all'}
                             onClick={() => logout()}>
                             <AiOutlineLogout/>
                         </div>

@@ -58,7 +58,7 @@ const HistoryList: React.FC = () => {
     }, [displaySearch])
 
     return (
-        <div>
+        <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20'}>
             {/* <--- Header ---> */}
             <div className={'flex items-center justify-between gap-3'} ref={parent}>
                 {/* <--- Display history list text ---> */}
@@ -78,17 +78,17 @@ const HistoryList: React.FC = () => {
 
                 <div>
                     {displaySearch && <IoClose onClick={() => setDisplaySearch(!displaySearch)}
-                        className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'}/>}
+                        className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-d-light text-w-dark text-xl'}/>}
 
                     {!displaySearch && (
                         <IoMdSearch onClick={() => setDisplaySearch(!displaySearch)}
-                            className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-w-darker text-d text-xl'}/>
+                            className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-d-light text-w-dark text-xl'}/>
                     )}
                 </div>
             </div>
 
             {/* <--- Display history ---> */}
-            <div className={'grid mt-3 pb-20 divide-y'}>
+            <div className={'grid mt-3 divide-y divide-d-lighter'}>
                 {[].slice.call(filteredOutlays).map((outlay: IOutlayData) =>
                     <OutlayItem data={outlay} key={outlay.id}/>
                 )}

@@ -5,8 +5,8 @@ body {
   padding: 0;
   margin: 0;
   letter-spacing: 0.3px;
-  background-color: #F9FAFB !important;
-  color: #1F2937 !important;
+  background-color: #111111 !important;
+  color: #D8D8D8 !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
@@ -38,5 +38,5 @@ a {
 @tailwind utilities;
 
 .item-cols {
-  grid-template-columns: 1fr 120px 120px;
+  grid-template-columns: 40px 1fr 120px;
 }

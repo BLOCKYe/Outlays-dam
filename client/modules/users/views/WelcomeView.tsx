@@ -29,7 +29,7 @@ const WelcomeView = () => {
                     Outlays Dam
                 </div>
 
-                <div className={'mt-2'}>
+                <div className={'mt-2 text-w-darker'}>
                     Najwygodniejsza aplikacja pozwalająca na monitorowanie swoich wydatków.
                 </div>
             </div>

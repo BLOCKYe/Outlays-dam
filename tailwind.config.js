@@ -9,17 +9,18 @@ module.exports = {
         extend: {
             colors: {
                 'w': {
-                    DEFAULT: '#F9FAFB',
-                    dark: '#F3F4F6',
-                    darker: '#E5E7EB'
+                    DEFAULT: '#FFFFFF',
+                    dark: '#D8D8D8',
+                    darker: '#777777'
                 },
                 'd': {
-                    DEFAULT: '#1F2937',
-                    light: '#9CA3AF'
+                    DEFAULT: '#111111',
+                    light: '#1C1C1C',
+                    lighter: '#292929'
                 },
                 'c': {
-                    DEFAULT: '#92400E',
-                    light: '#FED78A'
+                    DEFAULT: '#052440',
+                    light: '#168FFF'
                 }
             }
         },

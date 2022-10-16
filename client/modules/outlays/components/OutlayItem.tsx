@@ -21,11 +21,7 @@ interface OutlayItemProps {
 const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
     const [moreInformation, setMoreInformation] = useState<boolean>(false)
-    const parent = useRef(null)
 
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current, {duration: 200})
-    }, [parent])
 
     /**
      * This method is used to
@@ -64,42 +60,20 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
 
     return (
-        <div ref={parent} onClick={() => setMoreInformation(!moreInformation)} className={'py-3'}>
+        <div onClick={() => setMoreInformation(!moreInformation)} className={'py-3'}>
             <div className={'grid place-items-center item-cols cursor-pointer'}>
-                <div className={'font-bold justify-self-start text-xs'}>
+
+                <div className={'w-[12px] rounded-full h-[12px] bg-d-lighter'}/>
+
+                <div className={'justify-self-start text-sm'}>
                     {props.data.title}
                 </div>
 
-                {/* <--- Render categories ---> */}
-                <div className={'flex flex-wrap gap-1 justify-self-end justify-end'}>
-                    {[].slice.call(props.data.categories).map((category: ICategoryData) =>
-                        <Tooltip key={category.id} label={category.name}>
-                            <div key={category.id} className={'py-1 px-3 font-bold rounded text-xs justify-self-end ' + categoryColorFactory(category.color)}>
-                                {props.data.categories?.length > 1 && (category.name[0])}
-                                {props.data.categories?.length === 1 && (category.name)}
-                            </div>
-                        </Tooltip>
-                    )}
-                </div>
 
-                <div className={'justify-self-end text-sm font-bold'}>
-                    -{props.data.value} <span className={'text-xs text-d-light font-normal'}>PLN</span>
+                <div className={'justify-self-end text-sm text-w'}>
+                    -{props.data.value} <span className={'text-xs text-w-darker font-normal'}>PLN</span>
                 </div>
             </div>
-
-
-            {/* <--- More information (description, date) ---> */}
-            {moreInformation && (
-                <div className={'mt-1'}>
-                    <div className={'text-d-light text-xs'}>
-                        {moment(props.data.date).format('Do MMMM YYYY')}
-                    </div>
-
-                    <div className={'text-xs'}>
-                        {props.data.description}
-                    </div>
-                </div>
-            )}
         </div>
 
     );

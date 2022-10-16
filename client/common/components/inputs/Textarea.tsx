@@ -33,14 +33,14 @@ const Textarea: React.FC<ITextareaProps> = (props) => {
         <div className={'grid gap-1 w-full'}>
             {/* <--- Display label ---> */}
             {props.label && (
-                <div className={'text-xs text-d-light'}>
+                <div className={'text-xs text-w-darker'}>
                     {props.label}
                 </div>
             )}
 
             {/* <--- Input core ---> */}
             <textarea ref={textareaRef}
-                className={'px-5 py-2 rounded border-2 focus:outline-d-light bg-w hover:bg-w-dark resize-none overflow-hidden'}
+                className={'px-5 py-2 rounded bg-d border-[1px] border-d-light text-w-dark focus:border-d-lighter active:outline-none focus:outline-none hover:bg-d-light resize-none overflow-hidden'}
                 value={props.value} onChange={props.onChange} placeholder={props.placeholder} name={props.name} />
 
             {/* <--- Display error ---> */}

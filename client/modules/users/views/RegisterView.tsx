@@ -81,7 +81,7 @@ const LoginView = () => {
                         Outlays Dam
                     </div>
 
-                    <div className={'mt-2'}>
+                    <div className={'mt-2 text-w-darker'}>
                         Utwórz konto, aby uzyskać dostęp do aplikacji.
                     </div>
                 </div>

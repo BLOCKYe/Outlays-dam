@@ -16,21 +16,21 @@ const Header: React.FC = () => {
     const lastSpending = useSelector(selectLastSpending)
 
     return (
-        <div className={'w-full'}>
+        <div className={'w-full bg-d p-5 border-[1px] border-d-lighter'}>
             <div>
                 Wydatki w tym miesiącu
             </div>
 
             <div className={'flex flex-wrap gap-3 items-center'}>
-                <div className={'font-bold text-3xl'}>
+                <div className={'font-bold text-3xl text-w'}>
                     {lastSpending?._sum?.value} PLN
                 </div>
-                <div className={'py-1 px-3 bg-c-light text-c font-bold text-xs rounded'}>
+                <div className={'py-1 px-3 text-c-light bg-c font-bold text-xs rounded'}>
                     +0 PLN
                 </div>
             </div>
 
-            <div className={'text-xs text-d-light'}>
+            <div className={'text-xs text-w-darker'}>
                 {moment().format('MMMM YYYY')}
             </div>
         </div>
