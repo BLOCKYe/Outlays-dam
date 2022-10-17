@@ -8,19 +8,27 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {IOutlayData} from "../redux/OutlaysInterfaces";
+import {useDisclosure} from "@chakra-ui/hooks";
+import {
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay
+} from "@chakra-ui/modal";
+import Button from "../../../common/components/buttons/Button";
+import moment from "moment/moment";
 import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
-import moment, {duration} from "moment";
-import {useAutoAnimate} from "@formkit/auto-animate/react";
-import autoAnimate from "@formkit/auto-animate";
-import {Tooltip} from "@chakra-ui/react";
+import {Divider, Tooltip} from "@chakra-ui/react";
 
 interface OutlayItemProps {
     data: IOutlayData
 }
 
 const OutlayItem: React.FC<OutlayItemProps> = (props) => {
-
-    const [moreInformation, setMoreInformation] = useState<boolean>(false)
+    const {isOpen, onOpen, onClose} = useDisclosure()
 
 
     /**
@@ -32,51 +40,95 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
     const categoryColorFactory = (color: string): string => {
         switch (color) {
-            case 'Purple': {
-                return 'bg-purple-100 text-purple-800'
-            }
-
             case 'Orange': {
-                return 'bg-orange-100 text-orange-800'
+                return 'bg-[#FF9F2D]'
             }
 
             case 'Blue': {
-                return 'bg-sky-100 text-sky-800'
+                return 'bg-[#168FFF]'
             }
 
             case 'Pink': {
-                return 'bg-pink-100 text-pink-800'
+                return 'bg-[#F74141]'
             }
 
             case 'Emerald': {
-                return 'bg-emerald-100 text-emerald-800'
+                return 'bg-[#17CB49]'
             }
 
             default: {
-                return 'bg-gray-100 text-gray-800'
+                return 'bg-d-lighter'
             }
         }
     }
 
 
     return (
-        <div onClick={() => setMoreInformation(!moreInformation)} className={'py-3'}>
-            <div className={'grid place-items-center item-cols cursor-pointer'}>
+        <>
+            <div onClick={onOpen} className={'py-3'}>
+                <div className={'grid place-items-center item-cols cursor-pointer'}>
 
-                <div className={'w-[12px] rounded-full h-[12px] bg-d-lighter'}/>
+                   <div className={'grid gap-2'}>
+                       {[].slice.call(props.data.categories).map((category: ICategoryData) =>
+                           <div key={category.id} >
+                               <Tooltip label={category.name}>
+                                   <div className={'w-[10px] rounded-lg h-[10px] ' + categoryColorFactory(category.color)}/>
+                               </Tooltip>
+                           </div>
+                       )}
+                   </div>
 
-                <div className={'justify-self-start text-sm'}>
-                    {props.data.title}
-                </div>
+                    <div className={'justify-self-start text-sm'}>
+                        {props.data.title}
+                    </div>
 
 
-                <div className={'justify-self-end text-sm text-w'}>
-                    -{props.data.value} <span className={'text-xs text-w-darker font-normal'}>PLN</span>
+                    <div className={'justify-self-end text-sm text-w'}>
+                        -{props.data.value} <span className={'text-xs text-w-darker font-normal'}>PLN</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    );
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay/>
+                <ModalContent>
+                    <ModalHeader className={'bg-d'}>{props.data.title}</ModalHeader>
+                    <ModalCloseButton/>
+
+                    {/* <--- Form ---> */}
+                    <ModalBody className={'bg-d'}>
+                        <div className={'text-w-dark'}>
+                            {moment(props.data.createdAt).format('DD MMMM YYYY, HH:mm')}
+                        </div>
+
+                        <div className={'text-w-darker mt-3'}>
+                            {props.data.description}
+                        </div>
+
+                       <div className={'mt-5 text-sm'}>
+                           Kategorie:
+                       </div>
+
+                        <div className={'text-w-dark mt-1'}>
+                            {[].slice.call(props.data.categories).map((category: ICategoryData) =>
+                                <div key={category.id} className={'flex items-center gap-3'}>
+                                    <div
+                                        className={'w-[12px] rounded h-[12px] ' + categoryColorFactory(category.color)}/>
+                                    {category.name}
+                                </div>
+                            )}
+                        </div>
+
+                        <ModalFooter className={'flex gap-3'}>
+                            <Button variant={'OUTLINED'} text={'Zamknij'} onClick={onClose}/>
+
+                        </ModalFooter>
+                    </ModalBody>
+
+                </ModalContent>
+            </Modal>
+        </>
+    )
 };
 
 export default OutlayItem;
