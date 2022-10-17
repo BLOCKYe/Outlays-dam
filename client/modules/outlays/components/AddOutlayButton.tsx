@@ -7,7 +7,6 @@
 */
 
 import React, {useState} from 'react';
-import {HiPlusCircle} from "react-icons/hi";
 import {useDisclosure} from "@chakra-ui/hooks";
 import {
     Modal,
@@ -29,12 +28,12 @@ import {createOutlay, fetchOutlays} from "../redux/OutlaysRepository";
 import {useToast} from "@chakra-ui/react";
 import Textarea from "../../../common/components/inputs/Textarea";
 import {initialValues, outlaySchema} from "../utils/OutlayFormik";
-import {Store} from "redux";
 import {selectCategories} from "../../categories/redux/categoriesSlice";
 import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
 import CategoryItem from "./CategoryItem";
 import {setLoading} from "../../../common/redux/UISlice";
 import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
+import {FaMoneyBillWave} from "react-icons/fa";
 
 interface IAddButtonProps {
     text: string
@@ -126,7 +125,11 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
+                className={'flex justify-center md:justify-start w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
+                <div>
+                    <FaMoneyBillWave/>
+                </div>
+
                 <div>
                     {props.text}
                 </div>
