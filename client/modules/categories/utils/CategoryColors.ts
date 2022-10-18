@@ -66,11 +66,12 @@ export default class CategoryColors {
     /**
      *
      * @param color
+     * @param variant
      * @param props
      * @constructor
      */
 
-    public static ColorBuilder(color: IColors, variant: 'dark' | 'default', props: 'bg' | 'text') {
+    public static ColorBuilder(color: IColors, variant: 'dark' | 'default', props: 'bg' | 'text'): string {
         switch (color) {
             case "Orange": {
                 return props + '-[' + (variant === 'dark' ? CategoryColors.Orange.dark : CategoryColors.Orange.default) + ']'
