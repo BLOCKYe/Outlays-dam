@@ -10,6 +10,7 @@ import React, {useEffect, useRef} from 'react';
 import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
 import {BsCheckLg} from "react-icons/bs";
 import autoAnimate from "@formkit/auto-animate";
+import CategoryColors from "../../categories/utils/CategoryColors";
 
 interface ICategoryItem {
     selectedCategories: string[]
@@ -32,37 +33,8 @@ const CategoryItem: React.FC<ICategoryItem> = (props) => {
      * @param color
      */
 
-    const categoryColorFactory = (color: string): string => {
-        switch (color) {
-            case 'Purple': {
-                return 'bg-purple-100 text-purple-800'
-            }
-
-            case 'Orange': {
-                return 'bg-orange-100 text-orange-800'
-            }
-
-            case 'Blue': {
-                return 'bg-sky-100 text-sky-800'
-            }
-
-            case 'Pink': {
-                return 'bg-pink-100 text-pink-800'
-            }
-
-            case 'Emerald': {
-                return 'bg-emerald-100 text-emerald-800'
-            }
-
-            default: {
-                return 'bg-gray-100 text-gray-800'
-            }
-        }
-    }
-
     return (
-        <div onClick={() => props.selectedCategory(props.data.id)} ref={parent}
-            className={'py-1 cursor-pointer px-3 font-bold rounded text-xs flex gap-2 items-center justify-self-end ' + categoryColorFactory(props.data.color)}>
+        <div onClick={() => props.selectedCategory(props.data.id)} ref={parent} className={'py-1 cursor-pointer px-3 font-bold rounded text-xs flex gap-2 items-center justify-self-end ' + CategoryColors.ColorBuilder(props.data.color, "dark", "bg") + " " + CategoryColors.ColorBuilder(props.data.color, "default", "text")}>
             {props.selectedCategories.includes(props.data.id) && <BsCheckLg />}
             {props.data?.name}
         </div>

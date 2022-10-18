@@ -2,9 +2,10 @@ import {IOutlayRequest} from "../redux/OutlaysInterfaces";
 import {SchemaOf} from "yup";
 import * as Yup from "yup";
 import * as yup from "yup";
+import moment from "moment";
 
 export const initialValues: IOutlayRequest = {
-    date: new Date(),
+    date: moment(new Date()).format("yyyy-MM-DD"),
     title: '',
     description: '',
     value: 0,

@@ -21,6 +21,6 @@ export interface IOutlayRequest {
     title:        string;
     description?: string;
     value:        number;
-    date:         Date;
+    date:         string;
     categories?:  any[];
 }

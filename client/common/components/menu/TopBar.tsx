@@ -26,15 +26,15 @@ const TopBar: React.FC = () => {
      *
      */
 
-    const logout = (): void => {
+    const logout = async (): Promise<void> => {
         removeCookies('token')
-        router.push(Paths.LOGIN)
+        await router.push(Paths.LOGIN)
     }
 
     return (
         <>
-            <div className={'bg-d border-b-[1px] border-b-d-lighter px-5 py-3 grid place-items-center'}>
-                <div className={'flex max-w-xl items-center justify-between gap-2 w-full'}>
+            <div className={'bg-d-light border-b-[1px] border-b-d-lighter px-5 py-3 grid place-items-center'}>
+                <div className={'flex max-w-xl items-center justify-between gap-2 w-full px-3'}>
                     <div className={'flex gap-2 flex-wrap w-full'}>
                         <div className={'text-sm pt-1'}>
                             Witaj
@@ -46,7 +46,7 @@ const TopBar: React.FC = () => {
                     </div>
 
                     <Tooltip label={'Wyloguj się'}>
-                        <div className={'cursor-pointer p-2 hover:bg-d-light rounded-full transition-all'}
+                        <div className={'cursor-pointer p-2 hover:bg-d-lighter rounded-full transition-all'}
                             onClick={() => logout()}>
                             <AiOutlineLogout/>
                         </div>

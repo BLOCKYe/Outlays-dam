@@ -10,15 +10,19 @@ import React from 'react';
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
-import Header from "../../outlays/components/Header";
-import AddOutlayButton from "../../outlays/components/AddOutlayButton";
+import CategoriesList from "../components/CategoriesList";
+import AddCategoryButton from "../components/AddCategoryButton";
 
 const CategoriesView = () => {
     return (
         <>
             <TopBar/>
             <MainWrapper>
-                <AddOutlayButton text={'Nowa kategoria'}/>
+                <AddCategoryButton text={'Nowa kategoria'}/>
+
+                <div className={'pt-3'}>
+                    <CategoriesList/>
+                </div>
 
             </MainWrapper>
             <BottomBar selected={'CATEGORIES'}/>

@@ -14,18 +14,11 @@ import {IOutlayData} from "../redux/OutlaysInterfaces";
 import OutlayItem from "./OutlayItem";
 import {IoList, IoClose} from "react-icons/io5";
 import Input from "../../../common/components/inputs/Input";
-import autoAnimate from "@formkit/auto-animate";
 import {useFormik} from "formik";
 
 const HistoryList: React.FC = () => {
     const outlays = useSelector(selectOutlays)
     const [displaySearch, setDisplaySearch] = useState<boolean>(false)
-
-    // ref is used to control auto animate
-    const parent = useRef(null)
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current, {duration: 200})
-    }, [parent])
 
     // create formik instance
     const formik = useFormik({
@@ -46,7 +39,7 @@ const HistoryList: React.FC = () => {
             (outlays || []).filter((outlay: IOutlayData) => {
                 return outlay.title?.toLowerCase().includes(formik.values.keyword.toLowerCase()) ||
                     outlay.description?.toLowerCase().includes(formik.values.keyword.toLowerCase()) ||
-                   String(outlay.value).toLowerCase().includes(formik.values.keyword.toLowerCase())
+                    String(outlay.value).toLowerCase().includes(formik.values.keyword.toLowerCase())
             })
         , [formik.values.keyword, outlays])
 
@@ -60,12 +53,14 @@ const HistoryList: React.FC = () => {
     return (
         <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20'}>
             {/* <--- Header ---> */}
-            <div className={'flex items-center justify-between gap-3'} ref={parent}>
+            <div className={'flex items-center justify-between gap-3'}>
                 {/* <--- Display history list text ---> */}
                 {!displaySearch && (
-                    <div className={'text-lg font-bold flex gap-2 items-center'}>
-                        <IoList/> Historia operacji
-                    </div>
+                    <>
+                        <div className={'text-lg font-bold flex gap-2 items-center'}>
+                            <IoList/> Ostatnie wydatki
+                        </div>
+                    </>
                 )}
 
                 {/* <--- Display input after click search icon ---> */}
@@ -85,6 +80,11 @@ const HistoryList: React.FC = () => {
                             className={'box-content p-2 transition-all cursor-pointer rounded-full hover:bg-d-light text-w-dark text-xl'}/>
                     )}
                 </div>
+            </div>
+
+            <div className={'text-xs text-w-darker mt-3'}>
+                Lista wszystkich twoich ostatnich operacji. Historię wydatków możesz przeszukać po nazwie,
+                opisie lub kowocie.
             </div>
 
             {/* <--- Display history ---> */}

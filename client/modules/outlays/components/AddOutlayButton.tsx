@@ -41,7 +41,6 @@ interface IAddButtonProps {
 
 const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
-    const [date, setDate] = useState<Date>(new Date());
     const categories = useSelector(selectCategories)
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
     const dispatch: any = useDispatch()
@@ -78,7 +77,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                 title: values.title,
                 description: values.description,
                 value: values.value,
-                date: date,
+                date: values.date,
                 categories: parsedSelectedCategories
             }
 
@@ -125,7 +124,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center md:justify-start w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
+                className={'flex justify-center w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
                 <div>
                     <FaMoneyBillWave/>
                 </div>
@@ -136,11 +135,11 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
             </button>
 
             {/* <--- Display modal ---> */}
-            <Modal onClose={onClose} isOpen={isOpen} isCentered>
-                <ModalOverlay />
+            <Modal onClose={onClose} isOpen={isOpen}>
+                <ModalOverlay/>
                 <ModalContent>
                     <ModalHeader className={'bg-d'}>Dodaj nowy wydatek</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalCloseButton/>
 
                     {/* <--- Form ---> */}
                     <ModalBody className={'bg-d'}>
@@ -148,28 +147,23 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                             Aby utworzyć nowy dodatek wypełnij formularz. Wprowadź tytuł, kwotę oraz datę.
                         </div>
 
-                        <form className={'grid gap-3 mt-3'} onSubmit={formik.handleSubmit}>
+                        <form className={'grid gap-5 mt-3'} onSubmit={formik.handleSubmit}>
                             <Input onChange={formik.handleChange} value={formik.values.title} name={'title'}
                                 err={formik.errors.title} type={'text'} label={'Tytuł wydatku'}
-                                placeholder={'Tytuł wydatku'} />
+                                placeholder={'Tytuł wydatku'}/>
 
                             <Textarea onChange={formik.handleChange} value={formik.values.description}
                                 name={'description'} label={'Opis'} placeholder={'Opis'}
-                                err={formik.errors.description} />
+                                err={formik.errors.description}/>
 
                             <Input onChange={formik.handleChange} value={formik.values.value} name={'value'}
                                 type={'number'} label={'Kwota w PLN'} placeholder={'Kwota w PLN'}
-                                err={formik.errors.value} />
+                                err={formik.errors.value}/>
 
-                            <div className={'grid gap-1'}>
-                                <div className={'text-xs text-w-darker'}>
-                                    Wybierz datę
-                                </div>
-                                <SingleDatepicker
-                                    propsConfigs={{inputProps: {className: 'unset !box-border !px-5 !py-2 !border-solid !rounded !border-[1px] !border-d-light !outline-w-darker !focus:outline-d-light !bg-d hover:!bg-d-light !transition-all'}}}
-                                    name="date-input" date={date} onDateChange={setDate}
-                                />
-                            </div>
+                            <Input onChange={formik.handleChange} value={formik.values.date} name={'date'}
+                                type={'date'} label={'Data wydatku'} placeholder={'Data wydatku'}
+                                err={formik.errors.date}/>
+
 
                             {/* <--- Categories ---> */}
                             <div>
@@ -177,10 +171,10 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                                     Wybierz kategorie
                                 </div>
 
-                                <div className={'flex-wrap flex gap-2 items-center mt-1'}>
+                                <div className={'flex-wrap flex gap-2 items-center mt-2'}>
                                     {[].slice.call(categories).map((category: ICategoryData) => (
                                         <CategoryItem selectedCategories={selectedCategories} key={category.id}
-                                            selectedCategory={() => selectCategory(category.id)} data={category} />
+                                            selectedCategory={() => selectCategory(category.id)} data={category}/>
                                     ))}
                                 </div>
 
@@ -192,9 +186,9 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                             </div>
 
                             <ModalFooter className={'flex gap-3'}>
-                                <Button variant={'OUTLINED'} text={'Anuluj'} onClick={onClose} />
+                                <Button variant={'OUTLINED'} text={'Anuluj'} onClick={onClose}/>
                                 <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'}
-                                    disabled={!formik.dirty} />
+                                    disabled={!formik.dirty}/>
                             </ModalFooter>
                         </form>
                     </ModalBody>

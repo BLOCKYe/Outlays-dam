@@ -52,8 +52,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
 
         await store.dispatch(fetchUserProfile())
-        await store.dispatch(fetchLastSpending())
-        await store.dispatch(fetchOutlays())
         await store.dispatch(fetchCategories())
 
         return {

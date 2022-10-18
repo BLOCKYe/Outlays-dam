@@ -35,8 +35,8 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
      */
 
     const currentSectionsFactory = (selected: tabsTypes, local: tabsTypes): string => {
-        const selectedStyles: string = 'box-content p-2 transition-all bg-d-light cursor-pointer rounded-full'
-        const defaultStyles: string = 'box-content p-2 transition-all cursor-pointer rounded-full text-w-darker hover:bg-d-light hover:text-w'
+        const selectedStyles: string = 'box-content p-2 transition-all bg-d-lighter cursor-pointer rounded-full'
+        const defaultStyles: string = 'box-content p-2 transition-all cursor-pointer rounded-full text-w-darker hover:bg-d-lighter hover:text-w'
 
         if (selected === local) return selectedStyles
         else return defaultStyles
@@ -66,7 +66,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
     ]
 
     return (
-        <div className={'bg-d border-t-[1px] border-t-d-lighter px-5 py-3 grid place-items-center fixed left-0 bottom-0 w-full'}>
+        <div className={'bg-d-light border-t-[1px] border-t-d-lighter px-5 py-3 grid place-items-center fixed left-0 bottom-0 w-full'}>
             <div className={'max-w-lg flex gap-2 flex-wrap justify-between w-full px-5 text-2xl items-center'}>
                 {[].slice.call(bottomBarParams).map((param: IBottomBarParam) =>
                     <Link href={param.link} key={param.tab}>
