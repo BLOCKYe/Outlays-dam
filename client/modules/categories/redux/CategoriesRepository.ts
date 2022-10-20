@@ -8,6 +8,7 @@
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import httpClient from "../../../common/axios/HttpClient";
+import {ICategoriesResponse, ICategoryRequest} from "./CategoriesInterfaces";
 
 
 /**
@@ -19,7 +20,7 @@ export const fetchCategories = createAsyncThunk(
     "categories/all",
     async (_, thunkAPI) => {
         try {
-            const response = await httpClient.get<any>("/api/categories");
+            const response = await httpClient.get<ICategoriesResponse>("/api/categories");
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
@@ -35,9 +36,9 @@ export const fetchCategories = createAsyncThunk(
 
 export const createCategory = createAsyncThunk(
     "categories/create",
-    async (values: any, thunkAPI) => {
+    async (values: ICategoryRequest, thunkAPI) => {
         try {
-            const response = await httpClient.post<any>("/api/categories", values);
+            const response = await httpClient.post<ICategoriesResponse>("/api/categories", values);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);

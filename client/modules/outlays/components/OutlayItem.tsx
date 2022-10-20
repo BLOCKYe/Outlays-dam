@@ -40,7 +40,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                         {[].slice.call(props.data.categories).map((category: ICategoryData) =>
                             <div key={category.id}>
                                 <Tooltip label={category.name}>
-                                    <div className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(category?.color, 'default', 'bg')}/>
+                                    <div className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(category.color, 'default', 'bg')}/>
                                 </Tooltip>
                             </div>
                         )}

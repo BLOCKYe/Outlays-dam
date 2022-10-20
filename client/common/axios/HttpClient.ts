@@ -11,7 +11,7 @@ import axios, {AxiosError} from "axios";
 import Router from "next/router";
 import Paths from "../router/paths";
 import {store} from "../redux/store";
-import {removeCookies} from "cookies-next";
+import {deleteCookie, removeCookies} from "cookies-next";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:3000'
 
@@ -50,7 +50,7 @@ httpClient.interceptors.response.use(function (response) {
     return response;
 }, async function (error: AxiosError) {
     if (error.response?.status === 401 || error.response?.status === 403) {
-        removeCookies('token')
+        deleteCookie('token')
         await Router.push(Paths.LOGIN)
         return Promise.resolve(error.response)
     } else {

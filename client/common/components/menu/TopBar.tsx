@@ -12,7 +12,7 @@ import {selectUserProfile} from "../../../modules/users/redux/userSlice";
 import {Progress, Tooltip} from "@chakra-ui/react";
 import {selectLoading} from "../../redux/UISlice";
 import {AiOutlineLogout} from "react-icons/ai";
-import {removeCookies} from "cookies-next";
+import {deleteCookie} from "cookies-next";
 import {useRouter} from "next/router";
 import Paths from "../../router/paths";
 
@@ -27,7 +27,7 @@ const TopBar: React.FC = () => {
      */
 
     const logout = async (): Promise<void> => {
-        removeCookies('token')
+        deleteCookie('token')
         await router.push(Paths.LOGIN)
     }
 

@@ -113,12 +113,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
      */
 
     const selectCategory = (id: string): void => {
-        if (selectedCategories.includes(id)) {
-            const filteredCategories = selectedCategories.filter((selectedId: string) => selectedId !== id)
-            setSelectedCategories(filteredCategories)
-        } else {
-            setSelectedCategories([...selectedCategories, id])
-        }
+        setSelectedCategories([id])
     }
 
     return (
