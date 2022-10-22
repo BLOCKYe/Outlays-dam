@@ -71,7 +71,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                     {/* <--- Form ---> */}
                     <ModalBody className={'bg-d'}>
                         <div className={'text-w-dark'}>
-                            {moment(props.data.createdAt).format('DD MMMM YYYY, HH:mm')}
+                            {moment(props.data.date).format('DD MMMM YYYY')}
                         </div>
 
                         <div className={'text-w-darker mt-3'}>

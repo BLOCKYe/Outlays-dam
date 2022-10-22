@@ -85,7 +85,7 @@ const HistoryList: React.FC = () => {
 
             <div className={'text-sm text-w-darker mt-3'}>
                 Lista wszystkich twoich ostatnich operacji. Historię wydatków możesz przeszukać po nazwie,
-                opisie lub kowocie.
+                opisie lub kwocie.
             </div>
 
             {/* <--- Display history ---> */}

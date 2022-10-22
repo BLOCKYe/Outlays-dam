@@ -50,7 +50,7 @@ export default class OutlaysServices {
     public getUserOutlays(userId: string) {
         return this.prisma.outlay.findMany({
             orderBy: [{
-                createdAt: 'desc'
+                date: 'desc'
             }],
             where: {
                 userId: userId

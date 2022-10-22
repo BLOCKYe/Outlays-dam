@@ -20,7 +20,7 @@ export const fetchLastSpending = createAsyncThunk(
     "analytics/last",
     async (_, thunkAPI) => {
         try {
-            const response = await httpClient.get<ILastSpendingResponse>("/api/analytics");
+            const response = await httpClient.get<any>("/api/analytics");
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);

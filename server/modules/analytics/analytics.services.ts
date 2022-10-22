@@ -7,6 +7,7 @@
 */
 
 import {PrismaClient} from "@prisma/client";
+import moment from "moment";
 
 export default class AnalyticsServices {
     private readonly prisma: PrismaClient
@@ -22,14 +23,39 @@ export default class AnalyticsServices {
      * @param userId
      */
 
-    public getSpentAmount(userId: string) {
-        return this.prisma.outlay.aggregate({
+    public async getSpentAmount(userId: string) {
+
+        const startDate = moment().startOf('month').format('YYYY-MM-DD')
+        const startDateLast = moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD')
+        const endDate = moment().endOf('month').format('YYYY-MM-DD')
+        const endDateLast = moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD')
+
+        const current = await this.prisma.outlay.aggregate({
             where: {
-                userId: userId
+                userId: userId,
+                date: {
+                    lte: endDate,
+                    gte: startDate,
+                }
             },
-           _sum: {
+            _sum: {
                 value: true
-           }
+            }
         })
+
+        const last = await this.prisma.outlay.aggregate({
+            where: {
+                userId: userId,
+                date: {
+                    lte: endDateLast,
+                    gte: startDateLast,
+                }
+            },
+            _sum: {
+                value: true
+            }
+        })
+
+        return {current, last}
     }
 }
