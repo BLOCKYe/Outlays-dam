@@ -45,3 +45,44 @@ export const createCategory = createAsyncThunk(
         }
     }
 );
+
+
+interface ICategoryData {
+    values: ICategoryRequest,
+    id: string
+}
+
+/**
+ * This method is used to
+ * create new category
+ */
+
+export const editCategory = createAsyncThunk(
+    "categories/edit",
+    async (categoryData: ICategoryData, thunkAPI) => {
+        try {
+            const response = await httpClient.put<ICategoriesResponse>(`/api/categories/${categoryData.id}`, categoryData.values);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+
+/**
+ * This method is used to
+ * create new category
+ */
+
+export const deleteCategory = createAsyncThunk(
+    "categories/delete",
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await httpClient.delete<ICategoriesResponse>(`/api/categories/${id}`);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);

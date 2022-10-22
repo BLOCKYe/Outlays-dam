@@ -19,12 +19,6 @@ interface IColorItem {
 
 const ColorItem: React.FC<IColorItem> = (props) => {
 
-    const parent = useRef(null)
-
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current, {duration: 100})
-    }, [parent])
-
     /**
      * This method is used to
      * render styles
@@ -33,8 +27,8 @@ const ColorItem: React.FC<IColorItem> = (props) => {
      */
 
     return (
-        <div onClick={() => props.selectColor('color', props.data.name)} ref={parent}
-            className={'py-1 cursor-pointer px-3 font-bold rounded text-xs flex gap-2 items-center justify-self-end ' + props.data.styles}>
+        <div onClick={() => props.selectColor('color', props.data.name)}
+            className={'py-1 cursor-pointer px-3 font-bold rounded text-sm transition-all hover:opacity-100 flex gap-2 items-center w-full ' + props.data.styles + " " + (props.selectedColor === props.data.name && <BsCheckLg/> ? 'opacity-100' : 'opacity-50')}>
             {props.selectedColor === props.data.name && <BsCheckLg/>}
             {props.data?.label}
         </div>

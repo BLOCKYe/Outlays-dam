@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap');
 
 html,
 body {
@@ -7,7 +7,7 @@ body {
     letter-spacing: 0.3px;
     background-color: #111111 !important;
     color: #D8D8D8 !important;
-    font-family: 'Poppins', sans-serif !important;
+    font-family: 'Mukta', sans-serif !important;
 }
 
 a {
@@ -39,7 +39,7 @@ a {
 @tailwind utilities;
 
 .item-cols {
-    grid-template-columns: 35px 1fr 120px;
+    grid-template-columns: 25px 1fr 120px;
 }
 
 .custom-calendar::-webkit-calendar-picker-indicator {

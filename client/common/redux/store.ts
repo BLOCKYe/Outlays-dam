@@ -28,6 +28,7 @@ const reducer: typeof combinedReducer = (state, action) => {
 
 export const store = configureStore({
     reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false,}),
 })
 
 export const makeStore = () => store

@@ -3,11 +3,11 @@ import {RootState} from "../../../common/redux/store";
 import { fetchLastSpending} from "./AnalyticsRepository";
 import {ILastSpendingData} from "./AnalyticsInterfaces";
 
-interface IOutlaysSlice {
+interface IAnalyticsSlice {
     lastSpending?: ILastSpendingData
 }
 
-const initialState: IOutlaysSlice = {
+const initialState: IAnalyticsSlice = {
     lastSpending: {}
 }
 

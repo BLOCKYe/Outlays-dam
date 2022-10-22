@@ -57,7 +57,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
 
                     <div className={'justify-self-end text-sm text-w'}>
-                        -{props.data.value} <span className={'text-xs text-w-darker font-normal'}>PLN</span>
+                        -{props.data.value} <span className={'text-sm text-w-darker font-normal'}>PLN</span>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                         <div className={'text-w-dark mt-1'}>
 
                             {props.data.categories.length === 0 && (
-                                <div className={'text-xs text-pink-600'}>
+                                <div className={'text-sm text-pink-600'}>
                                     Brak dodanych kategorii.
                                 </div>
                             )}

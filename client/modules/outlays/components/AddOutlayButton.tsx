@@ -82,8 +82,8 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
             }
 
             await dispatch(createOutlay(reqData))
-            await dispatch(fetchLastSpending())
             await dispatch(fetchOutlays())
+            await dispatch(fetchLastSpending())
             setSelectedCategories([])
 
             toast({
@@ -162,7 +162,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
 
                             {/* <--- Categories ---> */}
                             <div>
-                                <div className={'text-xs text-w-darker'}>
+                                <div className={'text-sm text-w-darker'}>
                                     Wybierz kategorie
                                 </div>
 
@@ -174,7 +174,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
                                 </div>
 
                                 {categories && categories.length === 0 && (
-                                    <div className={'text-xs text-pink-600 mt-1'}>
+                                    <div className={'text-sm text-pink-600 mt-1'}>
                                         Nie utworzyłeś jeszcze żadnych kategorii.
                                     </div>
                                 )}

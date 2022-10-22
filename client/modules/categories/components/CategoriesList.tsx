@@ -21,7 +21,7 @@ const CategoriesList = () => {
             <div className={'text-lg font-bold flex gap-2 items-center'}>
                 <IoList/> Twoje kategorie
             </div>
-            <div className={'text-xs text-w-darker mt-3'}>
+            <div className={'text-sm text-w-darker mt-3'}>
                 Lista wszystkich twoich kategorii. W tym miejscu możesz dodać nowe lub edytować istniejące kategorie.
             </div>
 

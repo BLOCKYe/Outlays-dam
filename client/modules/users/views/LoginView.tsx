@@ -55,7 +55,8 @@ const LoginView = () => {
 
                 toast({
                     title: 'Zalogowano',
-                    status: 'success'
+                    status: 'success',
+                    isClosable: true,
                 })
 
                 await router.push(Paths.HISTORY)

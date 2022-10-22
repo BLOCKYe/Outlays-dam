@@ -20,12 +20,6 @@ interface ICategoryItem {
 
 const CategoryItem: React.FC<ICategoryItem> = (props) => {
 
-    const parent = useRef(null)
-
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current, {duration: 100})
-    }, [parent])
-
     /**
      * This method is used to
      * render styles
@@ -34,7 +28,7 @@ const CategoryItem: React.FC<ICategoryItem> = (props) => {
      */
 
     return (
-        <div onClick={() => props.selectedCategory(props.data.id)} ref={parent} className={'py-1 cursor-pointer px-3 font-bold rounded text-xs flex gap-2 items-center justify-self-end ' + CategoryColors.ColorBuilder(props.data.color, "dark", "bg") + " " + CategoryColors.ColorBuilder(props.data.color, "default", "text")}>
+        <div onClick={() => props.selectedCategory(props.data.id)} className={'py-1 hover:opacity-100 transition-all cursor-pointer px-3 font-bold rounded text-sm flex gap-2 items-center w-full ' + CategoryColors.ColorBuilder(props.data.color, "dark", "bg") + " " + CategoryColors.ColorBuilder(props.data.color, "default", "text") + " " + (props.selectedCategories.includes(props.data.id) ? 'opacity-100' : 'opacity-50')}>
             {props.selectedCategories.includes(props.data.id) && <BsCheckLg />}
             {props.data?.name}
         </div>

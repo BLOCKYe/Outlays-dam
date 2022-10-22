@@ -33,7 +33,7 @@ const Textarea: React.FC<ITextareaProps> = (props) => {
         <div className={'grid gap-1 w-full'}>
             {/* <--- Display label ---> */}
             {props.label && (
-                <div className={'text-xs text-w-darker'}>
+                <div className={'text-sm text-w-darker'}>
                     {props.label}
                 </div>
             )}
@@ -45,7 +45,7 @@ const Textarea: React.FC<ITextareaProps> = (props) => {
 
             {/* <--- Display error ---> */}
             {props.err && (
-                <div className={'text-xs text-pink-600'}>
+                <div className={'text-sm text-pink-600'}>
                     {props.err}
                 </div>
             )}

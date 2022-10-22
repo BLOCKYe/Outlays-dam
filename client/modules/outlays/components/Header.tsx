@@ -25,12 +25,12 @@ const Header: React.FC = () => {
                 <div className={'font-bold text-3xl text-w'}>
                     {lastSpending?._sum?.value} PLN
                 </div>
-                <div className={'py-1 px-3 text-c-light bg-c font-bold text-xs rounded'}>
+                <div className={'py-1 px-3 text-c-light bg-c font-bold text-sm rounded'}>
                     +0 PLN
                 </div>
             </div>
 
-            <div className={'text-xs text-w-darker'}>
+            <div className={'text-sm text-w-darker'}>
                 {moment().format('MMMM YYYY')}
             </div>
         </div>

@@ -26,6 +26,9 @@ export default class CategoriesServices {
 
     public getUserCategories(userId: string) {
         return this.prisma.category.findMany({
+            orderBy: [{
+                name: 'asc'
+            }],
             where: {
                 userId: userId
             }

@@ -6,15 +6,16 @@
  * Time: 20:25
 */
 
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {IoMdSearch} from "react-icons/io";
 import {useSelector} from "react-redux";
 import {selectOutlays} from "../redux/outlaysSlice";
 import {IOutlayData} from "../redux/OutlaysInterfaces";
 import OutlayItem from "./OutlayItem";
-import {IoList, IoClose} from "react-icons/io5";
+import {IoClose} from "react-icons/io5";
 import Input from "../../../common/components/inputs/Input";
 import {useFormik} from "formik";
+import {MdHistoryEdu} from "react-icons/md";
 
 const HistoryList: React.FC = () => {
     const outlays = useSelector(selectOutlays)
@@ -58,7 +59,7 @@ const HistoryList: React.FC = () => {
                 {!displaySearch && (
                     <>
                         <div className={'text-lg font-bold flex gap-2 items-center'}>
-                            <IoList/> Ostatnie wydatki
+                            <MdHistoryEdu/> Ostatnie wydatki
                         </div>
                     </>
                 )}
@@ -82,7 +83,7 @@ const HistoryList: React.FC = () => {
                 </div>
             </div>
 
-            <div className={'text-xs text-w-darker mt-3'}>
+            <div className={'text-sm text-w-darker mt-3'}>
                 Lista wszystkich twoich ostatnich operacji. Historię wydatków możesz przeszukać po nazwie,
                 opisie lub kowocie.
             </div>
