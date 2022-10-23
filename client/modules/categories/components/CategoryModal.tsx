@@ -44,6 +44,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
+        enableReinitialize: true,
         initialValues: {
             name: props.data?.name || '',
             color: props.data?.color || ''

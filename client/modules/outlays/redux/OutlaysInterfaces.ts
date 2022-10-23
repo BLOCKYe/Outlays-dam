@@ -9,7 +9,7 @@ export interface IOutlayData {
     id?:          string;
     title?:       string;
     description?: string;
-    date?:        Date;
+    date?:        string;
     createdAt?:   Date;
     updatedAt?:   Date;
     userId?:      string;

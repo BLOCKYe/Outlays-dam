@@ -13,7 +13,7 @@ import autoAnimate from "@formkit/auto-animate";
 import CategoryColors from "../../categories/utils/CategoryColors";
 
 interface ICategoryItem {
-    selectedCategories: string[]
+    selectedCategories?: string[]
     selectedCategory: (id: string) => void
     data: ICategoryData
 }
@@ -28,8 +28,8 @@ const CategoryItem: React.FC<ICategoryItem> = (props) => {
      */
 
     return (
-        <div onClick={() => props.selectedCategory(props.data.id)} className={'py-1 hover:opacity-100 transition-all cursor-pointer px-3 font-bold rounded text-sm flex gap-2 items-center w-full ' + CategoryColors.ColorBuilder(props.data.color, "dark", "bg") + " " + CategoryColors.ColorBuilder(props.data.color, "default", "text") + " " + (props.selectedCategories.includes(props.data.id) ? 'opacity-100' : 'opacity-50')}>
-            {props.selectedCategories.includes(props.data.id) && <BsCheckLg />}
+        <div onClick={() => props.selectedCategory(props.data.id)} className={'py-1 hover:opacity-100 transition-all cursor-pointer px-3 font-bold rounded text-sm flex gap-2 items-center w-full ' + CategoryColors.ColorBuilder(props.data.color, "dark", "bg") + " " + CategoryColors.ColorBuilder(props.data.color, "default", "text") + " " + (props.selectedCategories && props.selectedCategories.includes(props.data.id) ? 'opacity-100' : 'opacity-50')}>
+            {props.selectedCategories && props.selectedCategories.includes(props.data.id) && <BsCheckLg />}
             {props.data?.name}
         </div>
     );

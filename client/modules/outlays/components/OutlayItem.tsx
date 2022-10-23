@@ -7,7 +7,7 @@
 */
 
 import React, {useEffect, useRef, useState} from 'react';
-import {IOutlayData} from "../redux/OutlaysInterfaces";
+import {IOutlayData, IOutlayRequest} from "../redux/OutlaysInterfaces";
 import {useDisclosure} from "@chakra-ui/hooks";
 import {
     Modal,
@@ -21,8 +21,13 @@ import {
 import Button from "../../../common/components/buttons/Button";
 import moment from "moment/moment";
 import {ICategoryData} from "../../categories/redux/CategoriesInterfaces";
-import {Divider, Tooltip} from "@chakra-ui/react";
+import {Divider, Tooltip, useToast} from "@chakra-ui/react";
 import CategoryColors from "../../categories/utils/CategoryColors";
+import OutlayModal from "./OutlayModal";
+import {setLoading} from "../../../common/redux/UISlice";
+import {createOutlay, editOutlay, fetchOutlays} from "../redux/OutlaysRepository";
+import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
+import {useDispatch} from "react-redux";
 
 interface OutlayItemProps {
     data: IOutlayData
@@ -30,6 +35,53 @@ interface OutlayItemProps {
 
 const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
+    const dispatch: any = useDispatch()
+    const toast = useToast()
+
+    const submitForm = async (values: IOutlayRequest) => {
+        try {
+            await dispatch(setLoading(true))
+            if(!props.data.id) return
+
+            let parsedSelectedCategories: { id: string }[] = []
+
+            if (values.categories) {
+                for (const category of values.categories) {
+                    parsedSelectedCategories.push({id: category})
+                }
+            }
+
+            const reqData: IOutlayRequest = {
+                title: values.title,
+                description: values.description,
+                value: values.value,
+                date: values.date,
+                categories: parsedSelectedCategories
+            }
+
+            await dispatch(editOutlay({values: reqData, id: props.data.id}))
+            await dispatch(fetchOutlays())
+            await dispatch(fetchLastSpending())
+
+            toast({
+                title: `Edytowano wydatek: ${props.data.title}`,
+                status: 'success',
+                isClosable: true
+            })
+
+            await dispatch(setLoading(false))
+
+        } catch (e: any) {
+            toast({
+                title: e?.message,
+                status: 'error'
+            })
+
+            await dispatch(setLoading(false))
+        }
+
+        onClose()
+    }
 
     return (
         <>
@@ -62,53 +114,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                 </div>
             </div>
 
-            <Modal onClose={onClose} isOpen={isOpen} isCentered>
-                <ModalOverlay/>
-                <ModalContent>
-                    <ModalHeader className={'bg-d'}>{props.data.title}</ModalHeader>
-                    <ModalCloseButton/>
-
-                    {/* <--- Form ---> */}
-                    <ModalBody className={'bg-d'}>
-                        <div className={'text-w-dark'}>
-                            {moment(props.data.date).format('DD MMMM YYYY')}
-                        </div>
-
-                        <div className={'text-w-darker mt-3'}>
-                            {props.data.description}
-                        </div>
-
-                        <div className={'mt-5 text-sm'}>
-                            Kategorie:
-                        </div>
-
-                        <div className={'text-w-dark mt-1'}>
-
-                            {props.data.categories.length === 0 && (
-                                <div className={'text-sm text-pink-600'}>
-                                    Brak dodanych kategorii.
-                                </div>
-                            )}
-
-                            {[].slice.call(props.data.categories).map((category: ICategoryData) =>
-                                <div key={category.id} className={'flex items-center gap-3 mt-3'}>
-                                    <div className={'w-[12px] rounded h-[12px] ' + CategoryColors.ColorBuilder(category.color, 'default', 'bg')}/>
-                                    <div className={'text-sm font-bold'}>
-                                        {category.name}
-                                    </div>
-
-                                </div>
-                            )}
-                        </div>
-
-                        <ModalFooter className={'flex gap-3'}>
-                            <Button variant={'OUTLINED'} text={'Zamknij'} onClick={onClose}/>
-
-                        </ModalFooter>
-                    </ModalBody>
-
-                </ModalContent>
-            </Modal>
+            <OutlayModal isOpen={isOpen} onClose={onClose} submitForm={submitForm} data={props.data}/>
         </>
     )
 };

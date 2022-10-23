@@ -120,7 +120,7 @@ export default class OutlaysServices {
                 date: data.date,
                 value: data.value,
                 categories: {
-                    connect: data.categories
+                    set: data.categories
                 }
             },
             include: {

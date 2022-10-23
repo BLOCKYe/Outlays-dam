@@ -9,6 +9,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {IOutlayRequest, IOutlaysResponse} from "./OutlaysInterfaces";
 import httpClient from "../../../common/axios/HttpClient";
+import {ICategoryRequest} from "../../categories/redux/CategoriesInterfaces";
 
 
 /**
@@ -39,6 +40,48 @@ export const createOutlay = createAsyncThunk(
     async (values: IOutlayRequest, thunkAPI) => {
         try {
             const response = await httpClient.post<any>("/api/outlays", values);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+
+interface IOutlayData {
+    values: IOutlayRequest,
+    id: string
+}
+
+
+/**
+ * This method is used to
+ * edit outlay
+ */
+
+export const editOutlay = createAsyncThunk(
+    "outlays/edit",
+    async (values: IOutlayData, thunkAPI) => {
+        try {
+            const response = await httpClient.put<any>(`/api/outlays/${values.id}`, values.values);
+            return response?.data
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+
+/**
+ * This method is used to
+ * remove outlay
+ */
+
+export const deleteOutlay = createAsyncThunk(
+    "outlays/edit",
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await httpClient.delete<any>(`/api/outlays/${id}`);
             return response?.data
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);

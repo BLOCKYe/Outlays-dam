@@ -37,7 +37,7 @@ const Header: React.FC = () => {
 
             <div className={'flex flex-wrap gap-3 items-center'}>
                 <div className={'font-bold text-3xl text-w'}>
-                    {lastSpending?.current?._sum?.value} PLN
+                    {lastSpending?.current?._sum?.value || 0} PLN
                 </div>
                 <div className={'py-1 px-3 text-c-light bg-c font-bold text-sm rounded'}>
                     {calculateDiff() > 0 ? '+' : '-'} {Math.abs(calculateDiff())} PLN
