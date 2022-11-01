@@ -19,8 +19,13 @@ export const login = createAsyncThunk(
     "user/login",
     async (values: ILoginRequest, thunkAPI) => {
         try {
-            const response = await httpClient.post<ILoginResponse>("/api/auth/login", values);
-            return response?.data
+            const response = await httpClient.post("/api/auth/login", values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ILoginResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -37,8 +42,13 @@ export const register = createAsyncThunk(
     "user/register",
     async (values: IRegisterRequest, thunkAPI) => {
         try {
-            const response = await httpClient.post<any>("/api/auth/register", values);
-            return response?.data
+            const response = await httpClient.post("/api/auth/register", values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ILoginResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -55,8 +65,13 @@ export const fetchUserProfile = createAsyncThunk(
     "user/profile",
     async (_, thunkAPI) => {
         try {
-            const response = await httpClient.get<IUserResponse>("/api/profile/user");
-            return response?.data
+            const response = await httpClient.get("/api/profile/user");
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as IUserResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
         }

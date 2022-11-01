@@ -53,7 +53,7 @@ const TopBar: React.FC = () => {
                     </Tooltip>
                 </div>
             </div>
-            <Progress colorScheme='orange' className={`w-full max-h-[2px] ${loading ? 'opacity-100' : 'opacity-0'}`}
+            <Progress colorScheme='blue' className={`w-full max-h-[2px] !bg-d-lighter ${loading ? 'opacity-100' : 'opacity-0'}`}
                 size='xs' isIndeterminate/>
         </>
     );

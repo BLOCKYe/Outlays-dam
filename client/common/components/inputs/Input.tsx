@@ -24,7 +24,7 @@ const Input: React.FC<IInputProps> = (props) => {
         <div className={'grid gap-2 w-full'}>
             {/* <--- Display label ---> */}
             {props.label && (
-                <div className={'text-sm text-w-darker'}>
+                <div className={'text-xs font-bold text-w-darker'}>
                     {props.label}
                 </div>
             )}

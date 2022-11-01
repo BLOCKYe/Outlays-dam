@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
 html,
 body {
@@ -7,7 +7,7 @@ body {
     letter-spacing: 0.3px;
     background-color: #111111 !important;
     color: #D8D8D8 !important;
-    font-family: 'Mukta', sans-serif !important;
+    font-family: 'Noto Sans', sans-serif !important;
 }
 
 a {
@@ -45,4 +45,17 @@ a {
 .custom-calendar::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #292929 inset !important;
+    -webkit-text-fill-color: #D8D8D8 !important;
 }

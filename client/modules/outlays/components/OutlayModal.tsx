@@ -37,6 +37,7 @@ interface IOutlayModalProps {
     onClose: () => void;
     submitForm: (values: any) => void;
     data?: IOutlayData
+    setPreview?: () => void;
 }
 
 const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
@@ -61,9 +62,9 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
         onSubmit: (values, {resetForm}) => {
             props.submitForm(values);
             resetForm()
+            props.setPreview && props.setPreview()
         }
     })
-
 
 
     /**
@@ -89,7 +90,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                 isClosable: true
             })
 
-            await dispatch(setLoading(false))
+            // await dispatch(setLoading(false))
         } catch (e: any) {
             toast({
                 title: e?.message,
@@ -101,7 +102,10 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
     }
 
     return (
-        <Modal onClose={props.onClose} isOpen={props.isOpen}>
+        <Modal onClose={() => {
+            props.onClose();
+            props.setPreview && props.setPreview()
+        }} isOpen={props.isOpen}>
             <ModalOverlay/>
             <ModalContent>
                 <ModalHeader className={'bg-d'}>{props.data?.id ? 'Edytuj wydatek' : 'Dodaj nowy wydatek'}</ModalHeader>
@@ -153,7 +157,10 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                         </div>
 
                         <ModalFooter className={'flex gap-3'}>
-                            <Button variant={'OUTLINED'} text={'Anuluj'} onClick={props.onClose}/>
+                            <Button variant={'OUTLINED'} text={'Anuluj'} onClick={() => {
+                                props.onClose();
+                                props.setPreview && props.setPreview()
+                            }}/>
                             <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'}
                                 disabled={!formik.dirty}/>
                         </ModalFooter>

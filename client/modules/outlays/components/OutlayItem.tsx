@@ -28,6 +28,7 @@ import {setLoading} from "../../../common/redux/UISlice";
 import {createOutlay, editOutlay, fetchOutlays} from "../redux/OutlaysRepository";
 import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
 import {useDispatch} from "react-redux";
+import OutlayPreviewModal from "./OutlayPreviewModal";
 
 interface OutlayItemProps {
     data: IOutlayData
@@ -35,13 +36,14 @@ interface OutlayItemProps {
 
 const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
+    const [renderedModal, setRenderedModal] = useState<'PREVIEW' | 'EDIT'>('PREVIEW')
     const dispatch: any = useDispatch()
     const toast = useToast()
 
     const submitForm = async (values: IOutlayRequest) => {
         try {
             await dispatch(setLoading(true))
-            if(!props.data.id) return
+            if (!props.data.id) return
 
             let parsedSelectedCategories: { id: string }[] = []
 
@@ -70,6 +72,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
             })
 
             await dispatch(setLoading(false))
+            setRenderedModal('PREVIEW')
 
         } catch (e: any) {
             toast({
@@ -79,8 +82,28 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
             await dispatch(setLoading(false))
         }
+    }
 
-        onClose()
+
+    /**
+     * This strategy is used to
+     * render modal by type
+     */
+
+    const renderModalType = (): any => {
+        switch (renderedModal) {
+            case "PREVIEW":
+                return <OutlayPreviewModal isOpen={isOpen} setEdit={() => setRenderedModal('EDIT')} onClose={onClose}
+                    data={props.data}/>
+
+            case "EDIT":
+                return <OutlayModal isOpen={isOpen} setPreview={() => setRenderedModal('PREVIEW')} onClose={onClose}
+                    submitForm={submitForm} data={props.data}/>
+
+            default:
+                return <OutlayPreviewModal isOpen={isOpen} setEdit={() => setRenderedModal('EDIT')} onClose={onClose}
+                    data={props.data}/>
+        }
     }
 
     return (
@@ -92,7 +115,8 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                         {[].slice.call(props.data.categories).map((category: ICategoryData) =>
                             <div key={category.id}>
                                 <Tooltip label={category.name}>
-                                    <div className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(category.color, 'default', 'bg')}/>
+                                    <div
+                                        className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(category.color, 'default', 'bg')}/>
                                 </Tooltip>
                             </div>
                         )}
@@ -114,7 +138,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                 </div>
             </div>
 
-            <OutlayModal isOpen={isOpen} onClose={onClose} submitForm={submitForm} data={props.data}/>
+            {renderModalType()}
         </>
     )
 };

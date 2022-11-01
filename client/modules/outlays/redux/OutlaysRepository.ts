@@ -21,8 +21,13 @@ export const fetchOutlays = createAsyncThunk(
     "outlays/all",
     async (_, thunkAPI) => {
         try {
-            const response = await httpClient.get<IOutlaysResponse>("/api/outlays");
-            return response?.data
+            const response = await httpClient.get("/api/outlays");
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as IOutlaysResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
         }
@@ -39,8 +44,13 @@ export const createOutlay = createAsyncThunk(
     "outlays/create",
     async (values: IOutlayRequest, thunkAPI) => {
         try {
-            const response = await httpClient.post<any>("/api/outlays", values);
-            return response?.data
+            const response = await httpClient.post("/api/outlays", values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as IOutlaysResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -63,8 +73,13 @@ export const editOutlay = createAsyncThunk(
     "outlays/edit",
     async (values: IOutlayData, thunkAPI) => {
         try {
-            const response = await httpClient.put<any>(`/api/outlays/${values.id}`, values.values);
-            return response?.data
+            const response = await httpClient.put(`/api/outlays/${values.id}`, values.values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as IOutlaysResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -81,8 +96,13 @@ export const deleteOutlay = createAsyncThunk(
     "outlays/edit",
     async (id: string, thunkAPI) => {
         try {
-            const response = await httpClient.delete<any>(`/api/outlays/${id}`);
-            return response?.data
+            const response = await httpClient.delete(`/api/outlays/${id}`);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as IOutlaysResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }

@@ -20,8 +20,13 @@ export const fetchCategories = createAsyncThunk(
     "categories/all",
     async (_, thunkAPI) => {
         try {
-            const response = await httpClient.get<ICategoriesResponse>("/api/categories");
-            return response?.data
+            const response = await httpClient.get("/api/categories");
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ICategoriesResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response);
         }
@@ -38,8 +43,13 @@ export const createCategory = createAsyncThunk(
     "categories/create",
     async (values: ICategoryRequest, thunkAPI) => {
         try {
-            const response = await httpClient.post<ICategoriesResponse>("/api/categories", values);
-            return response?.data
+            const response = await httpClient.post("/api/categories", values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ICategoriesResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -61,8 +71,13 @@ export const editCategory = createAsyncThunk(
     "categories/edit",
     async (categoryData: ICategoryData, thunkAPI) => {
         try {
-            const response = await httpClient.put<ICategoriesResponse>(`/api/categories/${categoryData.id}`, categoryData.values);
-            return response?.data
+            const response = await httpClient.put(`/api/categories/${categoryData.id}`, categoryData.values);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ICategoriesResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }
@@ -79,8 +94,13 @@ export const deleteCategory = createAsyncThunk(
     "categories/delete",
     async (id: string, thunkAPI) => {
         try {
-            const response = await httpClient.delete<ICategoriesResponse>(`/api/categories/${id}`);
-            return response?.data
+            const response = await httpClient.delete(`/api/categories/${id}`);
+
+            if (response.status !== 200) {
+                return thunkAPI.rejectWithValue(response.data)
+            }
+
+            return response?.data as ICategoriesResponse
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data);
         }

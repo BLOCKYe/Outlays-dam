@@ -20,7 +20,7 @@ const WelcomeView = () => {
             <Link href={'/'}>
                 <div className={'relative max-w-[250px] mx-auto mt-20'}>
                     <Image src={'/logo.svg'} width={200} height={200} layout={'responsive'}
-                        alt={'Outlays Dam'} />
+                        alt={'Outlays Dam'} priority className={'cursor-pointer'}/>
                 </div>
             </Link>
 
