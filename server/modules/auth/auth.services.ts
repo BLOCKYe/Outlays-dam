@@ -6,14 +6,12 @@
  * Time: 01:08
 */
 
-import {PrismaClient} from '@prisma/client'
+import {prisma} from '../../utils/prisma/prisma'
 import Jwt from "../../utils/jwt/jwt";
 import {IaddRefreshTokenToWhitelist} from "./IAuth";
 
 
 export default class AuthServices {
-
-    private prisma = new PrismaClient()
 
     /**
      * This method is used to
@@ -25,9 +23,9 @@ export default class AuthServices {
     public addRefreshTokenToWhitelist(data: IaddRefreshTokenToWhitelist) {
         const jwt = new Jwt()
 
-        if(!data.jti || !data.userId || !data.refreshToken) return
+        if (!data.jti || !data.userId || !data.refreshToken) return
 
-        return this.prisma.refreshToken.create({
+        return prisma.refreshToken.create({
             data: {
                 id: data.jti,
                 hashedToken: jwt.hashToken(data.refreshToken),
@@ -44,7 +42,7 @@ export default class AuthServices {
      * @param id
      */
     public findRefreshTokenById(id: string) {
-        return this.prisma.refreshToken.findUnique({
+        return prisma.refreshToken.findUnique({
             where: {
                 id,
             },
@@ -59,7 +57,7 @@ export default class AuthServices {
      */
 
     public deleteRefreshToken(id: string) {
-        return this.prisma.refreshToken.update({
+        return prisma.refreshToken.update({
             where: {
                 id,
             },
@@ -76,7 +74,7 @@ export default class AuthServices {
      */
 
     public revokeTokens(userId: string) {
-        return this.prisma.refreshToken.updateMany({
+        return prisma.refreshToken.updateMany({
             where: {
                 userId
             },

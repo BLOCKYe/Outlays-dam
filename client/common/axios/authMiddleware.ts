@@ -9,6 +9,7 @@
 import {getCookie} from "cookies-next";
 import {store} from "../redux/store";
 import {setToken} from "../../modules/users/redux/userSlice";
+import {fetchUserProfile} from "../../modules/users/redux/UserRepository";
 
 export default class AuthMiddleware {
 
@@ -27,16 +28,21 @@ export default class AuthMiddleware {
      * check token from cookies
      */
 
-    public checkToken(): boolean {
+    public async checkToken(): Promise<boolean> {
         const req = this.req
         const res = this.res
 
         const token = getCookie('token', {req, res});
-        if (token) {
-            store.dispatch(setToken(token))
+        if (!token) return false
+
+        store.dispatch(setToken(token))
+        try {
+            await store.dispatch(fetchUserProfile())
             return true
-        } else {
+        } catch {
             return false
         }
+
+
     }
 }

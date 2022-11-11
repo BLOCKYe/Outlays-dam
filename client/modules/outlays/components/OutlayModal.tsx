@@ -59,9 +59,9 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
             categories: props.data?.categories && props.data?.categories.length > 0 ? [props.data?.categories[0].id] : [] || []
         },
         validationSchema: outlaySchema,
-        onSubmit: (values, {resetForm}) => {
-            props.submitForm(values);
-            resetForm()
+        onSubmit: async (values, {resetForm}) => {
+            await props.submitForm(values);
+            await resetForm()
             props.setPreview && props.setPreview()
         }
     })

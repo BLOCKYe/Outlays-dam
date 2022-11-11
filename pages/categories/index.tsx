@@ -8,20 +8,10 @@
 
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import LoginView from "../../client/modules/users/views/LoginView";
-import RegisterView from "../../client/modules/users/views/RegisterView";
-import HomeView from "../../client/modules/outlays/views/HomeView";
 import {wrapper} from "../../client/common/redux/store";
-import {getCookie} from "cookies-next";
-import {fetchUserProfile} from "../../client/modules/users/redux/UserRepository";
-import axios from "axios";
-import {fetchOutlays} from "../../client/modules/outlays/redux/OutlaysRepository";
 import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
-import {setToken} from "../../client/modules/users/redux/userSlice";
-import Router from "next/router";
 import Paths from "../../client/common/router/paths";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
-import {fetchLastSpending} from "../../client/modules/analytics/redux/AnalyticsRepository";
 import CategoriesView from "../../client/modules/categories/views/CategoriesView";
 
 const Home: NextPage = () => {
@@ -41,7 +31,8 @@ const Home: NextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
     (store) => async ({req, res}) => {
-        const auth = new AuthMiddleware(req, res).checkToken()
+        const auth = await new AuthMiddleware(req, res).checkToken()
+
         if (!auth) {
             return {
                 redirect: {
@@ -51,7 +42,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
             }
         }
 
-        await store.dispatch(fetchUserProfile())
         await store.dispatch(fetchCategories())
 
         return {

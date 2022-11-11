@@ -6,16 +6,10 @@
  * Time: 23:11
 */
 
-import {PrismaClient} from "@prisma/client";
+import {prisma} from '../../utils/prisma/prisma'
 import moment from "moment";
 
 export default class AnalyticsServices {
-    private readonly prisma: PrismaClient
-
-    constructor() {
-        this.prisma = new PrismaClient()
-    }
-
 
     /**
      * This method is used to
@@ -30,7 +24,7 @@ export default class AnalyticsServices {
         const endDate = moment().endOf('month').format('YYYY-MM-DD')
         const endDateLast = moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD')
 
-        const current = await this.prisma.outlay.aggregate({
+        const current = await prisma.outlay.aggregate({
             where: {
                 userId: userId,
                 date: {
@@ -43,7 +37,7 @@ export default class AnalyticsServices {
             }
         })
 
-        const last = await this.prisma.outlay.aggregate({
+        const last = await prisma.outlay.aggregate({
             where: {
                 userId: userId,
                 date: {

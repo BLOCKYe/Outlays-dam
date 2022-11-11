@@ -6,16 +6,10 @@
  * Time: 23:14
 */
 
-import {PrismaClient} from "@prisma/client";
+import {prisma} from '../../utils/prisma/prisma'
 import {ICategoryCreateData, ICategoryEditData} from "./ICategories";
 
 export default class CategoriesServices {
-
-    private readonly prisma: PrismaClient
-
-    constructor() {
-        this.prisma = new PrismaClient()
-    }
 
 
     /**
@@ -25,7 +19,7 @@ export default class CategoriesServices {
      */
 
     public getUserCategories(userId: string) {
-        return this.prisma.category.findMany({
+        return prisma.category.findMany({
             orderBy: [{
                 name: 'asc'
             }],
@@ -44,7 +38,7 @@ export default class CategoriesServices {
      */
 
     public findById(userId: string, categoryId: string) {
-        return this.prisma.category.findFirst({
+        return prisma.category.findFirst({
             where: {
                 userId: userId,
                 id: categoryId
@@ -61,7 +55,7 @@ export default class CategoriesServices {
      */
 
     public deleteById(userId: string, categoryId: string) {
-        return this.prisma.category.delete({
+        return prisma.category.delete({
             where: {
                 id: categoryId
             }
@@ -78,7 +72,7 @@ export default class CategoriesServices {
      */
 
     public editCategory(userId: string, categoryId: string, data: ICategoryEditData) {
-        return this.prisma.category.update({
+        return prisma.category.update({
             where: {
                 id: categoryId
             },
@@ -97,7 +91,7 @@ export default class CategoriesServices {
      */
 
     public createCategory(data: ICategoryCreateData) {
-        return this.prisma.category.create({
+        return prisma.category.create({
             data: {
                 name: data.name,
                 color: data.color,

@@ -6,15 +6,11 @@
  * Time: 23:11
 */
 
-import {PrismaClient} from "@prisma/client";
+import {prisma} from '../../utils/prisma/prisma'
 import {IOutlayCreateData, IOutlayEditData} from "./IOutlays";
 
 export default class OutlaysServices {
-    private readonly prisma: PrismaClient
 
-    constructor() {
-        this.prisma = new PrismaClient()
-    }
 
     /**
      * This method is used to
@@ -23,7 +19,7 @@ export default class OutlaysServices {
      */
 
     public createOutlay(data: IOutlayCreateData) {
-        return this.prisma.outlay.create({
+        return prisma.outlay.create({
             data: {
                 title: data.title,
                 description: data.description,
@@ -48,7 +44,7 @@ export default class OutlaysServices {
      */
 
     public getUserOutlays(userId: string) {
-        return this.prisma.outlay.findMany({
+        return prisma.outlay.findMany({
             orderBy: [{
                 date: 'desc'
             }],
@@ -70,7 +66,7 @@ export default class OutlaysServices {
      */
 
     public deleteById(userId: string, outlayId: string) {
-        return this.prisma.outlay.delete({
+        return prisma.outlay.delete({
             where: {
                 id: outlayId
             },
@@ -89,7 +85,7 @@ export default class OutlaysServices {
      */
 
     public findById(userId: string, outlayId: string) {
-        return this.prisma.outlay.findFirst({
+        return prisma.outlay.findFirst({
             where: {
                 userId: userId,
                 id: outlayId
@@ -110,7 +106,7 @@ export default class OutlaysServices {
      */
 
     public editOutlay(userId: string, outlayId: string, data: IOutlayEditData) {
-        return this.prisma.outlay.update({
+        return prisma.outlay.update({
             where: {
                 id: outlayId
             },

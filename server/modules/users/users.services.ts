@@ -6,13 +6,11 @@
  * Time: 00:53
 */
 
-import {PrismaClient} from '@prisma/client'
+import {prisma} from '../../utils/prisma/prisma'
 import * as bcrypt from 'bcrypt'
 import {ICreateUserReqBody} from "./IUsers";
 
 export default class UsersServices {
-
-    private prisma = new PrismaClient()
 
 
     /**
@@ -22,7 +20,7 @@ export default class UsersServices {
      */
 
     public findUserByEmail(email: string) {
-        return this.prisma.user.findUnique({
+        return prisma.user.findUnique({
             where: {
                 email
             }
@@ -37,7 +35,7 @@ export default class UsersServices {
      */
 
     public findUserById(id: string) {
-        return this.prisma.user.findUnique({
+        return prisma.user.findUnique({
             where: {
                 id
             }
@@ -53,7 +51,7 @@ export default class UsersServices {
 
     public createUserByEmailAndPassword(user: ICreateUserReqBody) {
         user.password = bcrypt.hashSync(user.password, 12);
-        return this.prisma.user.create({
+        return prisma.user.create({
             data: {
                 email: user.email,
                 password: user.password,

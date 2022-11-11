@@ -35,7 +35,7 @@ const Analytics: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
     (store) => async ({req, res}) => {
 
-        const auth = new AuthMiddleware(req, res).checkToken()
+        const auth = await new AuthMiddleware(req, res).checkToken()
         if (!auth) {
             return {
                 redirect: {
@@ -46,7 +46,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
 
         const promises = [
-            store.dispatch(fetchUserProfile()),
             store.dispatch(fetchLastSpending()),
             store.dispatch(fetchOutlays()),
             store.dispatch(fetchCategories())
