@@ -51,7 +51,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
 
         const promises = [
-            store.dispatch(fetchUserProfile()),
             store.dispatch(fetchLastSpending()),
             store.dispatch(fetchOutlays()),
             store.dispatch(fetchCategories())
