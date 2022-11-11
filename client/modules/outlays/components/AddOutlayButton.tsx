@@ -71,8 +71,13 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
             }
 
             await dispatch(createOutlay(reqData))
-            await dispatch(fetchOutlays())
-            await dispatch(fetchLastSpending())
+
+            const promises = [
+                dispatch(fetchOutlays()),
+                dispatch(fetchLastSpending())
+            ]
+
+            await Promise.all(promises)
 
             toast({
                 title: 'Dodano nowy wydatek',
