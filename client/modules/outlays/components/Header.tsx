@@ -30,21 +30,21 @@ const Header: React.FC = () => {
     }
 
     return (
-        <div className={'w-full bg-d p-5 border-[1px] border-d-lighter'}>
-            <div>
+        <div className={'w-full bg-d p-5 border-[1px] border-d-lighter rounded-md'}>
+            <div className={'text-sm'}>
                 Wydatki w tym miesiącu
             </div>
 
-            <div className={'flex flex-wrap gap-3 items-center'}>
+            <div className={'flex flex-wrap gap-3 items-center mt-1'}>
                 <div className={'font-bold text-3xl text-w'}>
                     {lastSpending?.current?._sum?.value || 0} PLN
                 </div>
-                <div className={'py-1 px-3 text-c-light bg-c font-bold text-sm rounded'}>
-                    {calculateDiff() > 0 ? '+' : '-'} {Math.abs(calculateDiff())} PLN
+                <div className={'py-1 px-3 text-slate-700 bg-slate-300 font-bold text-sm rounded'}>
+                    {calculateDiff() >= 0 ? '+' : '-'} {Math.abs(calculateDiff())} PLN
                 </div>
             </div>
 
-            <div className={'text-sm text-w-darker'}>
+            <div className={'text-sm text-w-darker mt-1'}>
                 {moment().format('MMMM YYYY')}
             </div>
         </div>

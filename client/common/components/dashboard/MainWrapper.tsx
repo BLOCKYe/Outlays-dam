@@ -11,11 +11,12 @@ import React from 'react';
 interface IMainWrapperProps {
     children: React.ReactNode;
     withBg?: boolean
+    variant?: 'small' | 'default'
 }
 
 const MainWrapper: React.FC<IMainWrapperProps> = (props) => (
     <div className={'grid place-items-center'}>
-        <div className={`w-full max-w-xl p-3 ${props.withBg ? 'bg-d-light': ''}`}>
+        <div className={`w-full p-3 ${props.withBg ? 'bg-d-light': ''} ${props.variant === 'small' ? 'max-w-xl' : 'max-w-7xl'}`}>
             {props.children}
         </div>
     </div>

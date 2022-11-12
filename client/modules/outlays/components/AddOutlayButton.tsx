@@ -101,7 +101,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center w-full px-5 py-3 items-center gap-3 border-[1px] border-d-lighter  bg-d text-md transition-all hover:bg-d-light'}>
+                className={'flex h-full justify-center w-full md:w-auto px-5 py-3 items-center gap-3 border-[1px] border-d-lighter rounded bg-d text-md transition-all hover:bg-d-light'}>
                 <div>
                     <FaMoneyBillWave/>
                 </div>

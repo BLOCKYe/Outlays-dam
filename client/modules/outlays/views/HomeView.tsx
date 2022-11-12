@@ -22,6 +22,7 @@ import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
 import {fetchOutlays} from "../redux/OutlaysRepository";
 import {setLoading} from "../../../common/redux/UISlice";
 import {useDispatch} from "react-redux";
+import AddCategoryButton from "../../categories/components/AddCategoryButton";
 
 const HomeView = () => {
     const dispatch: any = useDispatch()
@@ -52,8 +53,9 @@ const HomeView = () => {
             <MainWrapper>
                 <Header/>
 
-                <div className={'pt-3'}>
+                <div className={'pt-3 flex gap-3 flex-wrap sm:flex-nowrap'}>
                     <AddOutlayButton text={'Nowy wydatek'}/>
+                    <AddCategoryButton text={'Nowa kategoria'}/>
                 </div>
 
                 <div className={'pt-3'}>

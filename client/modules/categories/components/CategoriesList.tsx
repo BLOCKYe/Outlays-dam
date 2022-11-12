@@ -17,7 +17,7 @@ const CategoriesList = () => {
     const categories = useSelector(selectCategories)
 
     return (
-        <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20'}>
+        <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20 rounded-md'}>
             <div className={'text-lg font-bold flex gap-2 items-center'}>
                 <IoList/> Twoje kategorie
             </div>

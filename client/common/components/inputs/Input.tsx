@@ -30,7 +30,7 @@ const Input: React.FC<IInputProps> = (props) => {
             )}
 
             {/* <--- Input core ---> */}
-            <input className={'px-5 text-md placeholder:text-md py-2 bg-d border-[1px] border-d-light text-w-dark focus:border-d-lighter active:outline-none focus:outline-none hover:bg-d-light transition-all cursor-text custom-calendar'}
+            <input className={'px-5 text-md w-full rounded placeholder:text-md py-2 bg-d border-[1px] border-d-light text-w-dark focus:border-d-lighter active:outline-none focus:outline-none hover:bg-d-light transition-all cursor-text custom-calendar'}
                 value={props.value || ''} onChange={props.onChange} placeholder={props.placeholder}
                 type={props.type || 'text'} name={props.name}/>
 

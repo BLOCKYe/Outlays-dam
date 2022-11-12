@@ -52,7 +52,7 @@ const HistoryList: React.FC = () => {
     }, [displaySearch])
 
     return (
-        <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20'}>
+        <div className={'bg-d p-5 border-[1px] border-d-lighter mb-20 rounded-md'}>
             {/* <--- Header ---> */}
             <div className={'flex items-center justify-between gap-3'}>
                 {/* <--- Display history list text ---> */}

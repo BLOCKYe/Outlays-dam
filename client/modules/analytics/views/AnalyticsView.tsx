@@ -17,6 +17,8 @@ import {getCookie} from "cookies-next";
 import {setToken} from "../../users/redux/userSlice";
 import {fetchUserProfile} from "../../users/redux/UserRepository";
 import {fetchLastSpending} from "../redux/AnalyticsRepository";
+import BarChart from "../components/BarChart";
+import StatsCard from "../components/StatsCard";
 
 const AnalyticsView = () => {
     const dispatch: any = useDispatch()
@@ -41,6 +43,19 @@ const AnalyticsView = () => {
             <TopBar/>
             <MainWrapper>
                 <Header/>
+
+                <div className={'mt-3 grid sm:grid-cols-2 lg:grid-cols-4 gap-3'}>
+                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
+                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
+                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
+                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
+                </div>
+
+                <div className={'mt-3 grid lg:grid-cols-2 gap-3 mb-20'}>
+                    <BarChart title={'Roczne wydatki'}/>
+                    <BarChart title={'Miesięczne wydatki'}/>
+                </div>
+
 
             </MainWrapper>
             <BottomBar selected={'STATS'}/>

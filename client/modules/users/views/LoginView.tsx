@@ -72,10 +72,10 @@ const LoginView = () => {
 
 
         return (
-            <MainWrapper>
+            <MainWrapper variant={'small'}>
 
                 <Link href={'/'}>
-                    <div className={'relative max-w-[250px] mx-auto mt-20'}>
+                    <div className={'relative max-w-[200px] mx-auto mt-10'}>
                         <Image src={'/logo.svg'} width={200} height={200} layout={'responsive'}
                             alt={'Outlays Dam'} priority className={'cursor-pointer'}/>
                     </div>

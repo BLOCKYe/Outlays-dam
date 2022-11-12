@@ -19,6 +19,7 @@ import {setToken} from "../../users/redux/userSlice";
 import {fetchUserProfile} from "../../users/redux/UserRepository";
 import {useDispatch} from "react-redux";
 import {setLoading} from "../../../common/redux/UISlice";
+import AddOutlayButton from "../../outlays/components/AddOutlayButton";
 
 const CategoriesView = () => {
     const dispatch: any = useDispatch()
@@ -43,7 +44,10 @@ const CategoriesView = () => {
         <>
             <TopBar/>
             <MainWrapper>
-                <AddCategoryButton text={'Nowa kategoria'}/>
+                <div className={'pt-3 flex gap-3 flex-wrap sm:flex-nowrap'}>
+                    <AddCategoryButton text={'Nowa kategoria'}/>
+                    <AddOutlayButton text={'Nowy wydatek'}/>
+                </div>
 
                 <div className={'pt-3'}>
                     <CategoriesList/>

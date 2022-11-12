@@ -62,8 +62,8 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
         validationSchema: outlaySchema,
         onSubmit: async (values, {resetForm}) => {
             await props.submitForm(values);
-            await resetForm()
             props.setPreview && props.setPreview()
+            resetForm()
         }
     })
 
