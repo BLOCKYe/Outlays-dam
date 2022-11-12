@@ -8,13 +8,15 @@
 
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {wrapper} from "../../client/common/redux/store";
+import {store, wrapper} from "../../client/common/redux/store";
 import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
 import Paths from "../../client/common/router/paths";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
 import CategoriesView from "../../client/modules/categories/views/CategoriesView";
+import {useEffect} from "react";
 
 const Home: NextPage = () => {
+
     return (
         <div>
             <Head>
@@ -28,26 +30,5 @@ const Home: NextPage = () => {
         </div>
     )
 }
-
-export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({req, res}) => {
-        const auth = await new AuthMiddleware(req, res).checkToken()
-
-        if (!auth) {
-            return {
-                redirect: {
-                    permanent: false,
-                    destination: Paths.LOGIN
-                }
-            }
-        }
-
-        await store.dispatch(fetchCategories())
-
-        return {
-            props: {},
-        };
-    }
-);
 
 export default Home
