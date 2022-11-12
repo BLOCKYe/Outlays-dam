@@ -38,30 +38,5 @@ const Home: NextPage = () => {
     )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({req, res}) => {
-        const auth = await new AuthMiddleware(req, res).checkToken()
-        if (!auth) {
-            return {
-                redirect: {
-                    permanent: false,
-                    destination: Paths.LOGIN
-                }
-            }
-        }
-
-        const promises = [
-            store.dispatch(fetchLastSpending()),
-            store.dispatch(fetchOutlays()),
-            store.dispatch(fetchCategories())
-        ]
-
-        await Promise.all(promises)
-
-        return {
-            props: {},
-        };
-    }
-);
 
 export default Home

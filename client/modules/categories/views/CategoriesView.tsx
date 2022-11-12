@@ -17,14 +17,21 @@ import {fetchCategories} from "../redux/CategoriesRepository";
 import {getCookie} from "cookies-next";
 import {setToken} from "../../users/redux/userSlice";
 import {fetchUserProfile} from "../../users/redux/UserRepository";
+import {useDispatch} from "react-redux";
+import {setLoading} from "../../../common/redux/UISlice";
 
 const CategoriesView = () => {
+    const dispatch: any = useDispatch()
 
     const fetchData = async () => {
+        await dispatch(setLoading(true))
         const token = getCookie('token');
-        store.dispatch(setToken(token))
-        await store.dispatch(fetchUserProfile())
-        await store.dispatch(fetchCategories())
+        dispatch(setToken(token))
+        await dispatch(fetchUserProfile())
+        await dispatch(fetchCategories())
+
+        await dispatch(setLoading(false))
+
     }
 
     useEffect(() => {
