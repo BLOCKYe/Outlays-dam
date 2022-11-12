@@ -20,12 +20,12 @@ import Input from "../../../common/components/inputs/Input";
 import CategoryColors, {IColorItemData} from "../utils/CategoryColors";
 import ColorItem from "./ColorItem";
 import Button from "../../../common/components/buttons/Button";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useToast} from "@chakra-ui/react";
 import {useFormik} from "formik";
 import {categorySchema, initialValues} from "../utils/CategoryFormik";
 import {ICategoryData, ICategoryRequest} from "../redux/CategoriesInterfaces";
-import {setLoading} from "../../../common/redux/UISlice";
+import {selectLoading, setLoading} from "../../../common/redux/UISlice";
 import {createCategory, deleteCategory, editCategory, fetchCategories} from "../redux/CategoriesRepository";
 
 interface ICategoryModalProps {
@@ -39,6 +39,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
     const dispatch: any = useDispatch()
     const toast = useToast()
     const [submitRemove, setSubmitRemove] = useState<boolean>(false)
+    const loading = useSelector(selectLoading)
 
     // create formik instance
     const formik = useFormik({
@@ -95,7 +96,8 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
         <Modal onClose={props.onClose} isOpen={props.isOpen}>
             <ModalOverlay/>
             <ModalContent>
-                <ModalHeader className={'bg-d'}>{props.data?.id ? 'Edytuj kategorie' : 'Dodaj nową kategorię'}</ModalHeader>
+                <ModalHeader
+                    className={'bg-d'}>{props.data?.id ? 'Edytuj kategorie' : 'Dodaj nową kategorię'}</ModalHeader>
                 <ModalCloseButton/>
 
                 {/* <--- Form ---> */}
@@ -125,7 +127,8 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
 
                         <ModalFooter className={'flex gap-3'}>
                             <Button variant={'OUTLINED'} text={'Anuluj'} onClick={props.onClose}/>
-                            <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'} disabled={!formik.dirty}/>
+                            <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'}
+                                disabled={!formik.dirty || loading}/>
                         </ModalFooter>
 
 
@@ -139,7 +142,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
 
                             {props.data?.id && (
                                 <Button variant={'OUTLINED'} text={submitRemove ? 'Tak, usuń!' : 'Usuń kategorie'}
-                                    onClick={() => removeCategory(props.data?.id)}/>
+                                    onClick={() => removeCategory(props.data?.id)} disabled={loading}/>
                             )}
                         </>
                     </form>

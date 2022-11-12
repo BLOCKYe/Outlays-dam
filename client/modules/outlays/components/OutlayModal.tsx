@@ -27,7 +27,7 @@ import {selectCategories} from "../../categories/redux/categoriesSlice";
 import {useFormik} from "formik";
 import {initialValues, outlaySchema} from "../utils/OutlayFormik";
 import moment from "moment/moment";
-import {setLoading} from "../../../common/redux/UISlice";
+import {selectLoading, setLoading} from "../../../common/redux/UISlice";
 import {deleteCategory, fetchCategories} from "../../categories/redux/CategoriesRepository";
 import {useToast} from "@chakra-ui/react";
 import {deleteOutlay, fetchOutlays} from "../redux/OutlaysRepository";
@@ -45,6 +45,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
     const toast = useToast()
     const [submitRemove, setSubmitRemove] = useState<boolean>(false)
     const categories = useSelector(selectCategories)
+    const loading = useSelector(selectLoading)
 
     // create formik instance
     const formik = useFormik({
@@ -90,7 +91,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                 isClosable: true
             })
 
-            // await dispatch(setLoading(false))
+            await dispatch(setLoading(false))
         } catch (e: any) {
             toast({
                 title: e?.message,
@@ -162,7 +163,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                                 props.setPreview && props.setPreview()
                             }}/>
                             <Button variant={'CONTAINED'} text={'Zapisz'} type={'submit'}
-                                disabled={!formik.dirty}/>
+                                disabled={!formik.dirty || loading}/>
                         </ModalFooter>
 
 
@@ -175,7 +176,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                             )}
 
                             {props.data?.id && (
-                                <Button variant={'OUTLINED'} text={submitRemove ? 'Tak, usuń!' : 'Usuń wydatek'}
+                                <Button variant={'OUTLINED'} disabled={loading} text={submitRemove ? 'Tak, usuń!' : 'Usuń wydatek'}
                                     onClick={() => removeOutlay(props.data?.id)}/>
                             )}
                         </>
