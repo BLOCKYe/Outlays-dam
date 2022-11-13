@@ -34,7 +34,7 @@ const TopBar: React.FC = () => {
     return (
         <>
             <div className={'bg-d-light border-b-[1px] border-b-d-lighter px-5 py-3 grid place-items-center'}>
-                <div className={'flex max-w-7xl items-center justify-between gap-2 w-full px-3'}>
+                <div className={'flex lg:pl-[227px] items-center justify-between gap-2 w-full px-3'}>
                     <div className={'flex gap-2 flex-wrap w-full'}>
                         <div className={'text-sm pt-1'}>
                             Witaj

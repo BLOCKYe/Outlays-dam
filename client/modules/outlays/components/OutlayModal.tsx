@@ -31,6 +31,7 @@ import {selectLoading, setLoading} from "../../../common/redux/UISlice";
 import {deleteCategory, fetchCategories} from "../../categories/redux/CategoriesRepository";
 import {useToast} from "@chakra-ui/react";
 import {deleteOutlay, fetchOutlays} from "../redux/OutlaysRepository";
+import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
 
 interface IOutlayModalProps {
     isOpen: boolean,
@@ -83,7 +84,13 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
             await dispatch(setLoading(true))
 
             await dispatch(deleteOutlay(id))
-            await dispatch(fetchOutlays())
+
+            const promises = [
+                dispatch(fetchOutlays()),
+                dispatch(fetchLastSpending())
+            ]
+
+            await Promise.all(promises)
 
             toast({
                 title: `Usunięto wydatek: ${props?.data?.title}`,
@@ -176,7 +183,8 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                             )}
 
                             {props.data?.id && (
-                                <Button variant={'OUTLINED'} disabled={loading} text={submitRemove ? 'Tak, usuń!' : 'Usuń wydatek'}
+                                <Button variant={'OUTLINED'} disabled={loading}
+                                    text={submitRemove ? 'Tak, usuń!' : 'Usuń wydatek'}
                                     onClick={() => removeOutlay(props.data?.id)}/>
                             )}
                         </>

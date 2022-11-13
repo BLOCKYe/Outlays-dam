@@ -39,7 +39,7 @@ a {
 @tailwind utilities;
 
 .item-cols {
-    grid-template-columns: 25px 1fr 120px;
+    grid-template-columns: 25px 1fr 120px 220px;
 }
 
 .custom-calendar::-webkit-calendar-picker-indicator {
@@ -58,4 +58,10 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 30px #292929 inset !important;
     -webkit-text-fill-color: #D8D8D8 !important;
+}
+
+@media (max-width: 1024px) {
+    .item-cols {
+        grid-template-columns: 25px 1fr 120px;
+    }
 }

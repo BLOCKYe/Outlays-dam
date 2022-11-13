@@ -11,6 +11,7 @@ import {BiCategory} from "react-icons/bi";
 import {MdHistoryEdu, MdQueryStats} from "react-icons/md";
 import Paths from "../../router/paths";
 import Link from "next/link";
+import Image from "next/image";
 
 interface IBottomBarProps {
     selected: tabsTypes
@@ -22,6 +23,7 @@ export interface IBottomBarParam {
     icon: React.ReactNode;
     tab: tabsTypes;
     link: string
+    name?: string
 }
 
 const BottomBar: React.FC<IBottomBarProps> = (props) => {
@@ -35,8 +37,8 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
      */
 
     const currentSectionsFactory = (selected: tabsTypes, local: tabsTypes): string => {
-        const selectedStyles: string = 'box-content p-2 transition-all bg-d-lighter cursor-pointer rounded-full'
-        const defaultStyles: string = 'box-content p-2 transition-all cursor-pointer rounded-full text-w-darker hover:bg-d-lighter hover:text-w'
+        const selectedStyles: string = 'box-content p-2 lg:p-3 lg:px-10 transition-all bg-d-lighter cursor-pointer rounded-full lg:rounded-md flex items-center gap-3'
+        const defaultStyles: string = 'box-content p-2 lg:p-3 lg:px-10 transition-all cursor-pointer rounded-full lg:rounded-md text-w-darker hover:bg-d-lighter hover:text-w flex items-center gap-3'
 
         if (selected === local) return selectedStyles
         else return defaultStyles
@@ -49,28 +51,46 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
 
     const bottomBarParams: IBottomBarParam[] = [
         {
-            icon: <MdHistoryEdu className={currentSectionsFactory(props.selected, 'HISTORY')} />,
+            icon: <MdHistoryEdu/>,
             tab: 'HISTORY',
-            link: Paths.HISTORY
+            link: Paths.HISTORY,
+            name: 'Wydatki'
         },
         {
-            icon: <BiCategory className={currentSectionsFactory(props.selected, 'CATEGORIES')} />,
+            icon: <BiCategory/>,
             tab: 'CATEGORIES',
-            link: Paths.CATEGORIES
+            link: Paths.CATEGORIES,
+            name: 'Kategorie'
         },
         {
-            icon: <MdQueryStats className={currentSectionsFactory(props.selected, 'STATS')} />,
+            icon: <MdQueryStats/>,
             tab: 'STATS',
-            link: Paths.STATS
+            link: Paths.STATS,
+            name: 'Statystyki'
         }
     ]
 
     return (
-        <div className={'bg-d-light border-t-[1px] border-t-d-lighter px-5 py-3 grid place-items-center fixed left-0 bottom-0 w-full'}>
-            <div className={'max-w-lg flex gap-2 flex-wrap justify-between w-full px-5 text-2xl items-center'}>
+        <div
+            className={'bg-d-light border-t-[1px] border-t-d-lighter lg:border-r-d-lighter lg:border-r-[1px] px-5 py-3 grid place-items-center lg:place-items-start fixed left-0 bottom-0 w-full lg:w-auto lg:h-screen lg:top-0 lg:bottom-auto'}>
+            <div
+                className={'max-w-lg flex gap-2 flex-wrap justify-between w-full px-5 lg:px-0 text-2xl items-center lg:grid'}>
+
+                <div className={'relative max-w-[130px] hidden lg:block'}>
+                    <Image src={'/logo-full.svg'} width={200} height={120} layout={'responsive'}
+                        alt={'Outlays Dam'} priority/>
+                </div>
+
+                <div className={'hidden lg:block text-xs font-bold px-5 text-w-darker py-5'}>
+                    Menu główne
+                </div>
+
                 {[].slice.call(bottomBarParams).map((param: IBottomBarParam) =>
                     <Link href={param.link} key={param.tab}>
-                        {param.icon}
+                        <div className={currentSectionsFactory(props.selected, param.tab)}>
+                            {param.icon}
+                            <div className={'hidden lg:block text-xs'}>{param.name}</div>
+                        </div>
                     </Link>
                 )}
             </div>

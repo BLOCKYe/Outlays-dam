@@ -132,6 +132,21 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
                     </div>
 
 
+                    <div className={'justify-self-start hidden lg:block'}>
+                        {[].slice.call(props.data.categories).map((category: ICategoryData) =>
+                            <div key={category.id}>
+                                    <div className={'rounded-xl text-xs py-1 px-3 ' + CategoryColors.ColorBuilder(category.color, 'dark', 'bg') + ' ' + CategoryColors.ColorBuilder(category.color, 'default', 'text')}>
+                                        {category.name}
+                                    </div>
+                            </div>
+                        )}
+
+                        {/* <--- Display default ---> */}
+                        {props.data.categories.length === 0 && (
+                            <div className={'w-[10px] rounded-lg h-[10px] text-d-lighter'}/>
+                        )}
+                    </div>
+
                     <div className={'justify-self-end text-sm text-w'}>
                         -{props.data.value} <span className={'text-sm text-w-darker font-normal'}>PLN</span>
                     </div>
