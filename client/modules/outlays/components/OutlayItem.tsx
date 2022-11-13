@@ -108,8 +108,8 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
     return (
         <>
-            <div onClick={onOpen} className={'py-3 transition-all hover:text-w'}>
-                <div className={'grid place-items-center item-cols cursor-pointer'}>
+            <div onClick={onOpen} className={'py-3 lg:px-3 lg:rounded-md transition-all hover:bg-d-light cursor-pointer'}>
+                <div className={'grid place-items-center item-cols'}>
 
                     <div className={'grid gap-1 grid-cols-2 justify-self-start'}>
                         {[].slice.call(props.data.categories).map((category: ICategoryData) =>

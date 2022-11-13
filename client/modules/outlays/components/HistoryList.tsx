@@ -16,6 +16,7 @@ import {IoClose} from "react-icons/io5";
 import Input from "../../../common/components/inputs/Input";
 import {useFormik} from "formik";
 import {MdHistoryEdu} from "react-icons/md";
+import {Skeleton} from "@chakra-ui/react";
 
 const HistoryList: React.FC = () => {
     const outlays = useSelector(selectOutlays)
@@ -90,8 +91,22 @@ const HistoryList: React.FC = () => {
 
             {/* <--- Display history ---> */}
             <div className={'grid mt-3 divide-y divide-d-lighter'}>
-                {[].slice.call(filteredOutlays).map((outlay: IOutlayData) =>
+                {outlays && filteredOutlays.map((outlay: IOutlayData) =>
                     <OutlayItem data={outlay} key={outlay.id}/>
+                )}
+
+                {!outlays && (
+                    <div className={'grid gap-1'}>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'48px'}/>
+                    </div>
                 )}
             </div>
         </div>

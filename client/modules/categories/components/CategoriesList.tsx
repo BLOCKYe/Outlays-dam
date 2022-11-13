@@ -12,6 +12,7 @@ import {selectCategories} from "../redux/categoriesSlice";
 import {IoList} from "react-icons/io5";
 import {ICategoryData} from "../redux/CategoriesInterfaces";
 import CategoryItem from "./CategoryItem";
+import {Skeleton} from "@chakra-ui/react";
 
 const CategoriesList = () => {
     const categories = useSelector(selectCategories)
@@ -27,8 +28,18 @@ const CategoriesList = () => {
 
             {/* <--- Display categories ---> */}
             <div className={'grid mt-3 divide-y divide-d-lighter'}>
-                {[].slice.call(categories).map((category: ICategoryData) =>
+                {categories && categories.map((category: ICategoryData) =>
                     <CategoryItem data={category} key={category.id}/>
+                )}
+
+                {!categories && (
+                    <div className={'grid gap-1'}>
+                        <Skeleton startColor='black' endColor='gray' height={'44px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'44px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'44px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'44px'}/>
+                        <Skeleton startColor='black' endColor='gray' height={'44px'}/>
+                    </div>
                 )}
             </div>
         </div>

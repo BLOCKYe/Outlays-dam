@@ -46,14 +46,14 @@ const AnalyticsView = () => {
 
                 <div className={'mt-3 grid sm:grid-cols-2 lg:grid-cols-4 gap-3'}>
                     <StatsCard title={'Wykonanych akcji'} value={'62'}/>
-                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
-                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
-                    <StatsCard title={'Wykonanych akcji'} value={'62'}/>
+                    <StatsCard title={'Wypełnionych celów'} value={'3'}/>
+                    <StatsCard title={'Współczynnik oszczędności'} value={'36.12%'}/>
+                    <StatsCard title={'Ograniczonych wydatków'} value={'-512 PLN'}/>
                 </div>
 
                 <div className={'mt-3 grid lg:grid-cols-2 gap-3 mb-20'}>
+                    <BarChart title={'Wydatki na postawie kategorii'}/>
                     <BarChart title={'Roczne wydatki'}/>
-                    <BarChart title={'Miesięczne wydatki'}/>
                 </div>
 
 

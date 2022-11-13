@@ -24,13 +24,13 @@ const Input: React.FC<IInputProps> = (props) => {
         <div className={'grid gap-2 w-full'}>
             {/* <--- Display label ---> */}
             {props.label && (
-                <div className={'text-xs font-bold text-w-darker'}>
+                <div className={'text-xs text-w-darker'}>
                     {props.label}
                 </div>
             )}
 
             {/* <--- Input core ---> */}
-            <input className={'px-5 text-md w-full rounded placeholder:text-md py-2 bg-d border-[1px] border-d-light text-w-dark focus:border-d-lighter active:outline-none focus:outline-none hover:bg-d-light transition-all cursor-text custom-calendar'}
+            <input className={'px-5 text-sm w-full rounded placeholder:text-sm py-2 bg-d border-[1px] border-d-light text-w-dark focus:border-d-lighter active:outline-none focus:outline-none hover:bg-d-light transition-all cursor-text custom-calendar'}
                 value={props.value || ''} onChange={props.onChange} placeholder={props.placeholder}
                 type={props.type || 'text'} name={props.name}/>
 

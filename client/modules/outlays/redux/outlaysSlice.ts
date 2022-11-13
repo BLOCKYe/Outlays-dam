@@ -4,11 +4,11 @@ import {fetchOutlays} from "./OutlaysRepository";
 import {IOutlayData} from "./OutlaysInterfaces";
 
 interface IOutlaysSlice {
-    outlays?: IOutlayData[]
+    outlays?: IOutlayData[] | null
 }
 
 const initialState: IOutlaysSlice = {
-    outlays: []
+    outlays: null
 }
 
 export const outlaysSlice = createSlice({

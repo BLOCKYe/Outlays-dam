@@ -18,10 +18,10 @@ interface IStatsCard {
 const StatsCard: React.FC<IStatsCard> = (props) => {
     return (
         <div className={'bg-d p-5 border-[1px] border-d-lighter rounded-md'}>
-            <div className={'text-lg font-bold'}>
+            <div className={'text-md font-bold'}>
                 {props.title}
             </div>
-            <div className={'text-xs text-w-darker mt-3'}>
+            <div className={'text-sm text-w-darker mt-3'}>
                 {props.description || 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem, magni!'}
             </div>
             <div className={'text-3xl font-bold mt-3'}>

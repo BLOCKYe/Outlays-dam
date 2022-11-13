@@ -66,7 +66,7 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
 
     return (
         <>
-            <div className={'py-3 transition-all items-center text-sm grid item-cols cursor-pointer'} onClick={onOpen}>
+            <div className={'py-3 lg:px-3 lg:rounded-md transition-all items-center text-sm grid item-cols cursor-pointer hover:bg-d-light'} onClick={onOpen}>
 
                 <div
                     className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(props.data.color, 'default', 'bg')}/>

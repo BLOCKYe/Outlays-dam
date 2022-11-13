@@ -81,7 +81,7 @@ const AddCategoryButton: React.FC<IAddCategoryButtonProps> = (props) => {
     return (
         <>
             <button onClick={onOpen}
-                className={'flex justify-center w-full md:w-auto px-5 py-3 items-center gap-3 border-[1px] border-d-lighter rounded-md bg-d text-md transition-all hover:bg-d-light'}>
+                className={'flex justify-center w-full md:w-auto px-5 py-3 items-center gap-3 border-[1px] border-d-lighter rounded-md bg-d text-xs font-bold transition-all hover:bg-d-light'}>
                 <div>
                     <BiCategory/>
                 </div>

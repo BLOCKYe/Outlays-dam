@@ -150,7 +150,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                             </div>
 
                             <div className={'flex-wrap flex gap-2 items-center mt-2'}>
-                                {[].slice.call(categories).map((category: ICategoryData) => (
+                                {categories && categories.map((category: ICategoryData) => (
                                     <CategoryItem selectedCategories={formik.values.categories} key={category.id}
                                         selectedCategory={() => formik.setFieldValue('categories', [category.id])}
                                         data={category}/>

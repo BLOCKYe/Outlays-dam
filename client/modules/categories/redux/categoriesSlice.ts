@@ -4,11 +4,11 @@ import {fetchCategories} from "./CategoriesRepository";
 import {ICategoryData} from "./CategoriesInterfaces";
 
 interface IOutlaysSlice {
-    categories?: ICategoryData[]
+    categories?: ICategoryData[] | null
 }
 
 const initialState: IOutlaysSlice = {
-    categories: []
+    categories: null
 }
 
 export const categoriesSlice = createSlice({

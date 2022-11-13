@@ -16,7 +16,7 @@ interface IMainWrapperProps {
 
 const MainWrapper: React.FC<IMainWrapperProps> = (props) => (
     <div className={'grid place-items-center'}>
-        <div className={`w-full p-3 ${props.withBg ? 'bg-d-light': ''} ${props.variant === 'small' ? 'max-w-xl' : 'lg:pl-[227px]'}`}>
+        <div className={`w-full p-3 ${props.withBg ? 'bg-d-light': ''} ${props.variant === 'small' ? 'max-w-sm' : 'lg:pl-[227px]'}`}>
             {props.children}
         </div>
     </div>
