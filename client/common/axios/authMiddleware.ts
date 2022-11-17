@@ -13,36 +13,14 @@ import {fetchUserProfile} from "../../modules/users/redux/UserRepository";
 
 export default class AuthMiddleware {
 
-    private readonly req: any
-    private readonly res: any
-
-    constructor(req: any, res: any) {
-
-        this.req = req;
-        this.res = res
-    }
-
-
     /**
      * This method is used to
      * check token from cookies
      */
 
-    public async checkToken(): Promise<boolean> {
-        const req = this.req
-        const res = this.res
-
-        const token = getCookie('token', {req, res});
-        if (!token) return false
-
-        store.dispatch(setToken(token))
-        try {
-            await store.dispatch(fetchUserProfile())
-            return true
-        } catch {
-            return false
-        }
-
-
+    public static async checkToken(): Promise<void> {
+        const token = getCookie('token');
+        await store.dispatch(setToken(token))
+        await store.dispatch(fetchUserProfile())
     }
 }

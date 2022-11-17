@@ -8,16 +8,16 @@
 
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {wrapper} from "../../client/common/redux/store";
 import AnalyticsView from "../../client/modules/analytics/views/AnalyticsView";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
-import Paths from "../../client/common/router/paths";
-import {fetchUserProfile} from "../../client/modules/users/redux/UserRepository";
-import {fetchLastSpending} from "../../client/modules/analytics/redux/AnalyticsRepository";
-import {fetchOutlays} from "../../client/modules/outlays/redux/OutlaysRepository";
-import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
+import {useEffect} from "react";
 
 const Analytics: NextPage = () => {
+
+    useEffect(() => {
+        AuthMiddleware.checkToken().then()
+    }, [])
+
     return (
         <div>
             <Head>

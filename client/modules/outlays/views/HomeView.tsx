@@ -13,10 +13,6 @@ import Header from "../components/Header";
 import AddOutlayButton from "../components/AddOutlayButton";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import HistoryList from "../components/HistoryList";
-import {getCookie} from "cookies-next";
-import {store} from "../../../common/redux/store";
-import {setToken} from "../../users/redux/userSlice";
-import {fetchUserProfile} from "../../users/redux/UserRepository";
 import {fetchCategories} from "../../categories/redux/CategoriesRepository";
 import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
 import {fetchOutlays} from "../redux/OutlaysRepository";
@@ -29,9 +25,6 @@ const HomeView = () => {
 
     const fetchData = async () => {
         await dispatch(setLoading(true))
-        const token = getCookie('token');
-        dispatch(setToken(token))
-        await dispatch(fetchUserProfile())
 
         const promises = [
             dispatch(fetchLastSpending()),

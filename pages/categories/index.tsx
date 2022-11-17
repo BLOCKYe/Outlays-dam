@@ -8,14 +8,15 @@
 
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {store, wrapper} from "../../client/common/redux/store";
-import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
-import Paths from "../../client/common/router/paths";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
 import CategoriesView from "../../client/modules/categories/views/CategoriesView";
 import {useEffect} from "react";
 
 const Home: NextPage = () => {
+
+    useEffect(() => {
+        AuthMiddleware.checkToken().then()
+    }, [])
 
     return (
         <div>

@@ -13,9 +13,6 @@ import BottomBar from "../../../common/components/menu/BottomBar";
 import Header from "../../outlays/components/Header";
 import {useDispatch} from "react-redux";
 import {setLoading} from "../../../common/redux/UISlice";
-import {getCookie} from "cookies-next";
-import {setToken} from "../../users/redux/userSlice";
-import {fetchUserProfile} from "../../users/redux/UserRepository";
 import {fetchLastSpending} from "../redux/AnalyticsRepository";
 import BarChart from "../components/BarChart";
 import StatsCard from "../components/StatsCard";
@@ -25,11 +22,7 @@ const AnalyticsView = () => {
 
     const fetchData = async () => {
         await dispatch(setLoading(true))
-        const token = getCookie('token');
-        dispatch(setToken(token))
-        await dispatch(fetchUserProfile())
         dispatch(fetchLastSpending())
-
         await dispatch(setLoading(false))
     }
 

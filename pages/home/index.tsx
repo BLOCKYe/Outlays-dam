@@ -8,22 +8,16 @@
 
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import LoginView from "../../client/modules/users/views/LoginView";
-import RegisterView from "../../client/modules/users/views/RegisterView";
 import HomeView from "../../client/modules/outlays/views/HomeView";
-import {wrapper} from "../../client/common/redux/store";
-import {getCookie} from "cookies-next";
-import {fetchUserProfile} from "../../client/modules/users/redux/UserRepository";
-import axios from "axios";
-import {fetchOutlays} from "../../client/modules/outlays/redux/OutlaysRepository";
-import {fetchCategories} from "../../client/modules/categories/redux/CategoriesRepository";
-import {setToken} from "../../client/modules/users/redux/userSlice";
-import Router from "next/router";
-import Paths from "../../client/common/router/paths";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
-import {fetchLastSpending} from "../../client/modules/analytics/redux/AnalyticsRepository";
+import {useEffect} from "react";
 
 const Home: NextPage = () => {
+
+    useEffect(() => {
+        AuthMiddleware.checkToken().then()
+    }, [])
+
     return (
         <div>
             <Head>
