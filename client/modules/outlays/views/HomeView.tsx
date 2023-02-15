@@ -21,43 +21,43 @@ import {useDispatch} from "react-redux";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
 
 const HomeView = () => {
-    const dispatch: any = useDispatch()
+  const dispatch: any = useDispatch()
 
-    const fetchData = async () => {
-        await dispatch(setLoading(true))
+  const fetchData = async () => {
+    await dispatch(setLoading(true))
 
-        const promises = [
-            dispatch(fetchLastSpending()),
-            dispatch(fetchOutlays()),
-            dispatch(fetchCategories())
-        ]
+    const promises = [
+      dispatch(fetchLastSpending()),
+      dispatch(fetchOutlays()),
+      dispatch(fetchCategories())
+    ]
 
-        await Promise.all(promises)
-        await dispatch(setLoading(false))
-    }
+    await Promise.all(promises)
+    await dispatch(setLoading(false))
+  }
 
-    useEffect(() => {
-        fetchData().then()
-    }, [])
+  useEffect(() => {
+    fetchData().then()
+  }, [])
 
-    return (
-        <>
-            <TopBar/>
-            <MainWrapper>
-                <Header/>
+  return (
+      <>
+        <TopBar/>
+        <MainWrapper>
+          <Header/>
 
-                <div className={'pt-3 flex gap-3 flex-wrap sm:flex-nowrap'}>
-                    <AddOutlayButton text={'Nowy wydatek'}/>
-                    <AddCategoryButton text={'Nowa kategoria'}/>
-                </div>
+          <div className={'pt-3 flex gap-3 flex-wrap sm:flex-nowrap'}>
+            <AddOutlayButton text={'Nowy wydatek'}/>
+            <AddCategoryButton text={'Nowa kategoria'}/>
+          </div>
 
-                <div className={'pt-3'}>
-                    <HistoryList/>
-                </div>
-            </MainWrapper>
-            <BottomBar selected={'HISTORY'}/>
-        </>
-    );
+          <div className={'pt-3'}>
+            <HistoryList/>
+          </div>
+        </MainWrapper>
+        <BottomBar selected={'HISTORY'}/>
+      </>
+  );
 };
 
 export default HomeView;

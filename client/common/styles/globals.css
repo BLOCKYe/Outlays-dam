@@ -60,7 +60,7 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: #D8D8D8 !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .item-cols {
         grid-template-columns: 25px 1fr 120px;
     }
