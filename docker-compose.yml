@@ -10,8 +10,8 @@ services:
       - '3000:3000'
     volumes:
       - ./:/app
-      - app-node_modules:/app/node_modules
-      - app-next:/app/.next
+      - /app/node_modules
+      - /app/.next
 
   db:
     image: postgres
@@ -27,5 +27,3 @@ services:
 
 volumes:
   db:
-  app-node_modules:
-  app-next:
