@@ -18,6 +18,7 @@ import { setLoading } from "../../../common/redux/UISlice";
 import AddOutlayButton from "../../outlays/components/AddOutlayButton";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { fetchOutlays } from "../../outlays/redux/OutlaysRepository";
+import AddGoalButton from "../../goals/components/AddGoalButton";
 
 const CategoriesView = () => {
   const dispatch: any = useDispatch();
@@ -46,6 +47,7 @@ const CategoriesView = () => {
         <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
           <AddCategoryButton text={"Nowa kategoria"} />
           <AddOutlayButton text={"Nowy wydatek"} />
+          <AddGoalButton text={"Nowy cel"} />
         </div>
 
         <div className={"pt-3"}>

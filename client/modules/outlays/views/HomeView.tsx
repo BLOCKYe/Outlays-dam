@@ -19,6 +19,7 @@ import { fetchOutlays } from "../redux/OutlaysRepository";
 import { setLoading } from "../../../common/redux/UISlice";
 import { useDispatch } from "react-redux";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
+import AddGoalButton from "../../goals/components/AddGoalButton";
 
 const HomeView = () => {
   const dispatch: any = useDispatch();
@@ -49,6 +50,7 @@ const HomeView = () => {
         <div className={"flex flex-wrap gap-3 pt-3 sm:flex-nowrap"}>
           <AddOutlayButton text={"Nowy wydatek"} />
           <AddCategoryButton text={"Nowa kategoria"} />
+          <AddGoalButton text={"Nowy cel"} />
         </div>
 
         <div className={"pt-3"}>

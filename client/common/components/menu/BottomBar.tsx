@@ -77,7 +77,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
     {
       icon: <MdOutlineStarPurple500 />,
       tab: "GOALS",
-      link: Paths.STATS,
+      link: Paths.GOALS,
       name: "Cele",
     },
   ];
