@@ -1,12 +1,10 @@
-FROM node:18.1.0-alpine3.15
+FROM node:16
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+RUN npm install
+
 COPY prisma ./prisma
 
-RUN npm install
-RUN npx prisma generate
-
-
-CMD ["npm", "run", "dev"]
+CMD [ "npm", "run", "dev" ]
