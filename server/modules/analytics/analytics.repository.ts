@@ -2,40 +2,58 @@
  * Project: outlays-dam
  * Author: Dominik Obłoza
  * User: @BLOCKYe
- * Date: 13/08/2022
- * Time: 19:36
-*/
+ * Date: 12/08/2022
+ * Time: 23:11
+ */
 
-import {NextApiRequest, NextApiResponse} from "next";
-import AuthMiddleware from "../../utils/middlewares/auth.middleware";
-import Error from "../../utils/Error/Error";
-import AnalyticsServices from "./analytics.services";
+import { prisma } from "../../utils/prisma/prisma";
+import moment from "moment";
 
 export default class AnalyticsRepository {
+  /**
+   * This method is used to
+   * get user spent amount
+   * @param userId
+   */
 
-    private readonly analyticsServices: AnalyticsServices
+  public async getSpentAmount(userId: string) {
+    const startDate = moment().startOf("month").format("YYYY-MM-DD");
+    const startDateLast = moment()
+      .subtract(1, "month")
+      .startOf("month")
+      .format("YYYY-MM-DD");
+    const endDate = moment().endOf("month").format("YYYY-MM-DD");
+    const endDateLast = moment()
+      .subtract(1, "month")
+      .endOf("month")
+      .format("YYYY-MM-DD");
 
-    constructor() {
-        this.analyticsServices = new AnalyticsServices()
-    }
+    const current = await prisma.outlay.aggregate({
+      where: {
+        userId: userId,
+        date: {
+          lte: endDate,
+          gte: startDate,
+        },
+      },
+      _sum: {
+        value: true,
+      },
+    });
 
-    /**
-     * This method is used to
-     * get user's categories
-     * @param req
-     * @param res
-     */
+    const last = await prisma.outlay.aggregate({
+      where: {
+        userId: userId,
+        date: {
+          lte: endDateLast,
+          gte: startDateLast,
+        },
+      },
+      _sum: {
+        value: true,
+      },
+    });
 
-    public async spentAmount(req: NextApiRequest, res: NextApiResponse) {
-        try {
-            const payload = await AuthMiddleware.isAuthenticated(req, res)
-            if (!payload) return
-            if (typeof payload === 'string') return
-
-            const spentAmount: any = await this.analyticsServices.getSpentAmount(payload.userId)
-            return res.status(200).json({status: 200, data: spentAmount});
-        } catch (err) {
-            return Error.res(res, 500, 'Something went wrong')
-        }
-    }
+    return { current, last };
+  }
 }
