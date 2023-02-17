@@ -4,50 +4,57 @@
  * User: @BLOCKYe
  * Date: 26.08.2022
  * Time: 22:01
-*/
+ */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import CategoriesList from "../components/CategoriesList";
 import AddCategoryButton from "../components/AddCategoryButton";
-import {fetchCategories} from "../redux/CategoriesRepository";
-import {useDispatch} from "react-redux";
-import {setLoading} from "../../../common/redux/UISlice";
+import { fetchCategories } from "../redux/CategoriesRepository";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../../common/redux/UISlice";
 import AddOutlayButton from "../../outlays/components/AddOutlayButton";
+import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
+import { fetchOutlays } from "../../outlays/redux/OutlaysRepository";
 
 const CategoriesView = () => {
-    const dispatch: any = useDispatch()
+  const dispatch: any = useDispatch();
 
+  useEffect(() => {
     const fetchData = async () => {
-        await dispatch(setLoading(true))
-        await dispatch(fetchCategories())
-        await dispatch(setLoading(false))
-    }
+      await dispatch(setLoading(true));
 
-    useEffect(() => {
-        fetchData().then()
-    }, [])
+      const promises = [
+        dispatch(fetchLastSpending()),
+        dispatch(fetchOutlays()),
+        dispatch(fetchCategories()),
+      ];
 
+      await Promise.all(promises);
+      await dispatch(setLoading(false));
+    };
 
-    return (
-        <>
-            <TopBar/>
-            <MainWrapper>
-                <div className={'flex gap-3 flex-wrap sm:flex-nowrap'}>
-                    <AddCategoryButton text={'Nowa kategoria'}/>
-                    <AddOutlayButton text={'Nowy wydatek'}/>
-                </div>
+    fetchData().then();
+  }, [dispatch]);
 
-                <div className={'pt-3'}>
-                    <CategoriesList/>
-                </div>
+  return (
+    <>
+      <TopBar />
+      <MainWrapper>
+        <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
+          <AddCategoryButton text={"Nowa kategoria"} />
+          <AddOutlayButton text={"Nowy wydatek"} />
+        </div>
 
-            </MainWrapper>
-            <BottomBar selected={'CATEGORIES'}/>
-        </>
-    );
+        <div className={"pt-3"}>
+          <CategoriesList />
+        </div>
+      </MainWrapper>
+      <BottomBar selected={"CATEGORIES"} />
+    </>
+  );
 };
 
 export default CategoriesView;

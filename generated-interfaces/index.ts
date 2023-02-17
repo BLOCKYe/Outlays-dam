@@ -30,7 +30,7 @@ export interface Outlay {
     id: string,
     title: string,
     description: string,
-    date: Date,
+    date: string,
     createdAt: Date,
     updatedAt: Date,
     userId: string,

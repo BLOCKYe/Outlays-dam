@@ -4,82 +4,97 @@
  * User: @BLOCKYe
  * Date: 19.10.2022
  * Time: 00:03
-*/
+ */
 
-import React from 'react';
-import {ICategoryData, ICategoryRequest} from "../redux/CategoriesInterfaces";
-import {Tooltip, useToast} from "@chakra-ui/react";
+import React from "react";
+import type {
+  ICategoryData,
+  ICategoryRequest,
+} from "../redux/CategoriesInterfaces";
+import { Tooltip, useToast } from "@chakra-ui/react";
 import CategoryColors from "../utils/CategoryColors";
-import {useDisclosure} from "@chakra-ui/hooks";
-import {useDispatch} from "react-redux";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { useDispatch } from "react-redux";
 import CategoryModal from "./CategoryModal";
-import {setLoading} from "../../../common/redux/UISlice";
-import {createCategory, editCategory, fetchCategories} from "../redux/CategoriesRepository";
+import { setLoading } from "../../../common/redux/UISlice";
+import {
+  createCategory,
+  editCategory,
+  fetchCategories,
+} from "../redux/CategoriesRepository";
 
 interface ICategoryItemProps {
-    data: ICategoryData
+  data: ICategoryData;
 }
 
 const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
-    const {isOpen, onOpen, onClose} = useDisclosure()
-    const dispatch: any = useDispatch()
-    const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch: any = useDispatch();
+  const toast = useToast();
 
+  /**
+   * This function is used to
+   * edit category
+   * @param values
+   */
 
-    /**
-     * This function is used to
-     * edit category
-     * @param values
-     */
+  const submitForm = async (values: ICategoryRequest) => {
+    try {
+      await dispatch(setLoading(true));
 
-    const submitForm = async (values: ICategoryRequest) => {
-        try {
-            await dispatch(setLoading(true))
+      const reqData: ICategoryRequest = {
+        name: values.name,
+        color: values.color,
+      };
 
-            const reqData: ICategoryRequest = {
-                name: values.name,
-                color: values.color
-            }
+      await dispatch(editCategory({ values: reqData, id: props.data.id }));
+      await dispatch(fetchCategories());
 
-            await dispatch(editCategory({values: reqData, id: props.data.id}))
-            await dispatch(fetchCategories())
+      toast({
+        title: `Edytowano kategorie ${props.data.name}`,
+        status: "success",
+        isClosable: true,
+      });
 
-            toast({
-                title: `Edytowano kategorie ${props.data.name}`,
-                status: 'success',
-                isClosable: true
-            })
+      await dispatch(setLoading(false));
+    } catch (e: any) {
+      toast({
+        title: e?.message,
+        status: "error",
+      });
 
-            await dispatch(setLoading(false))
-
-        } catch (e: any) {
-            toast({
-                title: e?.message,
-                status: 'error'
-            })
-
-            await dispatch(setLoading(false))
-        }
-
-        onClose()
+      await dispatch(setLoading(false));
     }
 
-    return (
-        <>
-            <div className={'py-3 lg:px-3 lg:rounded-md transition-all items-center text-sm grid item-cols cursor-pointer hover:bg-d-light'} onClick={onOpen}>
+    onClose();
+  };
 
-                <div
-                    className={'w-[10px] rounded-lg h-[10px] ' + CategoryColors.ColorBuilder(props.data.color, 'default', 'bg')}/>
+  return (
+    <>
+      <div
+        className={
+          "item-cols grid cursor-pointer items-center py-3 text-sm transition-all hover:bg-d-light lg:rounded-md lg:px-3"
+        }
+        onClick={onOpen}
+      >
+        <div
+          className={
+            "h-[10px] w-[10px] rounded-lg " +
+            CategoryColors.ColorBuilder(props.data.color, "default", "bg")
+          }
+        />
 
-                <div className={'text-w'}>
-                    {props.data.name}
-                </div>
-            </div>
+        <div className={"text-w"}>{props.data.name}</div>
+      </div>
 
-            <CategoryModal isOpen={isOpen} onClose={onClose} submitForm={submitForm} data={props.data}/>
-
-        </>
-    );
+      <CategoryModal
+        isOpen={isOpen}
+        onClose={onClose}
+        submitForm={submitForm}
+        data={props.data}
+      />
+    </>
+  );
 };
 
 export default CategoryItem;

@@ -4,59 +4,73 @@
  * User: @BLOCKYe
  * Date: 27/08/2022
  * Time: 15:35
-*/
+ */
 
-import React from 'react';
-import {useSelector} from "react-redux";
-import {selectUserProfile} from "../../../modules/users/redux/userSlice";
-import {Progress, Tooltip} from "@chakra-ui/react";
-import {selectLoading} from "../../redux/UISlice";
-import {AiOutlineLogout} from "react-icons/ai";
-import {deleteCookie} from "cookies-next";
-import {useRouter} from "next/router";
+import React from "react";
+import { useSelector } from "react-redux";
+import { selectUserProfile } from "../../../modules/users/redux/userSlice";
+import { Progress, Tooltip } from "@chakra-ui/react";
+import { selectLoading } from "../../redux/UISlice";
+import { AiOutlineLogout } from "react-icons/ai";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import Paths from "../../router/paths";
 
 const TopBar: React.FC = () => {
-    // current logged-in user
-    const user = useSelector(selectUserProfile)
-    const loading = useSelector(selectLoading)
-    const router = useRouter()
+  // current logged-in user
+  const user = useSelector(selectUserProfile);
+  const loading = useSelector(selectLoading);
+  const router = useRouter();
 
-    /**
-     *
-     */
+  /**
+   *
+   */
 
-    const logout = async (): Promise<void> => {
-        deleteCookie('token')
-        await router.push(Paths.LOGIN)
-    }
+  const logout = async (): Promise<void> => {
+    deleteCookie("token");
+    await router.push(Paths.LOGIN);
+  };
 
-    return (
-        <>
-            <div className={'bg-d-light border-b-[1px] border-b-d-lighter px-5 py-3 grid place-items-center'}>
-                <div className={'flex lg:pl-[227px] items-center justify-between gap-2 w-full px-3'}>
-                    <div className={'flex gap-2 flex-wrap w-full'}>
-                        <div className={'text-sm pt-1'}>
-                            Witaj
-                        </div>
+  return (
+    <>
+      <div
+        className={
+          "grid place-items-center border-b-[1px] border-b-d-lighter bg-d-light px-5 py-3"
+        }
+      >
+        <div
+          className={
+            "flex w-full items-center justify-between gap-2 px-3 lg:pl-[227px]"
+          }
+        >
+          <div className={"flex w-full flex-wrap gap-2"}>
+            <div className={"pt-1 text-sm"}>Witaj</div>
 
-                        <div className={'font-bold text-xl'}>
-                            {user?.name} 👋
-                        </div>
-                    </div>
+            <div className={"text-xl font-bold"}>{user?.name} 👋</div>
+          </div>
 
-                    <Tooltip label={'Wyloguj się'}>
-                        <div className={'cursor-pointer p-2 hover:bg-d-lighter rounded-full transition-all'}
-                            onClick={() => logout()}>
-                            <AiOutlineLogout/>
-                        </div>
-                    </Tooltip>
-                </div>
+          <Tooltip label={"Wyloguj się"}>
+            <div
+              className={
+                "cursor-pointer rounded-full p-2 transition-all hover:bg-d-lighter"
+              }
+              onClick={() => logout()}
+            >
+              <AiOutlineLogout />
             </div>
-            <Progress colorScheme='blue' className={`w-full max-h-[2px] !bg-d-lighter ${loading ? 'opacity-100' : 'opacity-0'}`}
-                size='xs' isIndeterminate/>
-        </>
-    );
+          </Tooltip>
+        </div>
+      </div>
+      <Progress
+        colorScheme="blue"
+        className={`max-h-[2px] w-full !bg-d-lighter ${
+          loading ? "opacity-100" : "opacity-0"
+        }`}
+        size="xs"
+        isIndeterminate
+      />
+    </>
+  );
 };
 
 export default TopBar;
