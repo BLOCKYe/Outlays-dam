@@ -51,9 +51,7 @@ const TopBar: React.FC = () => {
 
           <Tooltip label={"Wyloguj się"}>
             <div
-              className={
-                "cursor-pointer rounded-full p-2 transition-all hover:bg-d-lighter"
-              }
+              className={"cursor-pointer rounded-full p-2 hover:bg-d-lighter"}
               onClick={() => logout()}
             >
               <AiOutlineLogout />

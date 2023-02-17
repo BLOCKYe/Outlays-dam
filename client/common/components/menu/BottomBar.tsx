@@ -15,7 +15,6 @@ import {
 } from "react-icons/md";
 import Paths from "../../router/paths";
 import Link from "next/link";
-import Image from "next/image";
 
 interface IBottomBarProps {
   selected: tabsTypes;
@@ -44,9 +43,9 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
     local: tabsTypes
   ): string => {
     const selectedStyles =
-      "box-content p-2 lg:p-2 lg:px-10 transition-all bg-d-lighter cursor-pointer rounded-full lg:rounded flex items-center gap-3";
+      "box-content p-2 lg:p-2 lg:px-10 bg-d-lighter cursor-pointer rounded-full lg:rounded flex items-center gap-3";
     const defaultStyles =
-      "box-content p-2 lg:p-2 lg:px-10 transition-all cursor-pointer rounded-full lg:rounded text-w-darker hover:bg-d-lighter hover:text-w flex items-center gap-3";
+      "box-content p-2 lg:p-2 lg:px-10 cursor-pointer rounded-full lg:rounded text-w-darker hover:bg-d-lighter hover:text-w flex items-center gap-3";
 
     if (selected === local) return selectedStyles;
     else return defaultStyles;

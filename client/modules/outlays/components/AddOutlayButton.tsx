@@ -31,7 +31,6 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
    * create new outlay
    * @param values
    */
-
   const submitForm = async (values: IOutlayRequest) => {
     try {
       await dispatch(setLoading(true));
@@ -60,17 +59,11 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
 
       await Promise.all(promises);
 
-      toast({
-        title: "Dodano nowy wydatek",
-        status: "success",
-      });
+      displayToast("SUCCESS");
 
       await dispatch(setLoading(false));
     } catch (e: any) {
-      toast({
-        title: e?.message,
-        status: "error",
-      });
+      displayToast("ERROR", e);
 
       await dispatch(setLoading(false));
     }
@@ -78,12 +71,41 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     onClose();
   };
 
+  /**
+   * This strategy is used to
+   * display different toast by status
+   * @param type
+   * @param e
+   */
+  const displayToast = (type: "ERROR" | "SUCCESS", e?: any) => {
+    switch (type) {
+      case "SUCCESS": {
+        toast({
+          title: "Dodano nowy wydatek",
+          status: "success",
+        });
+        break;
+      }
+
+      case "ERROR": {
+        toast({
+          title: e?.message,
+          status: "error",
+        });
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <button
         onClick={onOpen}
         className={
-          "flex h-full w-full items-center justify-center gap-3 rounded border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold transition-all hover:bg-d-light md:w-auto"
+          "flex h-full w-full items-center justify-center gap-3 rounded border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold hover:bg-d-light md:w-auto"
         }
       >
         <div>

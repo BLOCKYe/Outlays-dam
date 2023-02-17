@@ -6,29 +6,14 @@
  * Time: 19:46
  */
 
-import React, { useState } from "react";
+import React from "react";
 import { useDisclosure } from "@chakra-ui/hooks";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/modal";
-import Button from "../../../common/components/buttons/Button";
-import Input from "../../../common/components/inputs/Input";
 import type { ICategoryRequest } from "../../categories/redux/CategoriesInterfaces";
 import { BiCategory } from "react-icons/bi";
-import { useFormik } from "formik";
 import { setLoading } from "../../../common/redux/UISlice";
-import { categorySchema, initialValues } from "../utils/CategoryFormik";
 import { useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { createCategory, fetchCategories } from "../redux/CategoriesRepository";
-import CategoryColors, { IColorItemData } from "../utils/CategoryColors";
-import ColorItem from "./ColorItem";
 import CategoryModal from "./CategoryModal";
 
 interface IAddCategoryButtonProps {
@@ -81,7 +66,7 @@ const AddCategoryButton: React.FC<IAddCategoryButtonProps> = (props) => {
       <button
         onClick={onOpen}
         className={
-          "flex w-full items-center justify-center gap-3 rounded-md border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold transition-all hover:bg-d-light md:w-auto"
+          "flex w-full items-center justify-center gap-3 rounded-md border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold hover:bg-d-light md:w-auto"
         }
       >
         <div>

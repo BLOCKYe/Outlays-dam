@@ -54,11 +54,13 @@ const HistoryList: React.FC = () => {
     [formik.values.keyword, outlays]
   );
 
-  useEffect(() => {
-    if (!displaySearch) {
-      formik.setFieldValue("keyword", "");
-    }
-  }, [displaySearch]);
+  /**
+   *
+   */
+  const handleDisplaySearch = () => {
+    setDisplaySearch(!displaySearch);
+    formik.setFieldValue("keyword", "");
+  };
 
   return (
     <div className={"mb-20 rounded-md border-[1px] border-d-lighter bg-d p-5"}>
@@ -89,18 +91,18 @@ const HistoryList: React.FC = () => {
         <div>
           {displaySearch && (
             <IoClose
-              onClick={() => setDisplaySearch(!displaySearch)}
+              onClick={handleDisplaySearch}
               className={
-                "box-content cursor-pointer rounded-full p-2 text-xl text-w-dark transition-all hover:bg-d-light"
+                "box-content cursor-pointer rounded-full p-2 text-xl text-w-dark hover:bg-d-light"
               }
             />
           )}
 
           {!displaySearch && (
             <IoMdSearch
-              onClick={() => setDisplaySearch(!displaySearch)}
+              onClick={handleDisplaySearch}
               className={
-                "box-content cursor-pointer rounded-full p-2 text-xl text-w-dark transition-all hover:bg-d-light"
+                "box-content cursor-pointer rounded-full p-2 text-xl text-w-dark hover:bg-d-light"
               }
             />
           )}

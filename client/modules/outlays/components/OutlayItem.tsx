@@ -6,30 +6,15 @@
  * Time: 20:48
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import type { IOutlayData, IOutlayRequest } from "../redux/OutlaysInterfaces";
 import { useDisclosure } from "@chakra-ui/hooks";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/modal";
-import Button from "../../../common/components/buttons/Button";
-import moment from "moment/moment";
 import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
-import { Divider, Tooltip, useToast } from "@chakra-ui/react";
+import { Tooltip, useToast } from "@chakra-ui/react";
 import CategoryColors from "../../categories/utils/CategoryColors";
 import OutlayModal from "./OutlayModal";
 import { setLoading } from "../../../common/redux/UISlice";
-import {
-  createOutlay,
-  editOutlay,
-  fetchOutlays,
-} from "../redux/OutlaysRepository";
+import { editOutlay, fetchOutlays } from "../redux/OutlaysRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { useDispatch } from "react-redux";
 import OutlayPreviewModal from "./OutlayPreviewModal";
@@ -38,14 +23,18 @@ interface OutlayItemProps {
   data: IOutlayData;
 }
 
+type modalStates = "PREVIEW" | "EDIT";
+
 const OutlayItem: React.FC<OutlayItemProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [renderedModal, setRenderedModal] = useState<"PREVIEW" | "EDIT">(
-    "PREVIEW"
-  );
+  const [renderedModal, setRenderedModal] = useState<modalStates>("PREVIEW");
   const dispatch: any = useDispatch();
   const toast = useToast();
 
+  /**
+   *
+   * @param values
+   */
   const submitForm = async (values: IOutlayRequest) => {
     try {
       await dispatch(setLoading(true));
@@ -68,32 +57,59 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
       };
 
       await dispatch(editOutlay({ values: reqData, id: props.data.id }));
-      await dispatch(fetchOutlays());
-      await dispatch(fetchLastSpending());
-
-      toast({
-        title: `Edytowano wydatek: ${props.data.title}`,
-        status: "success",
-        isClosable: true,
-      });
+      displayToast("SUCCESS");
+      await updateData();
 
       await dispatch(setLoading(false));
       setRenderedModal("PREVIEW");
     } catch (e: any) {
-      toast({
-        title: e?.message,
-        status: "error",
-      });
-
+      displayToast("ERROR", e);
       await dispatch(setLoading(false));
     }
   };
 
   /**
    * This strategy is used to
+   * display different toast by status
+   * @param type
+   * @param e
+   */
+  const displayToast = (type: "ERROR" | "SUCCESS", e?: any) => {
+    switch (type) {
+      case "SUCCESS": {
+        toast({
+          title: `Edytowano wydatek: ${props.data.title}`,
+          status: "success",
+          isClosable: true,
+        });
+        break;
+      }
+
+      case "ERROR": {
+        toast({
+          title: e?.message,
+          status: "error",
+        });
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
+
+  /**
+   *
+   */
+  const updateData = async () => {
+    const promises = [dispatch(fetchOutlays()), dispatch(fetchLastSpending())];
+    await Promise.all(promises);
+  };
+
+  /**
+   * This strategy is used to
    * render modal by type
    */
-
   const renderModalType = (): any => {
     switch (renderedModal) {
       case "PREVIEW":
@@ -133,30 +149,26 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     <>
       <div
         onClick={onOpen}
-        className={
-          "cursor-pointer py-3 transition-all hover:bg-d-light lg:rounded-md lg:px-3"
-        }
+        className={"cursor-pointer py-2 hover:bg-d-light lg:rounded-md lg:px-3"}
       >
         <div className={"item-cols grid place-items-center"}>
           <div className={"grid grid-cols-2 gap-1 justify-self-start"}>
-            {[].slice
-              .call(props.data.categories)
-              .map((category: ICategoryData) => (
-                <div key={category.id}>
-                  <Tooltip label={category.name}>
-                    <div
-                      className={
-                        "h-[10px] w-[10px] rounded-lg " +
-                        CategoryColors.ColorBuilder(
-                          category.color,
-                          "default",
-                          "bg"
-                        )
-                      }
-                    />
-                  </Tooltip>
-                </div>
-              ))}
+            {props.data.categories.map((category: ICategoryData) => (
+              <div key={category.id}>
+                <Tooltip label={category.name}>
+                  <div
+                    className={
+                      "h-[10px] w-[10px] rounded-lg " +
+                      CategoryColors.ColorBuilder(
+                        category.color,
+                        "default",
+                        "bg"
+                      )
+                    }
+                  />
+                </Tooltip>
+              </div>
+            ))}
 
             {/* <--- Display default ---> */}
             {props.data.categories.length === 0 && (
@@ -167,30 +179,24 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
           <div className={"justify-self-start text-sm"}>{props.data.title}</div>
 
           <div className={"hidden justify-self-start lg:block"}>
-            {[].slice
-              .call(props.data.categories)
-              .map((category: ICategoryData) => (
-                <div key={category.id}>
-                  <div
-                    className={
-                      "rounded-xl py-1 px-3 text-xs " +
-                      CategoryColors.ColorBuilder(
-                        category.color,
-                        "dark",
-                        "bg"
-                      ) +
-                      " " +
-                      CategoryColors.ColorBuilder(
-                        category.color,
-                        "default",
-                        "text"
-                      )
-                    }
-                  >
-                    {category.name}
-                  </div>
+            {props.data.categories.map((category: ICategoryData) => (
+              <div key={category.id}>
+                <div
+                  className={
+                    "rounded-xl py-1 px-3 text-xs " +
+                    CategoryColors.ColorBuilder(category.color, "dark", "bg") +
+                    " " +
+                    CategoryColors.ColorBuilder(
+                      category.color,
+                      "default",
+                      "text"
+                    )
+                  }
+                >
+                  {category.name}
                 </div>
-              ))}
+              </div>
+            ))}
 
             {/* <--- Display default ---> */}
             {props.data.categories.length === 0 && (

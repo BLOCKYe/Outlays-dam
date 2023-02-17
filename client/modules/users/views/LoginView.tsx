@@ -124,6 +124,15 @@ const LoginView = () => {
             disabled={isProcessing}
           />
         </div>
+
+        <div className={"mt-10 text-sm"}>
+          Nie posiadasz jeszcze konta?{" "}
+          <Link href={Paths.REGISTER}>
+            <span className={"cursor-pointer text-c-light hover:underline"}>
+              Zarejestruj się
+            </span>
+          </Link>
+        </div>
       </form>
     </MainWrapper>
   );

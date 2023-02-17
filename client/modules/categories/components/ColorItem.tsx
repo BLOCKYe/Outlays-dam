@@ -29,7 +29,7 @@ const ColorItem: React.FC<IColorItem> = (props) => {
     <div
       onClick={() => props.selectColor("color", props.data.name)}
       className={
-        "flex w-full cursor-pointer items-center gap-2 rounded py-1 px-3 text-sm font-bold transition-all hover:opacity-100 " +
+        "flex w-full cursor-pointer items-center gap-2 rounded py-1 px-3 text-sm font-bold hover:opacity-100 " +
         props.data.styles +
         " " +
         (props.selectedColor === props.data.name && <BsCheckLg />

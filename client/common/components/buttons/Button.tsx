@@ -30,9 +30,9 @@ const Button: React.FC<IButtonProps> = (props) => {
 
   const buttonVariantFactory = (type: ButtonVariants): string => {
     const containedStyles =
-      "px-5 text-xs font-bold py-3 text-sm border-[1px] rounded border-d-light bg-d-light text-w-dark transition-all hover:bg-c-light disabled:opacity-50 disabled:hover:bg-d-light disabled:cursor-not-allowed";
+      "px-5 text-xs font-bold py-2 text-sm border-[1px] rounded border-d-light bg-d-light text-w-dark hover:bg-c-light disabled:opacity-50 disabled:hover:bg-d-light disabled:cursor-not-allowed";
     const outlinedStyles =
-      "px-5 text-xs font-bold py-3 text-sm border-[1px] rounded border-d-light text-w-dark transition-all hover:bg-d-light disabled:opacity-50 disabled:hover:bg-none disabled:cursor-not-allowed";
+      "px-5 text-xs font-bold py-2 text-sm border-[1px] rounded border-d-light text-w-dark hover:bg-d-light disabled:opacity-50 disabled:hover:bg-none disabled:cursor-not-allowed";
 
     switch (type) {
       case "CONTAINED": {

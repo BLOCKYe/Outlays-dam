@@ -80,9 +80,7 @@ const BarChart: React.FC<IBarChart> = (props) => {
         {[].slice.call(staticData).map((item: any) => (
           <Tooltip label={item?.title} placement={"top"} key={item?.title}>
             <div
-              className={
-                "w-full rounded bg-c-light transition-all hover:opacity-80"
-              }
+              className={"w-full rounded bg-c-light hover:opacity-80"}
               style={{ height: item?.value }}
             />
           </Tooltip>
