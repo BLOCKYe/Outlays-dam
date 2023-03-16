@@ -9,7 +9,7 @@
 import React from "react";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { selectLastSpending } from "../../analytics/redux/analyticsSlice";
+import { selectLastSpending } from "../redux/analyticsSlice";
 
 const Header: React.FC = () => {
   const lastSpending = useSelector(selectLastSpending);

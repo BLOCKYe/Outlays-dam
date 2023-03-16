@@ -102,7 +102,10 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
    *
    */
   const updateData = async () => {
-    const promises = [dispatch(fetchOutlays()), dispatch(fetchLastSpending())];
+    const promises = [
+      dispatch(fetchOutlays()),
+      dispatch(fetchLastSpending({ date: new Date() })),
+    ];
     await Promise.all(promises);
   };
 
@@ -178,7 +181,9 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
           <div className={"justify-self-start text-sm"}>{props.data.title}</div>
 
-          <div className={"hidden justify-self-start lg:block"}>
+          <div
+            className={"hidden justify-self-start whitespace-nowrap lg:block"}
+          >
             {props.data.categories.map((category: ICategoryData) => (
               <div key={category.id}>
                 <div

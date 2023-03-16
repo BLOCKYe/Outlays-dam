@@ -92,7 +92,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
 
       const promises = [
         dispatch(fetchOutlays()),
-        dispatch(fetchLastSpending()),
+        dispatch(fetchLastSpending({ date: new Date() })),
       ];
 
       await Promise.all(promises);

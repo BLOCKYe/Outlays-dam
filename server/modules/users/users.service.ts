@@ -6,7 +6,7 @@
  * Time: 20:02
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../utils/Error/Error";
 import UsersRepository from "./users.repository";
 import * as bcrypt from "bcrypt";
@@ -17,14 +17,14 @@ import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import * as yup from "yup";
 
 export default class UsersService {
-  private readonly usersService: UsersRepository;
+  private readonly usersRepository: UsersRepository;
   private readonly jwt: Jwt;
-  private readonly authServices: AuthRepository;
+  private readonly authRepository: AuthRepository;
 
   constructor() {
-    this.usersService = new UsersRepository();
+    this.usersRepository = new UsersRepository();
     this.jwt = new Jwt();
-    this.authServices = new AuthRepository();
+    this.authRepository = new AuthRepository();
   }
 
   /**
@@ -52,7 +52,9 @@ export default class UsersService {
         );
 
       // check if user already exists
-      const existingUser: any = await this.usersService.findUserByEmail(email);
+      const existingUser: any = await this.usersRepository.findUserByEmail(
+        email
+      );
       if (!existingUser)
         return Error.res(res, 403, "Invalid login credentials.");
 
@@ -69,7 +71,7 @@ export default class UsersService {
         existingUser,
         jti
       );
-      await this.authServices.addRefreshTokenToWhitelist({
+      await this.authRepository.addRefreshTokenToWhitelist({
         jti,
         refreshToken,
         userId: existingUser.id,
@@ -113,18 +115,20 @@ export default class UsersService {
         return Error.res(res, 400, "Invalid name field");
 
       // check if user already exists
-      const existingUser = await this.usersService.findUserByEmail(email);
+      const existingUser = await this.usersRepository.findUserByEmail(email);
       if (existingUser) return Error.res(res, 400, "Email already in use.");
 
       // create user
-      const user: any = await this.usersService.createUserByEmailAndPassword({
-        email,
-        password,
-        name,
-      });
+      const user: any = await this.usersRepository.createUserByEmailAndPassword(
+        {
+          email,
+          password,
+          name,
+        }
+      );
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(user, jti);
-      await this.authServices.addRefreshTokenToWhitelist({
+      await this.authRepository.addRefreshTokenToWhitelist({
         jti,
         refreshToken,
         userId: user.id,
@@ -152,7 +156,7 @@ export default class UsersService {
       if (typeof payload === "string") return;
 
       const { userId } = payload;
-      const user: any = await this.usersService.findUserById(userId);
+      const user: any = await this.usersRepository.findUserById(userId);
       delete user.password;
       return res.status(200).json({ status: 200, data: { user } });
     } catch (err) {

@@ -6,39 +6,18 @@
  * Time: 22:01
  */
 
-import React, { useEffect } from "react";
+import React from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import CategoriesList from "../components/CategoriesList";
 import AddCategoryButton from "../components/AddCategoryButton";
-import { fetchCategories } from "../redux/CategoriesRepository";
-import { useDispatch } from "react-redux";
-import { setLoading } from "../../../common/redux/UISlice";
 import AddOutlayButton from "../../outlays/components/AddOutlayButton";
-import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
-import { fetchOutlays } from "../../outlays/redux/OutlaysRepository";
 import AddGoalButton from "../../goals/components/AddGoalButton";
+import useGetBasicData from "../../../common/hooks/useGetBasicData";
 
 const CategoriesView = () => {
-  const dispatch: any = useDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(setLoading(true));
-
-      const promises = [
-        dispatch(fetchLastSpending()),
-        dispatch(fetchOutlays()),
-        dispatch(fetchCategories()),
-      ];
-
-      await Promise.all(promises);
-      await dispatch(setLoading(false));
-    };
-
-    fetchData().then();
-  }, [dispatch]);
+  useGetBasicData();
 
   return (
     <>

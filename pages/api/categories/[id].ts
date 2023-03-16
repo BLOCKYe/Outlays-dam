@@ -6,7 +6,7 @@
  * Time: 23:40
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import CategoriesService from "../../../server/modules/categories/categories.service";
 import Error from "../../../server/utils/Error/Error";
 
@@ -18,19 +18,19 @@ export default async function handler(
   if (!id) return;
   if (typeof id !== "string") return;
 
-  const categoriesRepository = new CategoriesService();
+  const categoriesService = new CategoriesService();
 
   switch (req.method) {
     case "GET": {
-      return categoriesRepository.getCategory(req, res, id);
+      return categoriesService.getCategory(req, res, id);
     }
 
     case "PUT": {
-      return categoriesRepository.editCategory(req, res, id);
+      return categoriesService.editCategory(req, res, id);
     }
 
     case "DELETE": {
-      return categoriesRepository.deleteCategory(req, res, id);
+      return categoriesService.deleteCategory(req, res, id);
     }
 
     default: {

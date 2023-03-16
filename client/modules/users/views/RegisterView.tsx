@@ -13,11 +13,10 @@ import Input from "../../../common/components/inputs/Input";
 import Link from "next/link";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import { useFormik } from "formik";
-import { ILoginSchema, loginSchema } from "../utils/LoginFormik";
 import { useDispatch } from "react-redux";
-import { fetchUserProfile, login, register } from "../redux/UserRepository";
+import { register } from "../redux/UserRepository";
 import type { AppDispatch } from "../../../common/redux/store";
-import { getCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { useToast } from "@chakra-ui/react";
 import type { IRegisterSchema } from "../utils/RegisterFormik";
 import { registerSchema } from "../utils/RegisterFormik";
@@ -45,7 +44,6 @@ const LoginView = () => {
    * This method is used to submit form
    * @param values
    */
-
   const submitForm = async (values: IRegisterSchema) => {
     setIsProcessing(true);
     try {

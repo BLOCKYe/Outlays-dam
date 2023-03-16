@@ -6,7 +6,7 @@
  * Time: 23:19
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import AuthMiddleware from "../../../server/utils/middlewares/auth.middleware";
 import OutlaysRepository from "../../../server/modules/outlays/outlays.repository";
@@ -18,15 +18,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const outlaysRepository = new OutlaysService();
+  const outlaysService = new OutlaysService();
 
   switch (req.method) {
     case "GET": {
-      return outlaysRepository.getOutlays(req, res);
+      return outlaysService.getOutlays(req, res);
     }
 
     case "POST": {
-      return outlaysRepository.createOutlay(req, res);
+      return outlaysService.createOutlay(req, res);
     }
 
     default: {

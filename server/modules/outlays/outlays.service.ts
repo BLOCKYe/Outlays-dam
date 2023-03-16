@@ -6,22 +6,22 @@
  * Time: 22:37
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import UsersRepository from "../users/users.repository";
 import OutlaysRepository from "./outlays.repository";
-import { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
+import type { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
 import * as yup from "yup";
 import { ICategoryEditData } from "../categories/ICategories";
 
 export default class OutlaysService {
-  private readonly usersServices: UsersRepository;
-  private readonly outlaysServices: OutlaysRepository;
+  private readonly usersRepository: UsersRepository;
+  private readonly outlaysRepository: OutlaysRepository;
 
   constructor() {
-    this.usersServices = new UsersRepository();
-    this.outlaysServices = new OutlaysRepository();
+    this.usersRepository = new UsersRepository();
+    this.outlaysRepository = new OutlaysRepository();
   }
 
   /**
@@ -67,7 +67,7 @@ export default class OutlaysService {
         categories: categories || [],
       };
 
-      const outlayData = await this.outlaysServices.createOutlay(reqData);
+      const outlayData = await this.outlaysRepository.createOutlay(reqData);
       return res.status(200).json({ status: 200, data: outlayData });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
@@ -87,7 +87,9 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlays = await this.outlaysServices.getUserOutlays(payload.userId);
+      const outlays = await this.outlaysRepository.getUserOutlays(
+        payload.userId
+      );
       return res.status(200).json({ status: 200, data: outlays });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
@@ -112,7 +114,7 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlay: any = await this.outlaysServices.findById(
+      const outlay: any = await this.outlaysRepository.findById(
         payload.userId,
         id
       );
@@ -142,7 +144,7 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlay: any = await this.outlaysServices.deleteById(
+      const outlay: any = await this.outlaysRepository.deleteById(
         payload.userId,
         id
       );
@@ -182,7 +184,7 @@ export default class OutlaysService {
         categories: categories,
       };
 
-      const outlay: any = await this.outlaysServices.editOutlay(
+      const outlay: any = await this.outlaysRepository.editOutlay(
         payload.userId,
         id,
         reqData
