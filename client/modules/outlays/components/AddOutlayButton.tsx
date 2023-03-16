@@ -54,7 +54,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
 
       const promises = [
         dispatch(fetchOutlays()),
-        dispatch(fetchLastSpending()),
+        dispatch(fetchLastSpending({ date: new Date() })),
       ];
 
       await Promise.all(promises);

@@ -6,7 +6,7 @@
  * Time: 23:11
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import OutlaysService from "../../../server/modules/outlays/outlays.service";
 
@@ -18,19 +18,19 @@ export default async function handler(
   if (!id) return;
   if (typeof id !== "string") return;
 
-  const outlaysRepository = new OutlaysService();
+  const outlaysService = new OutlaysService();
 
   switch (req.method) {
     case "GET": {
-      return outlaysRepository.getOutlay(req, res, id);
+      return outlaysService.getOutlay(req, res, id);
     }
 
     case "PUT": {
-      return outlaysRepository.editOutlay(req, res, id);
+      return outlaysService.editOutlay(req, res, id);
     }
 
     case "DELETE": {
-      return outlaysRepository.deleteOutlay(req, res, id);
+      return outlaysService.deleteOutlay(req, res, id);
     }
 
     default: {

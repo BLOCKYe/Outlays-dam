@@ -6,7 +6,7 @@
  * Time: 02:26
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import UsersRepository from "../../../server/modules/users/users.repository";
 import * as uuid from "uuid";
@@ -19,11 +19,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const usersRepository = new UsersService();
+  const usersService = new UsersService();
 
   switch (req.method) {
     case "POST": {
-      return usersRepository.login(req, res);
+      return usersService.login(req, res);
     }
 
     default: {

@@ -1,24 +1,26 @@
 /*
- * Project: outlays-dam
+ * Project: Outlays-dam
  * Author: Dominik Obłoza
  * User: @BLOCKYe
- * Date: 12/08/2022
- * Time: 01:26
+ * Date: 16.03.2023
+ * Time: 21:28
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
-import UsersService from "../../../server/modules/users/users.service";
+import AnalyticsService from "../../../server/modules/analytics/analytics.service";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const usersService = new UsersService();
+  const analyticsService = new AnalyticsService();
+
+  const { date } = req.query;
 
   switch (req.method) {
-    case "POST": {
-      return usersService.register(req, res);
+    case "GET": {
+      return analyticsService.monthAnalytics(req, res, date);
     }
 
     default: {

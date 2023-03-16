@@ -6,7 +6,7 @@
  * Time: 23:19
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import AuthMiddleware from "../../../server/utils/middlewares/auth.middleware";
 import OutlaysRepository from "../../../server/modules/outlays/outlays.repository";
@@ -19,11 +19,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const analyticsRepository = new AnalyticsService();
+  const analyticsService = new AnalyticsService();
+
+  const { date } = req.query;
 
   switch (req.method) {
     case "GET": {
-      return analyticsRepository.spentAmount(req, res);
+      return analyticsService.currentMonthSpentAmount(req, res, date);
     }
 
     default: {

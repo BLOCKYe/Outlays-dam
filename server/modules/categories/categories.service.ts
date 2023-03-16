@@ -6,18 +6,18 @@
  * Time: 19:36
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import CategoriesRepository from "./categories.repository";
-import { ICategoryCreateData, ICategoryEditData } from "./ICategories";
+import type { ICategoryCreateData, ICategoryEditData } from "./ICategories";
 import * as yup from "yup";
 
 export default class CategoriesService {
-  private readonly categoriesServices: CategoriesRepository;
+  private readonly categoriesRepository: CategoriesRepository;
 
   constructor() {
-    this.categoriesServices = new CategoriesRepository();
+    this.categoriesRepository = new CategoriesRepository();
   }
 
   /**
@@ -33,7 +33,7 @@ export default class CategoriesService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const categories: any = await this.categoriesServices.getUserCategories(
+      const categories: any = await this.categoriesRepository.getUserCategories(
         payload.userId
       );
       return res.status(200).json({ status: 200, data: categories });
@@ -60,7 +60,7 @@ export default class CategoriesService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const category: any = await this.categoriesServices.findById(
+      const category: any = await this.categoriesRepository.findById(
         payload.userId,
         id
       );
@@ -104,7 +104,7 @@ export default class CategoriesService {
         color: color,
       };
 
-      const category: any = await this.categoriesServices.editCategory(
+      const category: any = await this.categoriesRepository.editCategory(
         payload.userId,
         id,
         reqData
@@ -135,7 +135,7 @@ export default class CategoriesService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const category: any = await this.categoriesServices.deleteById(
+      const category: any = await this.categoriesRepository.deleteById(
         payload.userId,
         id
       );
@@ -180,7 +180,7 @@ export default class CategoriesService {
         color: color,
       };
 
-      const categoryData = await this.categoriesServices.createCategory(
+      const categoryData = await this.categoriesRepository.createCategory(
         reqData
       );
       return res.status(200).json({ status: 200, data: categoryData });

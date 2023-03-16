@@ -6,7 +6,7 @@
  * Time: 01:26
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import AuthMiddleware from "../../../server/utils/middlewares/auth.middleware";
 import UsersRepository from "../../../server/modules/users/users.repository";
@@ -16,11 +16,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const usersRepository = new UsersService();
+  const usersService = new UsersService();
 
   switch (req.method) {
     case "GET": {
-      return await usersRepository.profile(req, res);
+      return await usersService.profile(req, res);
     }
 
     default: {

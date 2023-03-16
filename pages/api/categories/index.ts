@@ -6,7 +6,7 @@
  * Time: 19:17
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
 import CategoriesService from "../../../server/modules/categories/categories.service";
 
@@ -14,15 +14,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const categoriesRepository = new CategoriesService();
+  const categoriesService = new CategoriesService();
 
   switch (req.method) {
     case "GET": {
-      return categoriesRepository.getCategories(req, res);
+      return categoriesService.getCategories(req, res);
     }
 
     case "POST": {
-      return categoriesRepository.createCategory(req, res);
+      return categoriesService.createCategory(req, res);
     }
 
     default: {
