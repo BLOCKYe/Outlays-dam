@@ -1,3 +1,5 @@
+import type { IColors } from "../../categories/utils/CategoryColors";
+
 export interface ILastSpendingResponse {
   status?: number;
   data?: ILastSpendingData;
@@ -17,6 +19,7 @@ export interface IBasicAnalyticsMonthData {
 
 export interface IBasicAnalyticsCategoryData {
   label: string;
+  color: IColors;
   id: string;
   value: number;
 }

@@ -92,7 +92,8 @@ export default class CategoryColors {
         if (variant === "default" && props === "bg") return "bg-[#FF9F2D]";
         else if (variant === "default" && props === "text")
           return "text-[#FF9F2D]";
-        else if (variant === "dark" && props === "bg") return "bg-[#40280B]";
+        else if (variant === "dark" && props === "bg")
+          return "bg-[#40280B] bg-opacity-25";
         else if (variant === "dark" && props === "text")
           return "text-[#40280B]";
       }
@@ -101,16 +102,18 @@ export default class CategoryColors {
         if (variant === "default" && props === "bg") return "bg-[#17CB49]";
         else if (variant === "default" && props === "text")
           return "text-[#17CB49]";
-        else if (variant === "dark" && props === "bg") return "bg-[#063312]";
+        else if (variant === "dark" && props === "bg")
+          return "bg-[#052e16] bg-opacity-25";
         else if (variant === "dark" && props === "text")
-          return "text-[#063312]";
+          return "text-[#052e16]";
       }
 
       case "Blue": {
         if (variant === "default" && props === "bg") return "bg-[#168FFF]";
         else if (variant === "default" && props === "text")
           return "text-[#168FFF]";
-        else if (variant === "dark" && props === "bg") return "bg-[#052440]";
+        else if (variant === "dark" && props === "bg")
+          return "bg-[#052440] bg-opacity-25";
         else if (variant === "dark" && props === "text")
           return "text-[#052440]";
       }
@@ -119,7 +122,8 @@ export default class CategoryColors {
         if (variant === "default" && props === "bg") return "bg-[#F74141]";
         else if (variant === "default" && props === "text")
           return "text-[#F74141]";
-        else if (variant === "dark" && props === "bg") return "bg-[#390B0B]";
+        else if (variant === "dark" && props === "bg")
+          return "bg-[#390B0B] bg-opacity-25";
         else if (variant === "dark" && props === "text")
           return "text-[#390B0B]";
       }
@@ -128,7 +132,8 @@ export default class CategoryColors {
         if (variant === "default" && props === "bg") return "bg-[#C841F7]";
         else if (variant === "default" && props === "text")
           return "text-[#C841F7]";
-        else if (variant === "dark" && props === "bg") return "bg-[#390B38]";
+        else if (variant === "dark" && props === "bg")
+          return "bg-[#390B38] bg-opacity-25";
         else if (variant === "dark" && props === "text")
           return "text-[#390B38]";
       }
@@ -142,7 +147,7 @@ export default class CategoryColors {
   public static availableColors: IColorItemData[] = [
     {
       name: "Orange",
-      label: "Pomaranczowy",
+      label: "Pomarańczowy",
       styles:
         CategoryColors.ColorBuilder("Orange", "dark", "bg") +
         " " +

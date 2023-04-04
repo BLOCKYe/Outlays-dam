@@ -18,7 +18,7 @@ import { editOutlay, fetchOutlays } from "../redux/OutlaysRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { useDispatch } from "react-redux";
 import OutlayPreviewModal from "./OutlayPreviewModal";
-import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
+import { formatOperationValue } from "../../../common/utils/formatOperationValue";
 
 interface OutlayItemProps {
   data: IOutlayData;
@@ -212,8 +212,9 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
           </div>
 
           <div className={"justify-self-end text-sm text-w"}>
-            {props.data.type === OutlaysTypesEnum.OUTCOME ? "-" : "+"}
-            {props.data.value}{" "}
+            <span className={"font-bold"}>
+              {formatOperationValue(props.data.type, props.data.value)}{" "}
+            </span>
             <span className={"text-sm font-normal text-w-darker"}>zł</span>
           </div>
         </div>

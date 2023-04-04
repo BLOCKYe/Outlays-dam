@@ -61,7 +61,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
       date: props.data?.date || moment(new Date()).format("yyyy-MM-DD"),
       title: props.data?.title || "",
       description: props.data?.description || "",
-      type: props.data?.type,
+      type: props.data?.type || OutlaysTypesEnum.OUTCOME,
       value: props.data?.value || 0,
       categories:
         props.data?.categories && props.data?.categories.length > 0

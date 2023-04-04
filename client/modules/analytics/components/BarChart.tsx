@@ -11,10 +11,13 @@ import { MdQueryStats } from "react-icons/md";
 import { Tooltip } from "@chakra-ui/react";
 import type { IBasicAnalyticsMonthData } from "../redux/AnalyticsInterfaces";
 import moment from "moment";
+import type { IColors } from "../../categories/utils/CategoryColors";
+import CategoryColors from "../../categories/utils/CategoryColors";
 
 interface IBarChartData {
   label: string;
   value: number;
+  color?: IColors;
 }
 
 interface IBarChart {
@@ -56,6 +59,9 @@ const BarChart: React.FC<IBarChart> = (props) => {
                   "relative w-full rounded bg-c-light hover:opacity-80"
                 }
                 style={{
+                  backgroundColor: item.color
+                    ? CategoryColors[item.color].default
+                    : "#168FFF",
                   height: item.value
                     ? `${(item.value / maxValue) * 100}%`
                     : `2%`,

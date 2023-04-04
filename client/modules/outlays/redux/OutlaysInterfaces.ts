@@ -1,4 +1,5 @@
 import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
+import type { IOutlayType } from "../../../../common/outlays/OutlaysTypesEnum";
 
 export interface IOutlaysResponse {
   status?: number;
@@ -10,7 +11,7 @@ export interface IOutlayData {
   title?: string;
   description?: string;
   date?: string;
-  type?: string;
+  type?: IOutlayType;
   createdAt?: Date;
   updatedAt?: Date;
   userId?: string;

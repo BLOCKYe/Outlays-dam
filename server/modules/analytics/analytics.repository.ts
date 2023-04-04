@@ -9,7 +9,6 @@
 import { prisma } from "../../utils/prisma/prisma";
 import moment from "moment";
 import type { IRangeDate } from "./IAnalytics";
-import categories from "../../../pages/categories";
 
 export default class AnalyticsRepository {
   /**
@@ -31,6 +30,7 @@ export default class AnalyticsRepository {
     const current = await prisma.outlay.aggregate({
       where: {
         userId: userId,
+        type: "OUTCOME",
         date: {
           lte: endDate,
           gte: startDate,
@@ -44,6 +44,7 @@ export default class AnalyticsRepository {
     const currentCount = await prisma.outlay.count({
       where: {
         userId: userId,
+        type: "OUTCOME",
         date: {
           lte: endDate,
           gte: startDate,
@@ -54,6 +55,7 @@ export default class AnalyticsRepository {
     const last = await prisma.outlay.aggregate({
       where: {
         userId: userId,
+        type: "OUTCOME",
         date: {
           lte: endDateLast,
           gte: startDateLast,
@@ -67,6 +69,7 @@ export default class AnalyticsRepository {
     const lastCount = await prisma.outlay.count({
       where: {
         userId: userId,
+        type: "OUTCOME",
         date: {
           lte: endDateLast,
           gte: startDateLast,
@@ -147,6 +150,7 @@ export default class AnalyticsRepository {
 
       const data = {
         label: category.name,
+        color: category.color,
         id: category.id,
         value: sumOfOutlaysValues,
       };
