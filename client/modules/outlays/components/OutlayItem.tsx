@@ -212,10 +212,10 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
           </div>
 
           <div className={"justify-self-end text-sm text-w"}>
-            <span className={"font-bold"}>
+            <span className={"text-sm font-bold"}>
               {formatOperationValue(props.data.type, props.data.value)}{" "}
             </span>
-            <span className={"text-sm font-normal text-w-darker"}>zł</span>
+            <span className={"text-xs font-normal text-w-dark"}>PLN</span>
           </div>
         </div>
       </div>

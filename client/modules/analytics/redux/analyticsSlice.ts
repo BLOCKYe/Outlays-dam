@@ -14,7 +14,10 @@ interface IAnalyticsSlice {
 }
 
 const initialState: IAnalyticsSlice = {
-  lastSpending: {},
+  lastSpending: {
+    previous: { incomes: {}, outcomes: {} },
+    selected: { incomes: {}, outcomes: {} },
+  },
   lastBasicAnalytics: { lastMonths: [], categories: [] },
 };
 

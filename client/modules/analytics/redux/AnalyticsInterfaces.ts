@@ -6,10 +6,13 @@ export interface ILastSpendingResponse {
 }
 
 export interface ILastSpendingData {
-  current?: { _sum?: Sum };
-  last?: { _sum?: Sum };
-  currentCount?: number;
-  lastCount?: number;
+  previous: ILastSpendingMonth;
+  selected: ILastSpendingMonth;
+}
+
+export interface ILastSpendingMonth {
+  incomes: { _sum?: Sum };
+  outcomes: { _sum?: Sum };
 }
 
 export interface IBasicAnalyticsMonthData {

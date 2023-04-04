@@ -49,15 +49,23 @@ export default class AnalyticsService {
         moment(dateAsDate).subtract(1, "month").toDate()
       );
 
-      const spentAmount: any =
-        await this.analyticsRepository.getSpentAmountFromCurrentMonth(
+      const selectedMonth: any =
+        await this.analyticsRepository.getOperationsResultsFromRange(
           payload.userId,
           current.start,
+          current.end
+        );
+
+      const previousMonth: any =
+        await this.analyticsRepository.getOperationsResultsFromRange(
+          payload.userId,
           last.start,
-          current.end,
           last.end
         );
-      return res.status(200).json({ status: 200, data: spentAmount });
+      return res.status(200).json({
+        status: 200,
+        data: { selected: selectedMonth, previous: previousMonth },
+      });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }
@@ -88,11 +96,25 @@ export default class AnalyticsService {
 
       const ranges = AnalyticsCommands.getLastTwelveMonthsRanged(dateAsDate);
 
-      const lastMonths =
-        await this.analyticsRepository.getLastTwelveMonthsStats(
-          payload.userId,
-          ranges
-        );
+      const monthsStats = [];
+
+      for (let i = 0; i < 12; i++) {
+        const monthResults: any =
+          await this.analyticsRepository.getOperationsResultsFromRange(
+            payload.userId,
+            ranges[i]!.start,
+            ranges[i]!.end
+          );
+
+        const localData = {
+          value:
+            (monthResults?.incomes._sum?.value ?? 0) -
+            (monthResults?.outcomes._sum?.value ?? 0),
+          label: moment(ranges[i]?.date).format("MMMM"),
+        };
+
+        monthsStats.push(localData);
+      }
 
       const current = AnalyticsCommands.getMonthRange(dateAsDate);
 
@@ -104,7 +126,7 @@ export default class AnalyticsService {
         );
 
       const response = {
-        lastMonths: lastMonths,
+        lastMonths: monthsStats,
         categories: categories,
       };
 

@@ -7,30 +7,25 @@
  */
 
 import { prisma } from "../../utils/prisma/prisma";
-import moment from "moment";
-import type { IRangeDate } from "./IAnalytics";
+import { OutlaysTypesEnum } from "../../../common/outlays/OutlaysTypesEnum";
 
 export default class AnalyticsRepository {
   /**
    * This method is used to
-   * get user spent amount
+   * get sum of operations by range
    * @param userId
    * @param startDate
-   * @param startDateLast
    * @param endDate
-   * @param endDateLast
    */
-  public async getSpentAmountFromCurrentMonth(
+  public async getOperationsResultsFromRange(
     userId: string,
     startDate: string,
-    startDateLast: string,
-    endDate: string,
-    endDateLast: string
+    endDate: string
   ) {
-    const current = await prisma.outlay.aggregate({
+    const outcomes = await prisma.outlay.aggregate({
       where: {
         userId: userId,
-        type: "OUTCOME",
+        type: OutlaysTypesEnum.OUTCOME,
         date: {
           lte: endDate,
           gte: startDate,
@@ -41,24 +36,13 @@ export default class AnalyticsRepository {
       },
     });
 
-    const currentCount = await prisma.outlay.count({
+    const incomes = await prisma.outlay.aggregate({
       where: {
         userId: userId,
-        type: "OUTCOME",
+        type: OutlaysTypesEnum.INCOME,
         date: {
           lte: endDate,
           gte: startDate,
-        },
-      },
-    });
-
-    const last = await prisma.outlay.aggregate({
-      where: {
-        userId: userId,
-        type: "OUTCOME",
-        date: {
-          lte: endDateLast,
-          gte: startDateLast,
         },
       },
       _sum: {
@@ -66,51 +50,7 @@ export default class AnalyticsRepository {
       },
     });
 
-    const lastCount = await prisma.outlay.count({
-      where: {
-        userId: userId,
-        type: "OUTCOME",
-        date: {
-          lte: endDateLast,
-          gte: startDateLast,
-        },
-      },
-    });
-
-    return { current, last, currentCount, lastCount };
-  }
-
-  /**
-   *
-   * @param userId
-   * @param ranges
-   */
-  public async getLastTwelveMonthsStats(userId: string, ranges: IRangeDate[]) {
-    const monthsStats = [];
-
-    for (let i = 0; i < 12; i++) {
-      const localMonthData = await prisma.outlay.aggregate({
-        where: {
-          userId: userId,
-          date: {
-            lte: ranges[i]!.end,
-            gte: ranges[i]!.start,
-          },
-        },
-        _sum: {
-          value: true,
-        },
-      });
-
-      const localData = {
-        value: localMonthData?._sum?.value ?? 0,
-        label: moment(ranges[i]?.date).format("MMMM"),
-      };
-
-      monthsStats.push(localData);
-    }
-
-    return monthsStats;
+    return { incomes, outcomes };
   }
 
   /**

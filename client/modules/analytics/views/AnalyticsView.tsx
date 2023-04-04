@@ -6,7 +6,7 @@
  * Time: 22:01
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BarChart from "../components/BarChart";
 import StatsCard from "../components/StatsCard";
 import moment from "moment";
-import { GoArrowSmallRight, GoArrowSmallLeft } from "react-icons/go";
+import { GoArrowSmallLeft, GoArrowSmallRight } from "react-icons/go";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
 import {
   selectBasicAnalytics,
@@ -24,6 +24,7 @@ import {
   fetchBasicAnalytics,
   fetchLastSpending,
 } from "../redux/AnalyticsRepository";
+import "moment/locale/pl";
 
 interface ICurrentDate {
   month: string;
@@ -39,7 +40,6 @@ const getFormattedCurrentDate = (date = new Date()): ICurrentDate => {
 };
 
 const AnalyticsView = () => {
-  const lastSpending = useSelector(selectLastSpending);
   const basicAnalytics = useSelector(selectBasicAnalytics);
   const dispatch: any = useDispatch();
   useGetBasicData();
@@ -74,28 +74,6 @@ const AnalyticsView = () => {
     dispatch(fetchBasicAnalytics({ date: previous }));
   };
 
-  /**
-   * Calculate diff between current and last month
-   */
-  const calculateDiff = (): number => {
-    const current: number = lastSpending?.current?._sum?.value || 0;
-    const last: number = lastSpending?.last?._sum?.value || 0;
-
-    return current - last;
-  };
-
-  /**
-   * Calculate percentage diff between current and last month
-   */
-  const calculatePercentageDiff = (): number => {
-    const current: number = lastSpending?.current?._sum?.value || 0;
-    const last: number = lastSpending?.last?._sum?.value || 0;
-
-    if (current === 0 || last === 0) return 0;
-
-    return (current / last) * 100;
-  };
-
   return (
     <>
       <TopBar />
@@ -125,7 +103,7 @@ const AnalyticsView = () => {
         <div className={"mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"}>
           <StatsCard
             title={"Wykonanych akcji"}
-            value={lastSpending?.currentCount ?? 0}
+            value={0}
             description={
               "Liczba wszystkich akcji wykonanych przez ciebie w tym miesiącu."
             }
@@ -139,18 +117,14 @@ const AnalyticsView = () => {
           />
           <StatsCard
             title={"Współczynnik oszczędności"}
-            value={`${calculateDiff() <= 0 ? "+" : "-"} ${Math.abs(
-              calculatePercentageDiff()
-            ).toFixed(2)} %`}
+            value={0}
             description={
               "Współczynnik pokazuje stopień oszczędności na podstawie ostatnich miesięcy"
             }
           />
           <StatsCard
             title={"Ograniczonych wydatków"}
-            value={`${calculateDiff() <= 0 ? "+" : "-"} ${Math.abs(
-              calculateDiff()
-            )} PLN`}
+            value={0}
             description={
               "Ilość zaoszczędzonych pieniędzy na podstawie średniej z ostatnich miesięcy"
             }
@@ -159,11 +133,17 @@ const AnalyticsView = () => {
 
         <div className={"mt-3 mb-20 grid gap-3 lg:grid-cols-2"}>
           <BarChart
-            title={"Operacje na postawie kategorii"}
+            title={"Wydatki kategorii"}
+            description={
+              "Wykres przedstawia rozkład wartości operacji z podziałem na kategorie."
+            }
             data={basicAnalytics.categories}
           />
           <BarChart
             title={"Roczne operacje"}
+            description={
+              "Wykres przedstawia zaoszczędzone pieniądze z podziałem na ostatnie 12 miesięcy."
+            }
             data={basicAnalytics.lastMonths}
           />
         </div>

@@ -171,8 +171,8 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
               name={"title"}
               err={formik.errors.title}
               type={"text"}
-              label={"Tytuł wydatku"}
-              placeholder={"Tytuł wydatku"}
+              label={"Tytuł"}
+              placeholder={"Tytuł"}
             />
 
             <Textarea
@@ -199,14 +199,14 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
               value={formik.values.date}
               name={"date"}
               type={"date"}
-              label={"Data wydatku"}
-              placeholder={"Data wydatku"}
+              label={"Data operacji"}
+              placeholder={"Data operacji"}
               err={formik.errors.date}
             />
 
             {/* <--- Categories ---> */}
             <div>
-              <div className={"text-sm text-w-darker"}>Wybierz kategorie</div>
+              <div className={"text-xs text-w-darker"}>Wybierz kategorie</div>
 
               <div className={"mt-2 flex flex-wrap items-center gap-2"}>
                 {categories &&

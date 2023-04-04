@@ -9,8 +9,6 @@
 import React, { useMemo } from "react";
 import { MdQueryStats } from "react-icons/md";
 import { Tooltip } from "@chakra-ui/react";
-import type { IBasicAnalyticsMonthData } from "../redux/AnalyticsInterfaces";
-import moment from "moment";
 import type { IColors } from "../../categories/utils/CategoryColors";
 import CategoryColors from "../../categories/utils/CategoryColors";
 

@@ -10,6 +10,9 @@ import React from "react";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { selectLastSpending } from "../redux/analyticsSlice";
+import { Tooltip } from "@chakra-ui/react";
+import { BsInfoCircle } from "react-icons/bs";
+import "moment/locale/pl";
 
 const Header: React.FC = () => {
   const lastSpending = useSelector(selectLastSpending);
@@ -21,19 +24,32 @@ const Header: React.FC = () => {
    */
 
   const calculateDiff = (): number => {
-    const current: number = lastSpending?.current?._sum?.value || 0;
-    const last: number = lastSpending?.last?._sum?.value || 0;
+    const current: number =
+      (lastSpending?.selected?.incomes?._sum?.value ?? 0) -
+      (lastSpending?.selected?.outcomes?._sum?.value ?? 0);
+    const last: number =
+      (lastSpending?.previous?.incomes?._sum?.value ?? 0) -
+      (lastSpending?.previous?.outcomes?._sum?.value ?? 0);
 
     return current - last;
   };
 
   return (
     <div className={"w-full rounded-md border-[1px] border-d-lighter bg-d p-5"}>
-      <div className={"text-sm"}>Operacje w tym miesiącu</div>
+      <div className={"flex items-center gap-2"}>
+        <div className={"text-sm"}>Saldo miesiąca</div>
+        <Tooltip label={"Twoje przychody minus wydatki"} placement={"right"}>
+          <div>
+            <BsInfoCircle />
+          </div>
+        </Tooltip>
+      </div>
 
       <div className={"mt-1 flex flex-wrap items-center gap-3"}>
         <div className={"text-2xl font-bold text-w"}>
-          {lastSpending?.current?._sum?.value || 0} PLN
+          {(lastSpending?.selected?.incomes?._sum?.value ?? 0) -
+            (lastSpending?.selected?.outcomes?._sum?.value ?? 0)}{" "}
+          PLN
         </div>
         <div
           className={
