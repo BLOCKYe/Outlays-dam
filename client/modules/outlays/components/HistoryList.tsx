@@ -70,7 +70,7 @@ const HistoryList: React.FC = () => {
         {!displaySearch && (
           <>
             <div className={"flex items-center gap-2 text-lg font-bold"}>
-              <MdHistoryEdu /> Ostatnie wydatki
+              <MdHistoryEdu /> Ostatnie operacje
             </div>
           </>
         )}

@@ -37,11 +37,12 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const { title, description, date, value, categories } = req.body;
+      const { title, description, date, type, value, categories } = req.body;
       // validate body
       const outlaySchema = yup.object().shape({
-        title: yup.string().min(1).max(20).required(),
+        title: yup.string().min(1).max(50).required(),
         description: yup.string().max(255),
+        type: yup.string().max(255).required(),
         date: yup.string().max(255).required(),
         value: yup.number().positive().required(),
         categories: yup.array(),
@@ -53,15 +54,18 @@ export default class OutlaysService {
           description,
           date,
           value,
+          type,
           categories,
         }))
-      )
+      ) {
         return Error.res(res, 400, "Invalid req body");
+      }
 
       const reqData: IOutlayCreateData = {
         userId: payload.userId,
         title: title,
         value: value,
+        type: type,
         date: date,
         description: description,
         categories: categories || [],
@@ -174,12 +178,13 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const { title, description, date, value, categories } = req.body;
+      const { title, description, date, value, type, categories } = req.body;
 
       const reqData: IOutlayEditData = {
         title: title,
         description: description,
         date: date,
+        type: type,
         value: value,
         categories: categories,
       };

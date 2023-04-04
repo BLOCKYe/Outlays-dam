@@ -1,4 +1,4 @@
-import { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
+import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
 
 export interface IOutlaysResponse {
   status?: number;
@@ -10,6 +10,7 @@ export interface IOutlayData {
   title?: string;
   description?: string;
   date?: string;
+  type?: string;
   createdAt?: Date;
   updatedAt?: Date;
   userId?: string;
@@ -21,6 +22,7 @@ export interface IOutlayRequest {
   title: string;
   description?: string;
   value: number;
+  type: string;
   date: string;
   categories?: any[];
 }

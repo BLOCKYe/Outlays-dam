@@ -60,7 +60,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
       icon: <MdHistoryEdu />,
       tab: "HISTORY",
       link: Paths.HISTORY,
-      name: "Wydatki",
+      name: "Operacje",
     },
     {
       icon: <BiCategory />,

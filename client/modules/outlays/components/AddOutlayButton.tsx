@@ -16,6 +16,7 @@ import { setLoading } from "../../../common/redux/UISlice";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { FaMoneyBillWave } from "react-icons/fa";
 import OutlayModal from "./OutlayModal";
+import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
 
 interface IAddButtonProps {
   text: string;
@@ -44,6 +45,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
 
       const reqData: IOutlayRequest = {
         title: values.title,
+        type: OutlaysTypesEnum.OUTCOME,
         description: values.description,
         value: values.value,
         date: values.date,
@@ -81,7 +83,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
     switch (type) {
       case "SUCCESS": {
         toast({
-          title: "Dodano nowy wydatek",
+          title: "Dodano nową operację",
           status: "success",
         });
         break;

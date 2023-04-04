@@ -159,10 +159,13 @@ const AnalyticsView = () => {
 
         <div className={"mt-3 mb-20 grid gap-3 lg:grid-cols-2"}>
           <BarChart
-            title={"Wydatki na postawie kategorii"}
+            title={"Operacje na postawie kategorii"}
             data={basicAnalytics.categories}
           />
-          <BarChart title={"Roczne wydatki"} data={basicAnalytics.lastMonths} />
+          <BarChart
+            title={"Roczne operacje"}
+            data={basicAnalytics.lastMonths}
+          />
         </div>
       </MainWrapper>
       <BottomBar selected={"STATS"} />

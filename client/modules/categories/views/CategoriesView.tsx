@@ -25,7 +25,7 @@ const CategoriesView = () => {
       <MainWrapper>
         <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
           <AddCategoryButton text={"Nowa kategoria"} />
-          <AddOutlayButton text={"Nowy wydatek"} />
+          <AddOutlayButton text={"Nowa operacja"} />
           <AddGoalButton text={"Nowy cel"} />
         </div>
 

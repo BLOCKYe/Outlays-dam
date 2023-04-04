@@ -27,7 +27,7 @@ const HomeView = () => {
         <Header />
 
         <div className={"flex flex-wrap gap-3 pt-3 sm:flex-nowrap"}>
-          <AddOutlayButton text={"Nowy wydatek"} />
+          <AddOutlayButton text={"Nowa operacja"} />
           <AddCategoryButton text={"Nowa kategoria"} />
           <AddGoalButton text={"Nowy cel"} />
         </div>

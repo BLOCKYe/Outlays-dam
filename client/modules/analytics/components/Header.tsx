@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 
   return (
     <div className={"w-full rounded-md border-[1px] border-d-lighter bg-d p-5"}>
-      <div className={"text-sm"}>Wydatki w tym miesiącu</div>
+      <div className={"text-sm"}>Operacje w tym miesiącu</div>
 
       <div className={"mt-1 flex flex-wrap items-center gap-3"}>
         <div className={"text-2xl font-bold text-w"}>

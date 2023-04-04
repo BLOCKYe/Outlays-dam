@@ -7,7 +7,7 @@
  */
 
 import { prisma } from "../../utils/prisma/prisma";
-import { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
+import type { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
 
 export default class OutlaysRepository {
   /**
@@ -24,6 +24,7 @@ export default class OutlaysRepository {
         date: data.date,
         value: data.value,
         userId: data.userId,
+        type: data.type,
         categories: {
           connect: data.categories,
         },
@@ -110,6 +111,7 @@ export default class OutlaysRepository {
         title: data.title,
         description: data.description,
         date: data.date,
+        type: data.type,
         value: data.value,
         categories: {
           set: data.categories,

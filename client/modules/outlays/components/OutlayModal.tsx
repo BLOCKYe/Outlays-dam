@@ -35,6 +35,7 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { deleteOutlay, fetchOutlays } from "../redux/OutlaysRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
+import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
 
 interface IOutlayModalProps {
   isOpen: boolean;
@@ -60,6 +61,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
       date: props.data?.date || moment(new Date()).format("yyyy-MM-DD"),
       title: props.data?.title || "",
       description: props.data?.description || "",
+      type: props.data?.type,
       value: props.data?.value || 0,
       categories:
         props.data?.categories && props.data?.categories.length > 0
@@ -98,7 +100,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
       await Promise.all(promises);
 
       toast({
-        title: `Usunięto wydatek: ${props?.data?.title}`,
+        title: `Usunięto operację: ${props?.data?.title}`,
         status: "info",
         isClosable: true,
       });
@@ -125,18 +127,44 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader className={"bg-d"}>
-          {props.data?.id ? "Edytuj wydatek" : "Dodaj nowy wydatek"}
+          {props.data?.id ? "Edytuj operację" : "Dodaj nową operację"}
         </ModalHeader>
         <ModalCloseButton />
 
         {/* <--- Form ---> */}
         <ModalBody className={"bg-d"}>
           <div className={"text-w-darker"}>
-            Aby utworzyć nowy dodatek wypełnij formularz. Wprowadź tytuł, kwotę
+            Aby utworzyć nową operację wypełnij formularz. Wprowadź tytuł, kwotę
             oraz datę.
           </div>
 
           <form className={"mt-3 grid gap-5"} onSubmit={formik.handleSubmit}>
+            {/* <--- Type ---> */}
+            <div className={"grid gap-3 md:grid-cols-2"}>
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", OutlaysTypesEnum.OUTCOME)
+                }
+                variant={
+                  formik.values.type === OutlaysTypesEnum.OUTCOME
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"WYDATEK"}
+              />
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", OutlaysTypesEnum.INCOME)
+                }
+                variant={
+                  formik.values.type === OutlaysTypesEnum.INCOME
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"PRZYCHÓD"}
+              />
+            </div>
+
             <Input
               onChange={formik.handleChange}
               value={formik.values.title}
@@ -222,7 +250,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
             <>
               {submitRemove && (
                 <div className={"mt-1 text-sm text-pink-600"}>
-                  Czy na pewno chcesz usunać ten wydatek?
+                  Czy na pewno chcesz usunąć tą operację?
                 </div>
               )}
 
@@ -230,7 +258,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                 <Button
                   variant={"OUTLINED"}
                   disabled={loading}
-                  text={submitRemove ? "Tak, usuń!" : "Usuń wydatek"}
+                  text={submitRemove ? "Tak, usuń!" : "Usuń operacje"}
                   onClick={() => removeOutlay(props.data?.id)}
                 />
               )}

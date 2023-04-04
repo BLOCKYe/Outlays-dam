@@ -38,6 +38,7 @@ model Outlay {
   id          String   @id @unique @default(uuid())
   title       String
   description String
+  type        String
   date        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

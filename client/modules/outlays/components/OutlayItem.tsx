@@ -18,6 +18,7 @@ import { editOutlay, fetchOutlays } from "../redux/OutlaysRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { useDispatch } from "react-redux";
 import OutlayPreviewModal from "./OutlayPreviewModal";
+import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
 
 interface OutlayItemProps {
   data: IOutlayData;
@@ -52,6 +53,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
         title: values.title,
         description: values.description,
         value: values.value,
+        type: values.type,
         date: values.date,
         categories: parsedSelectedCategories,
       };
@@ -78,7 +80,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     switch (type) {
       case "SUCCESS": {
         toast({
-          title: `Edytowano wydatek: ${props.data.title}`,
+          title: `Edytowano operacje: ${props.data.title}`,
           status: "success",
           isClosable: true,
         });
@@ -210,8 +212,9 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
           </div>
 
           <div className={"justify-self-end text-sm text-w"}>
-            -{props.data.value}{" "}
-            <span className={"text-sm font-normal text-w-darker"}>PLN</span>
+            {props.data.type === OutlaysTypesEnum.OUTCOME ? "-" : "+"}
+            {props.data.value}{" "}
+            <span className={"text-sm font-normal text-w-darker"}>zł</span>
           </div>
         </div>
       </div>
