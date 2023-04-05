@@ -107,9 +107,7 @@ export default class AnalyticsService {
           );
 
         const localData = {
-          value:
-            (monthResults?.incomes._sum?.value ?? 0) -
-            (monthResults?.outcomes._sum?.value ?? 0),
+          value: monthResults?.outcomes._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
 

@@ -38,7 +38,12 @@ const Header: React.FC = () => {
     <div className={"w-full rounded-md border-[1px] border-d-lighter bg-d p-5"}>
       <div className={"flex items-center gap-2"}>
         <div className={"text-sm"}>Saldo miesiąca</div>
-        <Tooltip label={"Twoje przychody minus wydatki"} placement={"right"}>
+        <Tooltip
+          label={
+            "Twoje dochody (przychody minus wydatki). Wartość z ramki odnosi się do poprzedniego miesiąca."
+          }
+          placement={"right"}
+        >
           <div>
             <BsInfoCircle />
           </div>

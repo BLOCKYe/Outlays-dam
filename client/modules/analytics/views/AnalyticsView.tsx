@@ -142,7 +142,7 @@ const AnalyticsView = () => {
           <BarChart
             title={"Roczne operacje"}
             description={
-              "Wykres przedstawia zaoszczędzone pieniądze z podziałem na ostatnie 12 miesięcy."
+              "Wykres przedstawia wydane pieniądze z podziałem na ostatnie 12 miesięcy."
             }
             data={basicAnalytics.lastMonths}
           />
