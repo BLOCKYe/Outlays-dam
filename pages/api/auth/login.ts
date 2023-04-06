@@ -8,11 +8,6 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
-import UsersRepository from "../../../server/modules/users/users.repository";
-import * as uuid from "uuid";
-import Jwt from "../../../server/utils/jwt/jwt";
-import AuthRepository from "../../../server/modules/auth/auth.repository";
-import * as bcrypt from "bcrypt";
 import UsersService from "../../../server/modules/users/users.service";
 
 export default async function handler(

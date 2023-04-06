@@ -10,7 +10,7 @@ import React from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
-import AddOutlayButton from "../../outlays/components/AddOutlayButton";
+import AddOperationButton from "../../operations/components/AddOperationButton";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
 import AddGoalButton from "../components/AddGoalButton";
 
@@ -20,7 +20,7 @@ const GoalsView = () => {
       <TopBar />
       <MainWrapper>
         <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
-          <AddOutlayButton text={"Nowa operacja"} />
+          <AddOperationButton text={"Nowa operacja"} />
           <AddCategoryButton text={"Nowa kategoria"} />
           <AddGoalButton text={"Nowy cel"} />
         </div>

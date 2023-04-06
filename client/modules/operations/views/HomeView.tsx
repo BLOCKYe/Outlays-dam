@@ -10,7 +10,7 @@ import React from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import Header from "../../analytics/components/Header";
-import AddOutlayButton from "../components/AddOutlayButton";
+import AddOperationButton from "../components/AddOperationButton";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import HistoryList from "../components/HistoryList";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
@@ -27,7 +27,7 @@ const HomeView = () => {
         <Header />
 
         <div className={"flex flex-wrap gap-3 pt-3 sm:flex-nowrap"}>
-          <AddOutlayButton text={"Nowa operacja"} />
+          <AddOperationButton text={"Nowa operacja"} />
           <AddCategoryButton text={"Nowa kategoria"} />
           <AddGoalButton text={"Nowy cel"} />
         </div>

@@ -8,19 +8,21 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
-import AnalyticsService from "../../../server/modules/analytics/analytics.service";
+import OperationsService from "../../../server/modules/operations/operations.service";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const analyticsService = new AnalyticsService();
-
-  const { date } = req.query;
+  const operationsService = new OperationsService();
 
   switch (req.method) {
     case "GET": {
-      return analyticsService.currentMonthSpentAmount(req, res, date);
+      return operationsService.getOperations(req, res);
+    }
+
+    case "POST": {
+      return operationsService.createOperation(req, res);
     }
 
     default: {

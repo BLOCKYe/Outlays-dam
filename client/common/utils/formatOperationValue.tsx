@@ -1,8 +1,8 @@
-import type { IOutlayType } from "../../../common/outlays/OutlaysTypesEnum";
+import type { IOperationType } from "../../../common/operations/OperationsTypesEnum";
 import React from "react";
 
 export const formatOperationValue = (
-  type?: IOutlayType,
+  type?: IOperationType,
   value?: number
 ): string | React.ReactNode => {
   if (!type) return "";

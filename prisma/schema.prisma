@@ -20,7 +20,7 @@ model User {
   refreshTokens RefreshToken[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  outlays       Outlay[]
+  operations       Operation[]
   categories    Category[]
 }
 
@@ -34,7 +34,7 @@ model RefreshToken {
   updatedAt   DateTime @updatedAt
 }
 
-model Outlay {
+model Operation {
   id          String   @id @unique @default(uuid())
   title       String
   description String
@@ -54,5 +54,5 @@ model Category {
   color       String
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  outays      Outlay[]
+  operations      Operation[]
 }

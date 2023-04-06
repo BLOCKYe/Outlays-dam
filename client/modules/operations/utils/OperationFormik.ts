@@ -1,20 +1,20 @@
-import type { IOutlayRequest } from "../redux/OutlaysInterfaces";
+import type { IOperationRequest } from "../redux/OperationInterfaces";
 import type { SchemaOf } from "yup";
 import * as Yup from "yup";
 import * as yup from "yup";
 import moment from "moment";
-import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 
-export const initialValues: IOutlayRequest = {
+export const initialValues: IOperationRequest = {
   date: moment(new Date()).format("yyyy-MM-DD"),
   title: "",
   description: "",
-  type: OutlaysTypesEnum.OUTCOME,
+  type: OperationsTypesEnum.OUTCOME,
   value: 0,
   categories: [],
 };
 
-export const outlaySchema: SchemaOf<any> = Yup.object().shape({
+export const operationSchema: SchemaOf<any> = Yup.object().shape({
   title: yup.string().min(1).max(50).required("Pole jest wymagane"),
   description: yup.string().max(255),
   type: yup.string().max(255),

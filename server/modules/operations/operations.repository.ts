@@ -7,17 +7,17 @@
  */
 
 import { prisma } from "../../utils/prisma/prisma";
-import type { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
+import type { IOperationCreateData, IOperationEditData } from "./IOperations";
 
-export default class OutlaysRepository {
+export default class OperationsRepository {
   /**
    * This method is used to
    * create new outlay
    * @param data
    */
 
-  public createOutlay(data: IOutlayCreateData) {
-    return prisma.outlay.create({
+  public createOperation(data: IOperationCreateData) {
+    return prisma.operation.create({
       data: {
         title: data.title,
         description: data.description,
@@ -41,8 +41,8 @@ export default class OutlaysRepository {
    * @param userId
    */
 
-  public getUserOutlays(userId: string) {
-    return prisma.outlay.findMany({
+  public getUserOperations(userId: string) {
+    return prisma.operation.findMany({
       orderBy: [
         {
           date: "desc",
@@ -61,13 +61,13 @@ export default class OutlaysRepository {
    * This method is used to
    * delete one outlay by id
    * @param userId
-   * @param outlayId
+   * @param operationId
    */
 
-  public deleteById(userId: string, outlayId: string) {
-    return prisma.outlay.delete({
+  public deleteById(userId: string, operationId: string) {
+    return prisma.operation.delete({
       where: {
-        id: outlayId,
+        id: operationId,
       },
       include: {
         categories: true,
@@ -79,14 +79,14 @@ export default class OutlaysRepository {
    * This method is used to
    * get one outlay by id
    * @param userId
-   * @param outlayId
+   * @param operationId
    */
 
-  public findById(userId: string, outlayId: string) {
-    return prisma.outlay.findFirst({
+  public findById(userId: string, operationId: string) {
+    return prisma.operation.findFirst({
       where: {
         userId: userId,
-        id: outlayId,
+        id: operationId,
       },
       include: {
         categories: true,
@@ -98,14 +98,18 @@ export default class OutlaysRepository {
    * This method is used to
    * edit outlay by id
    * @param userId
-   * @param outlayId
+   * @param operationId
    * @param data
    */
 
-  public editOutlay(userId: string, outlayId: string, data: IOutlayEditData) {
-    return prisma.outlay.update({
+  public editOperation(
+    userId: string,
+    operationId: string,
+    data: IOperationEditData
+  ) {
+    return prisma.operation.update({
       where: {
-        id: outlayId,
+        id: operationId,
       },
       data: {
         title: data.title,

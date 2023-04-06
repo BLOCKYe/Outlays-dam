@@ -133,18 +133,25 @@ const AnalyticsView = () => {
 
         <div className={"mt-3 mb-20 grid gap-3 lg:grid-cols-2"}>
           <BarChart
-            title={"Wydatki kategorii"}
+            title={"Podział wydatków na kategorie"}
             description={
-              "Wykres przedstawia rozkład wartości operacji z podziałem na kategorie."
+              "Wykres przedstawia rozkład wydatków z podziałem na kategorie."
             }
             data={basicAnalytics.categories}
           />
           <BarChart
-            title={"Roczne operacje"}
+            title={"Podział wydatków na miesiące"}
             description={
-              "Wykres przedstawia wydane pieniądze z podziałem na ostatnie 12 miesięcy."
+              "Wykres przedstawia wydatki z podziałem na ostatnie 12 miesięcy."
             }
-            data={basicAnalytics.lastMonths}
+            data={basicAnalytics.outcomes}
+          />
+          <BarChart
+            title={"Podział przychodów na miesiące"}
+            description={
+              "Wykres przedstawia przychody z podziałem na ostatnie 12 miesięcy."
+            }
+            data={basicAnalytics.incomes}
           />
         </div>
       </MainWrapper>

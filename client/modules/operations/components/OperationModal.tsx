@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from "react";
-import type { IOutlayData } from "../redux/OutlaysInterfaces";
+import type { IOperationData } from "../redux/OperationInterfaces";
 import {
   Modal,
   ModalBody,
@@ -25,27 +25,26 @@ import Button from "../../../common/components/buttons/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategories } from "../../categories/redux/categoriesSlice";
 import { useFormik } from "formik";
-import { initialValues, outlaySchema } from "../utils/OutlayFormik";
+import { operationSchema } from "../utils/OperationFormik";
 import moment from "moment/moment";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
-import {
-  deleteCategory,
-  fetchCategories,
-} from "../../categories/redux/CategoriesRepository";
 import { useToast } from "@chakra-ui/react";
-import { deleteOutlay, fetchOutlays } from "../redux/OutlaysRepository";
+import {
+  deleteOperation,
+  fetchOperations,
+} from "../redux/OperationsRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
-import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 
-interface IOutlayModalProps {
+interface IOperationModalProps {
   isOpen: boolean;
   onClose: () => void;
   submitForm: (values: any) => void;
-  data?: IOutlayData;
+  data?: IOperationData;
   setPreview?: () => void;
 }
 
-const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
+const OperationModal: React.FC<IOperationModalProps> = (props) => {
   const dispatch: any = useDispatch();
   const toast = useToast();
   const [submitRemove, setSubmitRemove] = useState<boolean>(false);
@@ -61,14 +60,14 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
       date: props.data?.date || moment(new Date()).format("yyyy-MM-DD"),
       title: props.data?.title || "",
       description: props.data?.description || "",
-      type: props.data?.type || OutlaysTypesEnum.OUTCOME,
+      type: props.data?.type || OperationsTypesEnum.OUTCOME,
       value: props.data?.value || 0,
       categories:
         props.data?.categories && props.data?.categories.length > 0
           ? [props.data?.categories[0]?.id]
           : [] || [],
     },
-    validationSchema: outlaySchema,
+    validationSchema: operationSchema,
     onSubmit: async (values, { resetForm }) => {
       await props.submitForm(values);
       props.setPreview && props.setPreview();
@@ -80,8 +79,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
    *
    * @param id
    */
-
-  const removeOutlay = async (id?: string): Promise<void> => {
+  const removeOperation = async (id?: string): Promise<void> => {
     if (!id) return;
 
     setSubmitRemove(true);
@@ -90,10 +88,10 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
     try {
       await dispatch(setLoading(true));
 
-      await dispatch(deleteOutlay(id));
+      await dispatch(deleteOperation(id));
 
       const promises = [
-        dispatch(fetchOutlays()),
+        dispatch(fetchOperations()),
         dispatch(fetchLastSpending({ date: new Date() })),
       ];
 
@@ -143,10 +141,10 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
             <div className={"grid gap-3 md:grid-cols-2"}>
               <Button
                 onClick={() =>
-                  formik.setFieldValue("type", OutlaysTypesEnum.OUTCOME)
+                  formik.setFieldValue("type", OperationsTypesEnum.OUTCOME)
                 }
                 variant={
-                  formik.values.type === OutlaysTypesEnum.OUTCOME
+                  formik.values.type === OperationsTypesEnum.OUTCOME
                     ? "CONTAINED"
                     : "OUTLINED"
                 }
@@ -154,10 +152,10 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
               />
               <Button
                 onClick={() =>
-                  formik.setFieldValue("type", OutlaysTypesEnum.INCOME)
+                  formik.setFieldValue("type", OperationsTypesEnum.INCOME)
                 }
                 variant={
-                  formik.values.type === OutlaysTypesEnum.INCOME
+                  formik.values.type === OperationsTypesEnum.INCOME
                     ? "CONTAINED"
                     : "OUTLINED"
                 }
@@ -259,7 +257,7 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
                   variant={"OUTLINED"}
                   disabled={loading}
                   text={submitRemove ? "Tak, usuń!" : "Usuń operacje"}
-                  onClick={() => removeOutlay(props.data?.id)}
+                  onClick={() => removeOperation(props.data?.id)}
                 />
               )}
             </>
@@ -270,4 +268,4 @@ const OutlayModal: React.FC<IOutlayModalProps> = (props) => {
   );
 };
 
-export default OutlayModal;
+export default OperationModal;

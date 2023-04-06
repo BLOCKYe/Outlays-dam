@@ -2,13 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../../common/redux/store";
 import { fetchBasicAnalytics, fetchLastSpending } from "./AnalyticsRepository";
 import type { ILastSpendingData } from "./AnalyticsInterfaces";
-import type { IBasicAnalyticsMonthData } from "./AnalyticsInterfaces";
+import type { IBasicAnalyticsOperationMonthData } from "./AnalyticsInterfaces";
 import type { IBasicAnalyticsCategoryData } from "./AnalyticsInterfaces";
 
 interface IAnalyticsSlice {
   lastSpending?: ILastSpendingData;
   lastBasicAnalytics: {
-    lastMonths: IBasicAnalyticsMonthData[];
+    incomes: IBasicAnalyticsOperationMonthData[];
+    outcomes: IBasicAnalyticsOperationMonthData[];
     categories: IBasicAnalyticsCategoryData[];
   };
 }
@@ -18,7 +19,7 @@ const initialState: IAnalyticsSlice = {
     previous: { incomes: {}, outcomes: {} },
     selected: { incomes: {}, outcomes: {} },
   },
-  lastBasicAnalytics: { lastMonths: [], categories: [] },
+  lastBasicAnalytics: { outcomes: [], incomes: [], categories: [] },
 };
 
 export const analyticsSlice = createSlice({

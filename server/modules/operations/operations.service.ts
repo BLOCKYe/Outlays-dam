@@ -10,18 +10,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import UsersRepository from "../users/users.repository";
-import OutlaysRepository from "./outlays.repository";
-import type { IOutlayCreateData, IOutlayEditData } from "./IOutlays";
+import OperationsRepository from "./operations.repository";
+import type { IOperationCreateData, IOperationEditData } from "./IOperations";
 import * as yup from "yup";
-import { ICategoryEditData } from "../categories/ICategories";
 
-export default class OutlaysService {
+export default class OperationsService {
   private readonly usersRepository: UsersRepository;
-  private readonly outlaysRepository: OutlaysRepository;
+  private readonly operationsRepository: OperationsRepository;
 
   constructor() {
     this.usersRepository = new UsersRepository();
-    this.outlaysRepository = new OutlaysRepository();
+    this.operationsRepository = new OperationsRepository();
   }
 
   /**
@@ -31,7 +30,7 @@ export default class OutlaysService {
    * @param res
    */
 
-  public async createOutlay(req: NextApiRequest, res: NextApiResponse) {
+  public async createOperation(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
@@ -39,7 +38,7 @@ export default class OutlaysService {
 
       const { title, description, date, type, value, categories } = req.body;
       // validate body
-      const outlaySchema = yup.object().shape({
+      const operationSchema = yup.object().shape({
         title: yup.string().min(1).max(50).required(),
         description: yup.string().max(255),
         type: yup.string().max(255).required(),
@@ -49,7 +48,7 @@ export default class OutlaysService {
       });
 
       if (
-        !(await outlaySchema.isValid({
+        !(await operationSchema.isValid({
           title,
           description,
           date,
@@ -61,7 +60,7 @@ export default class OutlaysService {
         return Error.res(res, 400, "Invalid req body");
       }
 
-      const reqData: IOutlayCreateData = {
+      const reqData: IOperationCreateData = {
         userId: payload.userId,
         title: title,
         value: value,
@@ -71,8 +70,10 @@ export default class OutlaysService {
         categories: categories || [],
       };
 
-      const outlayData = await this.outlaysRepository.createOutlay(reqData);
-      return res.status(200).json({ status: 200, data: outlayData });
+      const operationData = await this.operationsRepository.createOperation(
+        reqData
+      );
+      return res.status(200).json({ status: 200, data: operationData });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }
@@ -85,16 +86,16 @@ export default class OutlaysService {
    * @param res
    */
 
-  public async getOutlays(req: NextApiRequest, res: NextApiResponse) {
+  public async getOperations(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlays = await this.outlaysRepository.getUserOutlays(
+      const operations = await this.operationsRepository.getUserOperations(
         payload.userId
       );
-      return res.status(200).json({ status: 200, data: outlays });
+      return res.status(200).json({ status: 200, data: operations });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }
@@ -108,7 +109,7 @@ export default class OutlaysService {
    * @param id
    */
 
-  public async getOutlay(
+  public async getOperation(
     req: NextApiRequest,
     res: NextApiResponse,
     id: string
@@ -118,13 +119,13 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlay: any = await this.outlaysRepository.findById(
+      const operation: any = await this.operationsRepository.findById(
         payload.userId,
         id
       );
-      if (!outlay) return Error.res(res, 404, "Outlay not found");
+      if (!operation) return Error.res(res, 404, "Outlay not found");
 
-      return res.status(200).json({ status: 200, data: outlay });
+      return res.status(200).json({ status: 200, data: operation });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }
@@ -138,7 +139,7 @@ export default class OutlaysService {
    * @param id
    */
 
-  public async deleteOutlay(
+  public async deleteOperation(
     req: NextApiRequest,
     res: NextApiResponse,
     id: string
@@ -148,13 +149,13 @@ export default class OutlaysService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const outlay: any = await this.outlaysRepository.deleteById(
+      const operation: any = await this.operationsRepository.deleteById(
         payload.userId,
         id
       );
-      if (!outlay) return Error.res(res, 404, "Outlay not found");
+      if (!operation) return Error.res(res, 404, "Outlay not found");
 
-      return res.status(200).json({ status: 200, data: outlay });
+      return res.status(200).json({ status: 200, data: operation });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }
@@ -168,7 +169,7 @@ export default class OutlaysService {
    * @param id
    */
 
-  public async editOutlay(
+  public async editOperation(
     req: NextApiRequest,
     res: NextApiResponse,
     id: string
@@ -180,7 +181,7 @@ export default class OutlaysService {
 
       const { title, description, date, value, type, categories } = req.body;
 
-      const reqData: IOutlayEditData = {
+      const reqData: IOperationEditData = {
         title: title,
         description: description,
         date: date,
@@ -189,14 +190,14 @@ export default class OutlaysService {
         categories: categories,
       };
 
-      const outlay: any = await this.outlaysRepository.editOutlay(
+      const operation: any = await this.operationsRepository.editOperation(
         payload.userId,
         id,
         reqData
       );
-      if (!outlay) return Error.res(res, 404, "Outlay not found");
+      if (!operation) return Error.res(res, 404, "Operation not found");
 
-      return res.status(200).json({ status: 200, data: outlay });
+      return res.status(200).json({ status: 200, data: operation });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }

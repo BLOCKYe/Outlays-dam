@@ -7,26 +7,29 @@
  */
 
 import React, { useState } from "react";
-import type { IOutlayData, IOutlayRequest } from "../redux/OutlaysInterfaces";
+import type {
+  IOperationData,
+  IOperationRequest,
+} from "../redux/OperationInterfaces";
 import { useDisclosure } from "@chakra-ui/hooks";
 import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
 import { Tooltip, useToast } from "@chakra-ui/react";
 import CategoryColors from "../../categories/utils/CategoryColors";
-import OutlayModal from "./OutlayModal";
+import OperationModal from "./OperationModal";
 import { setLoading } from "../../../common/redux/UISlice";
-import { editOutlay, fetchOutlays } from "../redux/OutlaysRepository";
+import { editOperation, fetchOperations } from "../redux/OperationsRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { useDispatch } from "react-redux";
-import OutlayPreviewModal from "./OutlayPreviewModal";
+import OperationPreviewModal from "./OperationPreviewModal";
 import { formatOperationValue } from "../../../common/utils/formatOperationValue";
 
-interface OutlayItemProps {
-  data: IOutlayData;
+interface OperationItemProps {
+  data: IOperationData;
 }
 
 type modalStates = "PREVIEW" | "EDIT";
 
-const OutlayItem: React.FC<OutlayItemProps> = (props) => {
+const OperationItem: React.FC<OperationItemProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [renderedModal, setRenderedModal] = useState<modalStates>("PREVIEW");
   const dispatch: any = useDispatch();
@@ -36,7 +39,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
    *
    * @param values
    */
-  const submitForm = async (values: IOutlayRequest) => {
+  const submitForm = async (values: IOperationRequest) => {
     try {
       await dispatch(setLoading(true));
       if (!props.data.id) return;
@@ -49,7 +52,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
         }
       }
 
-      const reqData: IOutlayRequest = {
+      const reqData: IOperationRequest = {
         title: values.title,
         description: values.description,
         value: values.value,
@@ -58,7 +61,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
         categories: parsedSelectedCategories,
       };
 
-      await dispatch(editOutlay({ values: reqData, id: props.data.id }));
+      await dispatch(editOperation({ values: reqData, id: props.data.id }));
       displayToast("SUCCESS");
       await updateData();
 
@@ -105,7 +108,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
    */
   const updateData = async () => {
     const promises = [
-      dispatch(fetchOutlays()),
+      dispatch(fetchOperations()),
       dispatch(fetchLastSpending({ date: new Date() })),
     ];
     await Promise.all(promises);
@@ -119,7 +122,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
     switch (renderedModal) {
       case "PREVIEW":
         return (
-          <OutlayPreviewModal
+          <OperationPreviewModal
             isOpen={isOpen}
             setEdit={() => setRenderedModal("EDIT")}
             onClose={onClose}
@@ -129,7 +132,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
       case "EDIT":
         return (
-          <OutlayModal
+          <OperationModal
             isOpen={isOpen}
             setPreview={() => setRenderedModal("PREVIEW")}
             onClose={onClose}
@@ -140,7 +143,7 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
 
       default:
         return (
-          <OutlayPreviewModal
+          <OperationPreviewModal
             isOpen={isOpen}
             setEdit={() => setRenderedModal("EDIT")}
             onClose={onClose}
@@ -225,4 +228,4 @@ const OutlayItem: React.FC<OutlayItemProps> = (props) => {
   );
 };
 
-export default OutlayItem;
+export default OperationItem;

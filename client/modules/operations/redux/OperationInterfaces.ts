@@ -1,17 +1,17 @@
 import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
-import type { IOutlayType } from "../../../../common/outlays/OutlaysTypesEnum";
+import type { IOperationType } from "../../../../common/operations/OperationsTypesEnum";
 
-export interface IOutlaysResponse {
+export interface IOperationsResponse {
   status?: number;
-  data: IOutlayData[];
+  data: IOperationData[];
 }
 
-export interface IOutlayData {
+export interface IOperationData {
   id?: string;
   title?: string;
   description?: string;
   date?: string;
-  type?: IOutlayType;
+  type?: IOperationType;
   createdAt?: Date;
   updatedAt?: Date;
   userId?: string;
@@ -19,7 +19,7 @@ export interface IOutlayData {
   categories: ICategoryData[];
 }
 
-export interface IOutlayRequest {
+export interface IOperationRequest {
   title: string;
   description?: string;
   value: number;

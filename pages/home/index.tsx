@@ -8,7 +8,7 @@
 
 import type { NextPage } from "next";
 import Head from "next/head";
-import HomeView from "../../client/modules/outlays/views/HomeView";
+import HomeView from "../../client/modules/operations/views/HomeView";
 import AuthMiddleware from "../../client/common/axios/authMiddleware";
 import { useEffect } from "react";
 

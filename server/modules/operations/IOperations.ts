@@ -1,4 +1,4 @@
-export interface IOutlayCreateData {
+export interface IOperationCreateData {
   title: string;
   description: string;
   date: string;
@@ -8,7 +8,7 @@ export interface IOutlayCreateData {
   categories: any[];
 }
 
-export interface IOutlayEditData {
+export interface IOperationEditData {
   title?: string;
   description?: string;
   date?: string;

@@ -12,7 +12,7 @@ import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import CategoriesList from "../components/CategoriesList";
 import AddCategoryButton from "../components/AddCategoryButton";
-import AddOutlayButton from "../../outlays/components/AddOutlayButton";
+import AddOperationButton from "../../operations/components/AddOperationButton";
 import AddGoalButton from "../../goals/components/AddGoalButton";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
 
@@ -25,7 +25,7 @@ const CategoriesView = () => {
       <MainWrapper>
         <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
           <AddCategoryButton text={"Nowa kategoria"} />
-          <AddOutlayButton text={"Nowa operacja"} />
+          <AddOperationButton text={"Nowa operacja"} />
           <AddGoalButton text={"Nowy cel"} />
         </div>
 

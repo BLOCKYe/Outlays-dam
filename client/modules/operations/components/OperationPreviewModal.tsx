@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import type { IOutlayData } from "../redux/OutlaysInterfaces";
+import type { IOperationData } from "../redux/OperationInterfaces";
 import {
   Modal,
   ModalBody,
@@ -22,14 +22,14 @@ import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces"
 import Button from "../../../common/components/buttons/Button";
 import CategoryColors from "../../categories/utils/CategoryColors";
 
-interface IOutlayPreviewModal {
+interface IOperationPreviewModal {
   isOpen: boolean;
   onClose: () => void;
-  data?: IOutlayData;
+  data?: IOperationData;
   setEdit: () => void;
 }
 
-const OutlayPreviewModal: React.FC<IOutlayPreviewModal> = (props) => {
+const OperationPreviewModal: React.FC<IOperationPreviewModal> = (props) => {
   return (
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
@@ -85,4 +85,4 @@ const OutlayPreviewModal: React.FC<IOutlayPreviewModal> = (props) => {
   );
 };
 
-export default OutlayPreviewModal;
+export default OperationPreviewModal;

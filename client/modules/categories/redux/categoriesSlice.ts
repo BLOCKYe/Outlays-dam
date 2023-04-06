@@ -3,11 +3,11 @@ import type { RootState } from "../../../common/redux/store";
 import { fetchCategories } from "./CategoriesRepository";
 import type { ICategoryData } from "./CategoriesInterfaces";
 
-interface IOutlaysSlice {
+interface ICategoriesSlice {
   categories?: ICategoryData[] | null;
 }
 
-const initialState: IOutlaysSlice = {
+const initialState: ICategoriesSlice = {
   categories: null,
 };
 

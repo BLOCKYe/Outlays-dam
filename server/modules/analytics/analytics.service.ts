@@ -96,8 +96,8 @@ export default class AnalyticsService {
 
       const ranges = AnalyticsCommands.getLastTwelveMonthsRanged(dateAsDate);
 
-      const monthsStats = [];
-
+      const monthOutcomes = [];
+      const monthIncomes = [];
       for (let i = 0; i < 12; i++) {
         const monthResults: any =
           await this.analyticsRepository.getOperationsResultsFromRange(
@@ -105,13 +105,16 @@ export default class AnalyticsService {
             ranges[i]!.start,
             ranges[i]!.end
           );
-
-        const localData = {
+        const localOutcomeData = {
           value: monthResults?.outcomes._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
-
-        monthsStats.push(localData);
+        const localIncomeData = {
+          value: monthResults?.incomes._sum?.value ?? 0,
+          label: moment(ranges[i]?.date).format("MMMM"),
+        };
+        monthOutcomes.push(localOutcomeData);
+        monthIncomes.push(localIncomeData);
       }
 
       const current = AnalyticsCommands.getMonthRange(dateAsDate);
@@ -124,7 +127,8 @@ export default class AnalyticsService {
         );
 
       const response = {
-        lastMonths: monthsStats,
+        outcomes: monthOutcomes,
+        incomes: monthIncomes,
         categories: categories,
       };
 

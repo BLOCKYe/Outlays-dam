@@ -8,21 +8,24 @@
 
 import React from "react";
 import { useDisclosure } from "@chakra-ui/hooks";
-import type { IOutlayRequest } from "../redux/OutlaysInterfaces";
+import type { IOperationRequest } from "../redux/OperationInterfaces";
 import { useDispatch } from "react-redux";
-import { createOutlay, fetchOutlays } from "../redux/OutlaysRepository";
+import {
+  createOperation,
+  fetchOperations,
+} from "../redux/OperationsRepository";
 import { useToast } from "@chakra-ui/react";
 import { setLoading } from "../../../common/redux/UISlice";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { FaMoneyBillWave } from "react-icons/fa";
-import OutlayModal from "./OutlayModal";
-import { OutlaysTypesEnum } from "../../../../common/outlays/OutlaysTypesEnum";
+import OperationModal from "./OperationModal";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 
 interface IAddButtonProps {
   text: string;
 }
 
-const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
+const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch: any = useDispatch();
   const toast = useToast();
@@ -32,7 +35,7 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
    * create new outlay
    * @param values
    */
-  const submitForm = async (values: IOutlayRequest) => {
+  const submitForm = async (values: IOperationRequest) => {
     try {
       await dispatch(setLoading(true));
       const parsedSelectedCategories: { id: string }[] = [];
@@ -43,19 +46,19 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
         }
       }
 
-      const reqData: IOutlayRequest = {
+      const reqData: IOperationRequest = {
         title: values.title,
-        type: OutlaysTypesEnum.OUTCOME,
+        type: values.type,
         description: values.description,
         value: values.value,
         date: values.date,
         categories: parsedSelectedCategories,
       };
 
-      await dispatch(createOutlay(reqData));
+      await dispatch(createOperation(reqData));
 
       const promises = [
-        dispatch(fetchOutlays()),
+        dispatch(fetchOperations()),
         dispatch(fetchLastSpending({ date: new Date() })),
       ];
 
@@ -117,9 +120,13 @@ const AddOutlayButton: React.FC<IAddButtonProps> = (props) => {
         <div>{props.text}</div>
       </button>
 
-      <OutlayModal isOpen={isOpen} onClose={onClose} submitForm={submitForm} />
+      <OperationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        submitForm={submitForm}
+      />
     </>
   );
 };
 
-export default AddOutlayButton;
+export default AddOperationButton;

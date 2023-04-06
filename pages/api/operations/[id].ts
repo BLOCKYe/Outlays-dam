@@ -8,7 +8,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import Error from "../../../server/utils/Error/Error";
-import OutlaysService from "../../../server/modules/outlays/outlays.service";
+import OperationsService from "../../../server/modules/operations/operations.service";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,19 +18,19 @@ export default async function handler(
   if (!id) return;
   if (typeof id !== "string") return;
 
-  const outlaysService = new OutlaysService();
+  const operationsService = new OperationsService();
 
   switch (req.method) {
     case "GET": {
-      return outlaysService.getOutlay(req, res, id);
+      return operationsService.getOperation(req, res, id);
     }
 
     case "PUT": {
-      return outlaysService.editOutlay(req, res, id);
+      return operationsService.editOperation(req, res, id);
     }
 
     case "DELETE": {
-      return outlaysService.deleteOutlay(req, res, id);
+      return operationsService.deleteOperation(req, res, id);
     }
 
     default: {

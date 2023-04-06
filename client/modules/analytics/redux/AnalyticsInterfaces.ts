@@ -15,7 +15,7 @@ export interface ILastSpendingMonth {
   outcomes: { _sum?: Sum };
 }
 
-export interface IBasicAnalyticsMonthData {
+export interface IBasicAnalyticsOperationMonthData {
   value: number;
   label: string;
 }

@@ -7,7 +7,7 @@
  */
 
 import { prisma } from "../../utils/prisma/prisma";
-import { OutlaysTypesEnum } from "../../../common/outlays/OutlaysTypesEnum";
+import { OperationsTypesEnum } from "../../../common/operations/OperationsTypesEnum";
 
 export default class AnalyticsRepository {
   /**
@@ -22,10 +22,10 @@ export default class AnalyticsRepository {
     startDate: string,
     endDate: string
   ) {
-    const outcomes = await prisma.outlay.aggregate({
+    const outcomes = await prisma.operation.aggregate({
       where: {
         userId: userId,
-        type: OutlaysTypesEnum.OUTCOME,
+        type: OperationsTypesEnum.OUTCOME,
         date: {
           lte: endDate,
           gte: startDate,
@@ -36,10 +36,10 @@ export default class AnalyticsRepository {
       },
     });
 
-    const incomes = await prisma.outlay.aggregate({
+    const incomes = await prisma.operation.aggregate({
       where: {
         userId: userId,
-        type: OutlaysTypesEnum.INCOME,
+        type: OperationsTypesEnum.INCOME,
         date: {
           lte: endDate,
           gte: startDate,
@@ -69,7 +69,7 @@ export default class AnalyticsRepository {
         userId: userId,
       },
       include: {
-        outays: {
+        operations: {
           where: {
             date: {
               lte: endDate,
@@ -83,16 +83,16 @@ export default class AnalyticsRepository {
     const parsedCategories = [];
 
     for (const category of categoriesStats) {
-      let sumOfOutlaysValues = 0;
-      for (const outlay of category.outays) {
-        sumOfOutlaysValues += outlay.value;
+      let sumOfOperationsValues = 0;
+      for (const outlay of category.operations) {
+        sumOfOperationsValues += outlay.value;
       }
 
       const data = {
         label: category.name,
         color: category.color,
         id: category.id,
-        value: sumOfOutlaysValues,
+        value: sumOfOperationsValues,
       };
 
       parsedCategories.push(data);

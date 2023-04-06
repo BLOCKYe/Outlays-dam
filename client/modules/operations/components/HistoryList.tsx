@@ -9,9 +9,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { selectOutlays } from "../redux/outlaysSlice";
-import type { IOutlayData } from "../redux/OutlaysInterfaces";
-import OutlayItem from "./OutlayItem";
+import { selectOperations } from "../redux/operationsSlice";
+import type { IOperationData } from "../redux/OperationInterfaces";
+import OperationItem from "./OperationItem";
 import { IoClose } from "react-icons/io5";
 import Input from "../../../common/components/inputs/Input";
 import { useFormik } from "formik";
@@ -19,7 +19,7 @@ import { MdHistoryEdu } from "react-icons/md";
 import { Skeleton } from "@chakra-ui/react";
 
 const HistoryList: React.FC = () => {
-  const outlays = useSelector(selectOutlays);
+  const operations = useSelector(selectOperations);
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
 
   // create formik instance
@@ -36,22 +36,22 @@ const HistoryList: React.FC = () => {
    * Used to filter by keyword
    */
 
-  const filteredOutlays = useMemo(
+  const filteredOperations = useMemo(
     () =>
-      (outlays || []).filter((outlay: IOutlayData) => {
+      (operations || []).filter((operation: IOperationData) => {
         return (
-          outlay.title
+          operation.title
             ?.toLowerCase()
             .includes(formik.values.keyword.toLowerCase()) ||
-          outlay.description
+          operation.description
             ?.toLowerCase()
             .includes(formik.values.keyword.toLowerCase()) ||
-          String(outlay.value)
+          String(operation.value)
             .toLowerCase()
             .includes(formik.values.keyword.toLowerCase())
         );
       }),
-    [formik.values.keyword, outlays]
+    [formik.values.keyword, operations]
   );
 
   /**
@@ -118,12 +118,12 @@ const HistoryList: React.FC = () => {
 
       {/* <--- Display history ---> */}
       <div className={"mt-3 grid"}>
-        {outlays &&
-          filteredOutlays.map((outlay: IOutlayData) => (
-            <OutlayItem data={outlay} key={outlay.id} />
+        {operations &&
+          filteredOperations.map((operation: IOperationData) => (
+            <OperationItem data={operation} key={operation.id} />
           ))}
 
-        {!outlays && (
+        {!operations && (
           <div className={"grid gap-1"}>
             <Skeleton startColor="black" endColor="gray" height={"48px"} />
             <Skeleton startColor="black" endColor="gray" height={"48px"} />
