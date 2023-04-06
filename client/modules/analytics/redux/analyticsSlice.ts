@@ -11,6 +11,7 @@ interface IAnalyticsSlice {
     incomes: IBasicAnalyticsOperationMonthData[];
     outcomes: IBasicAnalyticsOperationMonthData[];
     categories: IBasicAnalyticsCategoryData[];
+    operationsCount: number;
   };
 }
 
@@ -19,7 +20,12 @@ const initialState: IAnalyticsSlice = {
     previous: { incomes: {}, outcomes: {} },
     selected: { incomes: {}, outcomes: {} },
   },
-  lastBasicAnalytics: { outcomes: [], incomes: [], categories: [] },
+  lastBasicAnalytics: {
+    outcomes: [],
+    incomes: [],
+    categories: [],
+    operationsCount: 0,
+  },
 };
 
 export const analyticsSlice = createSlice({

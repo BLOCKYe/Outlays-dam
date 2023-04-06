@@ -16,10 +16,7 @@ import StatsCard from "../components/StatsCard";
 import moment from "moment";
 import { GoArrowSmallLeft, GoArrowSmallRight } from "react-icons/go";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
-import {
-  selectBasicAnalytics,
-  selectLastSpending,
-} from "../redux/analyticsSlice";
+import { selectBasicAnalytics } from "../redux/analyticsSlice";
 import {
   fetchBasicAnalytics,
   fetchLastSpending,
@@ -103,7 +100,7 @@ const AnalyticsView = () => {
         <div className={"mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"}>
           <StatsCard
             title={"Wykonanych akcji"}
-            value={0}
+            value={basicAnalytics.operationsCount}
             description={
               "Liczba wszystkich akcji wykonanych przez ciebie w tym miesiącu."
             }

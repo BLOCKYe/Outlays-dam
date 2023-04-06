@@ -126,10 +126,18 @@ export default class AnalyticsService {
           current.end
         );
 
+      const operationsCount =
+        await this.analyticsRepository.getOperationsCountFromRange(
+          payload.userId,
+          current.start,
+          current.end
+        );
+
       const response = {
         outcomes: monthOutcomes,
         incomes: monthIncomes,
         categories: categories,
+        operationsCount: operationsCount,
       };
 
       return res.status(200).json({ status: 200, data: response });

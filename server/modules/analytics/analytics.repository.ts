@@ -54,6 +54,31 @@ export default class AnalyticsRepository {
   }
 
   /**
+   * This method is used to get number
+   * of operations from range
+   * @param userId
+   * @param startDate
+   * @param endDate
+   */
+  public async getOperationsCountFromRange(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ) {
+    const count = await prisma.operation.count({
+      where: {
+        userId: userId,
+        date: {
+          lte: endDate,
+          gte: startDate,
+        },
+      },
+    });
+
+    return count;
+  }
+
+  /**
    *
    * @param userId
    * @param startDate
