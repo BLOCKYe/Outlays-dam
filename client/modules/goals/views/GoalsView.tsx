@@ -13,8 +13,12 @@ import BottomBar from "../../../common/components/menu/BottomBar";
 import AddOperationButton from "../../operations/components/AddOperationButton";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
 import AddGoalButton from "../components/AddGoalButton";
+import GoalsList from "../components/GoalsList";
+import useGetBasicData from "../../../common/hooks/useGetBasicData";
 
 const GoalsView = () => {
+  useGetBasicData();
+
   return (
     <>
       <TopBar />
@@ -23,6 +27,10 @@ const GoalsView = () => {
           <AddOperationButton text={"Nowa operacja"} />
           <AddCategoryButton text={"Nowa kategoria"} />
           <AddGoalButton text={"Nowy cel"} />
+        </div>
+
+        <div className={"pt-3"}>
+          <GoalsList />
         </div>
       </MainWrapper>
       <BottomBar selected={"GOALS"} />
