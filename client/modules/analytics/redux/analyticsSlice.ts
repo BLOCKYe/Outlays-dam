@@ -9,7 +9,7 @@ interface IAnalyticsSlice {
   lastSpending?: ILastSpendingData;
   lastBasicAnalytics: {
     incomes: IBasicAnalyticsOperationMonthData[];
-    outcomes: IBasicAnalyticsOperationMonthData[];
+    expenses: IBasicAnalyticsOperationMonthData[];
     categories: IBasicAnalyticsCategoryData[];
     operationsCount: number;
   };
@@ -17,11 +17,11 @@ interface IAnalyticsSlice {
 
 const initialState: IAnalyticsSlice = {
   lastSpending: {
-    previous: { incomes: {}, outcomes: {} },
-    selected: { incomes: {}, outcomes: {} },
+    previous: { incomes: {}, expenses: {} },
+    selected: { incomes: {}, expenses: {} },
   },
   lastBasicAnalytics: {
-    outcomes: [],
+    expenses: [],
     incomes: [],
     categories: [],
     operationsCount: 0,

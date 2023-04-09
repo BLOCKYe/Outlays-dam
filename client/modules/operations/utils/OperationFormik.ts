@@ -9,7 +9,7 @@ export const initialValues: IOperationRequest = {
   date: moment(new Date()).format("yyyy-MM-DD"),
   title: "",
   description: "",
-  type: OperationsTypesEnum.OUTCOME,
+  type: OperationsTypesEnum.EXPENSE,
   value: 0,
   categories: [],
 };

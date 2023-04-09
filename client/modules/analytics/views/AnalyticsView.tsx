@@ -141,7 +141,7 @@ const AnalyticsView = () => {
             description={
               "Wykres przedstawia wydatki z podziałem na ostatnie 12 miesięcy."
             }
-            data={basicAnalytics.outcomes}
+            data={basicAnalytics.expenses}
           />
           <BarChart
             title={"Podział przychodów na miesiące"}

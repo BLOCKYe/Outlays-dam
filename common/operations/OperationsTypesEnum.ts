@@ -1,6 +1,6 @@
-export type IOperationType = "INCOME" | "OUTCOME";
+export type IOperationType = "INCOME" | "EXPENSE";
 
 export enum OperationsTypesEnum {
   INCOME = "INCOME",
-  OUTCOME = "OUTCOME",
+  EXPENSE = "EXPENSE",
 }

@@ -60,7 +60,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
       date: props.data?.date || moment(new Date()).format("yyyy-MM-DD"),
       title: props.data?.title || "",
       description: props.data?.description || "",
-      type: props.data?.type || OperationsTypesEnum.OUTCOME,
+      type: props.data?.type || OperationsTypesEnum.EXPENSE,
       value: props.data?.value || 0,
       categories:
         props.data?.categories && props.data?.categories.length > 0
@@ -141,10 +141,10 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
             <div className={"grid gap-3 md:grid-cols-2"}>
               <Button
                 onClick={() =>
-                  formik.setFieldValue("type", OperationsTypesEnum.OUTCOME)
+                  formik.setFieldValue("type", OperationsTypesEnum.EXPENSE)
                 }
                 variant={
-                  formik.values.type === OperationsTypesEnum.OUTCOME
+                  formik.values.type === OperationsTypesEnum.EXPENSE
                     ? "CONTAINED"
                     : "OUTLINED"
                 }
