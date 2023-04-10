@@ -35,7 +35,7 @@ const ProgressBar: React.FC<IProgressBarProps> = (props) => {
       {/* <--- render values ---> */}
       <div
         className={
-          "mt-1 flex flex-wrap justify-between gap-1 text-xs font-bold"
+          "mt-2 flex flex-wrap justify-between gap-1 text-xs font-bold text-w-darker"
         }
       >
         <p>{props.currentValue}</p>

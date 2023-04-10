@@ -35,6 +35,7 @@ import {
 } from "../redux/OperationsRepository";
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
+import { fetchGoals } from "../../goals/redux/GoalsRepository";
 
 interface IOperationModalProps {
   isOpen: boolean;
@@ -92,6 +93,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
 
       const promises = [
         dispatch(fetchOperations()),
+        dispatch(fetchGoals()),
         dispatch(fetchLastSpending({ date: new Date() })),
       ];
 

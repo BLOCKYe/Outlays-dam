@@ -40,31 +40,27 @@ const OperationPreviewModal: React.FC<IOperationPreviewModal> = (props) => {
         {/* <--- Form ---> */}
         <ModalBody className={"bg-d"}>
           <div className={"text-w-dark"}>
-            {moment(props.data?.createdAt).format("DD MMMM YYYY, HH:mm")}
+            {moment(props.data?.date).format("DD MMMM YYYY")}
           </div>
 
-          <div className={"mt-3 text-w-darker"}>{props.data?.description}</div>
+          <div className={"mt-3 whitespace-pre-wrap text-w-darker"}>
+            {props.data?.description}
+          </div>
 
           <div className={"mt-5 text-sm"}>Kategorie:</div>
 
           <div className={"mt-1 text-w-dark"}>
-            {[].slice
-              .call(props.data?.categories)
-              .map((category: ICategoryData) => (
-                <div key={category.id} className={"flex items-center gap-3"}>
-                  <div
-                    className={
-                      "h-[10px] w-[10px] rounded-lg " +
-                      CategoryColors.ColorBuilder(
-                        category.color,
-                        "default",
-                        "bg"
-                      )
-                    }
-                  />
-                  {category.name}
-                </div>
-              ))}
+            {props.data?.categories.map((category: ICategoryData) => (
+              <div key={category.id} className={"flex items-center gap-3"}>
+                <div
+                  className={
+                    "h-[10px] w-[10px] rounded-lg " +
+                    CategoryColors.ColorBuilder(category.color, "default", "bg")
+                  }
+                />
+                {category.name}
+              </div>
+            ))}
           </div>
 
           <ModalFooter className={"flex gap-3"}>

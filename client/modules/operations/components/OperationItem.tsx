@@ -118,7 +118,7 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
    * This strategy is used to
    * render modal by type
    */
-  const renderModalType = (): any => {
+  const renderModalType = (): React.ReactNode => {
     switch (renderedModal) {
       case "PREVIEW":
         return (

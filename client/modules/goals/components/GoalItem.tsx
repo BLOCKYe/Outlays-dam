@@ -28,9 +28,10 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
     <>
       <div
         className={
-          "grid cursor-pointer items-center gap-3 bg-d-light py-2 text-sm lg:rounded-md lg:px-3"
+          "grid cursor-pointer items-center gap-1 bg-d-light py-3 text-sm lg:rounded-md lg:px-3"
         }
       >
+        {/* <--- Display title ---> */}
         <div
           className={"text-c-white flex flex-wrap items-center gap-5 font-bold"}
         >
@@ -46,14 +47,21 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
           )}
         </div>
 
+        {/* <--- Display description ---> */}
+        <div className={"text-xs"}>{props.data.description}</div>
+
+        {/* <--- Display date ---> */}
         <div
-          className={"flex flex-wrap items-center gap-1 text-xs text-w-darker"}
+          className={
+            "mt-2 mb-2 flex flex-wrap items-center gap-1 text-xs text-w-darker"
+          }
         >
           <MdDateRange /> {props.data?.startDate} - {props.data?.endDate}
         </div>
 
+        {/* <--- Display progress ---> */}
         <ProgressBar
-          currentValue={props.data.result?.expenses?._sum?.value ?? 0}
+          currentValue={props.data.result ?? 0}
           endValue={props.data.goalValue ?? 1}
         />
       </div>

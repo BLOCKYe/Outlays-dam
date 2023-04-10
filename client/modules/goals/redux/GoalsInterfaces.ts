@@ -15,10 +15,10 @@ export interface IGoalData {
   goalValue?: number;
   type?: string;
   userId?: string;
-  result?: IResult;
+  result?: number;
 }
 
-interface IResult {
+export interface IResult {
   incomes?: { _sum?: { value?: number } };
   expenses?: { _sum?: { value?: number } };
 }

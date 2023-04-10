@@ -14,6 +14,11 @@ import * as yup from "yup";
 import GoalsRepository from "./goals.repository";
 import type { IGoalCreateData, IGoalEditData } from "./IGoals";
 import AnalyticsRepository from "../analytics/analytics.repository";
+import GoalsHelper from "./goals.helper";
+import {
+  GoalsTypesEnum,
+  IGoalType,
+} from "../../../common/goals/GoalsTypesEnum";
 
 export default class GoalsService {
   private readonly usersRepository: UsersRepository;
@@ -116,7 +121,7 @@ export default class GoalsService {
 
         const goalWithResults = {
           ...goal,
-          result: goalResult,
+          result: GoalsHelper.getValueFromGoalType(goalResult, goal.type),
         };
 
         copyOfGoals.push(goalWithResults);

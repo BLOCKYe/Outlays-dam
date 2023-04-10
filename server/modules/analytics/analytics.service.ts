@@ -10,7 +10,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import AnalyticsRepository from "./analytics.repository";
-import AnalyticsCommands from "./analytics.commands";
+import AnalyticsHelper from "./analytics.helper";
 import moment from "moment";
 import * as yup from "yup";
 
@@ -44,8 +44,8 @@ export default class AnalyticsService {
       if (!(await dateSchema.isValid(dateAsDate)))
         return Error.res(res, 400, "Wrong date");
 
-      const current = AnalyticsCommands.getMonthRange(dateAsDate);
-      const last = AnalyticsCommands.getMonthRange(
+      const current = AnalyticsHelper.getMonthRange(dateAsDate);
+      const last = AnalyticsHelper.getMonthRange(
         moment(dateAsDate).subtract(1, "month").toDate()
       );
 
@@ -94,7 +94,7 @@ export default class AnalyticsService {
       if (!(await dateSchema.isValid(dateAsDate)))
         return Error.res(res, 400, "Wrong date");
 
-      const ranges = AnalyticsCommands.getLastTwelveMonthsRanged(dateAsDate);
+      const ranges = AnalyticsHelper.getLastTwelveMonthsRanged(dateAsDate);
 
       const monthExpenses = [];
       const monthIncomes = [];
@@ -117,7 +117,7 @@ export default class AnalyticsService {
         monthIncomes.push(localIncomeData);
       }
 
-      const current = AnalyticsCommands.getMonthRange(dateAsDate);
+      const current = AnalyticsHelper.getMonthRange(dateAsDate);
 
       const categories =
         await this.analyticsRepository.getLastMonthsCategoriesStats(
