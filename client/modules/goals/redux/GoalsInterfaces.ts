@@ -1,10 +1,17 @@
+import type { IGoalType } from "../../../../common/goals/GoalsTypesEnum";
+
 export interface IGoalsResponse {
   status?: number;
   data?: IGoalData[];
 }
 
+export interface IGoalResponse {
+  status?: number;
+  data?: IGoalData;
+}
+
 export interface IGoalData {
-  id?: string;
+  id: string;
   title?: string;
   description?: string;
   startDate?: string;
@@ -21,4 +28,14 @@ export interface IGoalData {
 export interface IResult {
   incomes?: { _sum?: { value?: number } };
   expenses?: { _sum?: { value?: number } };
+}
+
+export interface IGoalRequest {
+  title: string;
+  description?: string;
+  goalValue: number;
+  type: IGoalType;
+  startDate: string;
+  endDate: string;
+  reached: boolean;
 }

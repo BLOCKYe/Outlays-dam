@@ -93,7 +93,7 @@ export const editOperation = createAsyncThunk(
  */
 
 export const deleteOperation = createAsyncThunk(
-  "operations/edit",
+  "operations/delete",
   async (id: string, thunkAPI) => {
     try {
       const response = await httpClient.delete(`/api/operations/${id}`);
