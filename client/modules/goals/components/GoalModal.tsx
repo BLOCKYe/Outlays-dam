@@ -20,7 +20,6 @@ import Input from "../../../common/components/inputs/Input";
 import Textarea from "../../../common/components/inputs/Textarea";
 import Button from "../../../common/components/buttons/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCategories } from "../../categories/redux/categoriesSlice";
 import { useFormik } from "formik";
 import moment from "moment/moment";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
@@ -28,12 +27,7 @@ import { useToast } from "@chakra-ui/react";
 import type { IGoalData } from "../redux/GoalsInterfaces";
 import { GoalsTypesEnum } from "../../../../common/goals/GoalsTypesEnum";
 import { goalSchema } from "../utils/GoalFormik";
-import {
-  deleteOperation,
-  fetchOperations,
-} from "../../operations/redux/OperationsRepository";
 import { deleteGoal, fetchGoals } from "../redux/GoalsRepository";
-import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 
 interface IGoalModalProps {
   isOpen: boolean;
