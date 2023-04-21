@@ -37,7 +37,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { title, description, startDate, endDate, type, goalValue } =
         req.body;
@@ -93,7 +92,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const goals = await this.goalsRepository.getUserGoals(payload.userId);
       const copyOfGoals = [];
@@ -131,7 +129,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const Goal = await this.goalsRepository.findById(payload.userId, id);
       if (!Goal) return Error.res(res, 404, "Goal not found");
@@ -157,7 +154,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const Goal = await this.goalsRepository.deleteById(payload.userId, id);
       if (!Goal) return Error.res(res, 404, "Goal not found");
@@ -183,7 +179,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const Goal = await this.goalsRepository.setAsReached(payload.userId, id);
       if (!Goal) return Error.res(res, 404, "Goal not found");
@@ -205,7 +200,6 @@ export default class GoalsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { title, description, startDate, endDate, type, goalValue } =
         req.body;

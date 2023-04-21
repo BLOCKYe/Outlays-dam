@@ -39,10 +39,14 @@ export default class OperationsRepository {
    * This method is used to
    * get all user outlays
    * @param userId
+   * @param resultsOnPage
+   * @param page
    */
 
-  public getUserOperations(userId: string) {
+  public getUserOperations(userId: string, resultsOnPage = 10, page = 1) {
     return prisma.operation.findMany({
+      take: resultsOnPage,
+      skip: resultsOnPage * (page - 1),
       orderBy: [
         {
           date: "desc",

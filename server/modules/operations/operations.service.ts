@@ -34,7 +34,6 @@ export default class OperationsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { title, description, date, type, value, categories } = req.body;
       // validate body
@@ -90,10 +89,17 @@ export default class OperationsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
+
+      const query = req.query;
+      const parsedQuery = {
+        page: Number(query?.page ?? "1"),
+        resultsOnPage: Number(query?.resultsOnPage ?? "10"),
+      };
 
       const operations = await this.operationsRepository.getUserOperations(
-        payload.userId
+        payload.userId,
+        parsedQuery.resultsOnPage > 50 ? 50 : parsedQuery.resultsOnPage,
+        parsedQuery.page
       );
       return res.status(200).json({ status: 200, data: operations });
     } catch (err) {
@@ -117,7 +123,6 @@ export default class OperationsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const operation: any = await this.operationsRepository.findById(
         payload.userId,
@@ -147,7 +152,6 @@ export default class OperationsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const operation: any = await this.operationsRepository.deleteById(
         payload.userId,
@@ -177,7 +181,6 @@ export default class OperationsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { title, description, date, value, type, categories } = req.body;
 

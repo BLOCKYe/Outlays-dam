@@ -7,27 +7,27 @@
  */
 
 import React from "react";
-import {useDisclosure} from "@chakra-ui/hooks";
-import type {IOperationRequest} from "../redux/OperationInterfaces";
-import {useDispatch} from "react-redux";
+import { useDisclosure } from "@chakra-ui/hooks";
+import type { IOperationRequest } from "../redux/OperationInterfaces";
+import { useDispatch } from "react-redux";
 import {
   createOperation,
   fetchOperations,
 } from "../redux/OperationsRepository";
-import {useToast} from "@chakra-ui/react";
-import {setLoading} from "../../../common/redux/UISlice";
-import {fetchLastSpending} from "../../analytics/redux/AnalyticsRepository";
-import {FaMoneyBillWave} from "react-icons/fa";
+import { useToast } from "@chakra-ui/react";
+import { setLoading } from "../../../common/redux/UISlice";
+import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
+import { FaMoneyBillWave } from "react-icons/fa";
 import OperationModal from "./OperationModal";
-import {OperationsTypesEnum} from "../../../../common/operations/OperationsTypesEnum";
-import {fetchGoals} from "../../goals/redux/GoalsRepository";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
+import { fetchGoals } from "../../goals/redux/GoalsRepository";
 
 interface IAddButtonProps {
   text: string;
 }
 
 const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
-  const {isOpen, onOpen, onClose} = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch: any = useDispatch();
   const toast = useToast();
 
@@ -43,7 +43,7 @@ const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
 
       if (values.categories) {
         for (const category of values.categories) {
-          parsedSelectedCategories.push({id: category});
+          parsedSelectedCategories.push({ id: category });
         }
       }
 
@@ -60,8 +60,8 @@ const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
 
       const promises = [
         dispatch(fetchOperations()),
-        dispatch(fetchLastSpending({date: new Date()})),
-        await dispatch(fetchGoals())
+        dispatch(fetchLastSpending({ date: new Date() })),
+        await dispatch(fetchGoals()),
       ];
 
       await Promise.all(promises);
@@ -108,26 +108,26 @@ const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
   };
 
   return (
-      <>
-        <button
-            onClick={onOpen}
-            className={
-              "flex h-full w-full items-center justify-center gap-3 rounded border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold hover:bg-d-light md:w-auto"
-            }
-        >
-          <div>
-            <FaMoneyBillWave/>
-          </div>
+    <>
+      <button
+        onClick={onOpen}
+        className={
+          "flex h-full w-full items-center justify-center gap-3 rounded border-[1px] border-d-lighter bg-d px-5 py-3 text-xs font-bold hover:bg-d-light md:w-auto"
+        }
+      >
+        <div>
+          <FaMoneyBillWave />
+        </div>
 
-          <div>{props.text}</div>
-        </button>
+        <div>{props.text}</div>
+      </button>
 
-        <OperationModal
-            isOpen={isOpen}
-            onClose={onClose}
-            submitForm={submitForm}
-        />
-      </>
+      <OperationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        submitForm={submitForm}
+      />
+    </>
   );
 };
 

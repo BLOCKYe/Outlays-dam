@@ -6,9 +6,9 @@
  * Time: 20:25
  */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectOperations } from "../redux/operationsSlice";
 import type { IOperationData } from "../redux/OperationInterfaces";
 import OperationItem from "./OperationItem";
@@ -17,10 +17,17 @@ import Input from "../../../common/components/inputs/Input";
 import { useFormik } from "formik";
 import { MdHistoryEdu } from "react-icons/md";
 import { Skeleton } from "@chakra-ui/react";
+import Button from "../../../common/components/buttons/Button";
+import {
+  fetchMoreOperations,
+  fetchOperations,
+} from "../redux/OperationsRepository";
 
 const HistoryList: React.FC = () => {
   const operations = useSelector(selectOperations);
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
+  const dispatch: any = useDispatch();
+  const [page, setPage] = useState<number>(2);
 
   // create formik instance
   const formik = useFormik({
@@ -60,6 +67,14 @@ const HistoryList: React.FC = () => {
   const handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
     formik.setFieldValue("keyword", "");
+  };
+
+  /**
+   *
+   */
+  const handleFetchMoreData = async () => {
+    await dispatch(fetchMoreOperations(page));
+    setPage((curr) => curr + 1);
   };
 
   return (
@@ -122,6 +137,13 @@ const HistoryList: React.FC = () => {
           filteredOperations.map((operation: IOperationData) => (
             <OperationItem data={operation} key={operation.id} />
           ))}
+
+        <Button
+          disabled={Array.isArray(operations) && operations.length % 10 !== 0}
+          variant={"CONTAINED"}
+          text={"Pokaż więcej"}
+          onClick={handleFetchMoreData}
+        />
 
         {!operations && (
           <div className={"grid gap-1"}>

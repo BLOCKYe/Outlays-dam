@@ -22,7 +22,33 @@ export const fetchOperations = createAsyncThunk(
   "operations/all",
   async (_, thunkAPI) => {
     try {
-      const response = await httpClient.get("/api/operations");
+      const response = await httpClient.get(`/api/operations`);
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as IOperationsResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response);
+    }
+  }
+);
+
+/**
+ * This method is used to
+ * fetch user's operations
+ */
+
+export const fetchMoreOperations = createAsyncThunk(
+  "operations/allPagination",
+  async (page: number, thunkAPI) => {
+    const RESULTS_ON_PAGE = 10;
+    const PAGE = page ?? 1;
+    try {
+      const response = await httpClient.get(
+        `/api/operations?resultsOnPage=${RESULTS_ON_PAGE}&page=${PAGE}`
+      );
 
       if (response.status !== 200) {
         return thunkAPI.rejectWithValue(response.data);

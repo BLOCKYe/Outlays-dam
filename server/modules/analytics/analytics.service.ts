@@ -36,7 +36,6 @@ export default class AnalyticsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const dateAsDate = moment(date).toDate();
 
@@ -86,7 +85,6 @@ export default class AnalyticsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const dateAsDate = moment(date).toDate();
 

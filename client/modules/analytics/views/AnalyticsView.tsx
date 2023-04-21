@@ -77,7 +77,7 @@ const AnalyticsView = () => {
       <MainWrapper>
         <div
           className={
-            "mt-3 flex items-center gap-3 rounded-md border-[1px] border-d-lighter bg-d p-5 text-3xl font-bold"
+            "mt-3 flex flex-wrap items-center gap-3 rounded-md border-[1px] border-d-lighter bg-d p-5 text-3xl font-bold"
           }
         >
           <GoArrowSmallLeft
@@ -86,15 +86,15 @@ const AnalyticsView = () => {
               "box-content cursor-pointer rounded-full p-1 transition-all hover:bg-d-lighter"
             }
           />
-          <span>
-            {currentDate.month} {currentDate.year}{" "}
-          </span>
           <GoArrowSmallRight
             onClick={() => setNextMonth()}
             className={
               "box-content cursor-pointer rounded-full p-1 transition-all hover:bg-d-lighter"
             }
           />
+          <span>
+            {currentDate.month} {currentDate.year}{" "}
+          </span>
         </div>
 
         <div className={"mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"}>
