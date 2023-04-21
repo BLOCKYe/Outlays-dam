@@ -73,7 +73,7 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
     <>
       <div
         className={
-          "item-cols grid cursor-pointer items-center py-2 text-sm hover:bg-d-light lg:rounded-md lg:px-3"
+          "item-cols grid cursor-pointer items-center border-[1px] border-d-lighter py-2 text-sm transition-all hover:bg-d-light lg:rounded-md lg:px-3"
         }
         onClick={onOpen}
       >

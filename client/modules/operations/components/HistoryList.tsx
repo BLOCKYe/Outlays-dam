@@ -117,7 +117,7 @@ const HistoryList: React.FC = () => {
       </div>
 
       {/* <--- Display history ---> */}
-      <div className={"mt-3 grid"}>
+      <div className={"mt-3 grid gap-2"}>
         {operations &&
           filteredOperations.map((operation: IOperationData) => (
             <OperationItem data={operation} key={operation.id} />

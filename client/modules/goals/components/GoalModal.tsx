@@ -27,7 +27,10 @@ import { useToast } from "@chakra-ui/react";
 import type { IGoalData } from "../redux/GoalsInterfaces";
 import { GoalsTypesEnum } from "../../../../common/goals/GoalsTypesEnum";
 import { goalSchema } from "../utils/GoalFormik";
-import { deleteGoal, fetchGoals } from "../redux/GoalsRepository";
+import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
+import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 
 interface IGoalModalProps {
   isOpen: boolean;
@@ -40,7 +43,6 @@ interface IGoalModalProps {
 const GoalModal: React.FC<IGoalModalProps> = (props) => {
   const dispatch: any = useDispatch();
   const toast = useToast();
-  const [submitRemove, setSubmitRemove] = useState<boolean>(false);
   const loading = useSelector(selectLoading);
 
   // create formik instance
@@ -72,9 +74,6 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
   const removeGoal = async (id?: string): Promise<void> => {
     if (!id) return;
 
-    setSubmitRemove(true);
-    if (!submitRemove) return;
-
     try {
       await dispatch(setLoading(true));
 
@@ -86,6 +85,39 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
 
       toast({
         title: `Usunięto cel: ${props?.data?.title}`,
+        status: "info",
+        isClosable: true,
+      });
+
+      await dispatch(setLoading(false));
+    } catch (e: any) {
+      toast({
+        title: e?.message,
+        status: "error",
+      });
+
+      await dispatch(setLoading(false));
+    }
+  };
+
+  /**
+   *
+   * @param id
+   */
+  const reachGoal = async (id?: string): Promise<void> => {
+    if (!id) return;
+
+    try {
+      await dispatch(setLoading(true));
+
+      await dispatch(setAsReached(id));
+
+      const promises = [dispatch(fetchGoals())];
+
+      await Promise.all(promises);
+
+      toast({
+        title: `Oznaczyłeś cel jako wypełniony: ${props?.data?.title}`,
         status: "info",
         isClosable: true,
       });
@@ -124,6 +156,45 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
           </div>
 
           <form className={"mt-3 grid gap-5"} onSubmit={formik.handleSubmit}>
+            {/* <--- Type ---> */}
+            <div className={"text-xs text-w-darker"}>Wybierz rodzaj celu</div>
+
+            <div className={"grid gap-1"}>
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", GoalsTypesEnum.INCOME)
+                }
+                variant={
+                  formik.values.type === GoalsTypesEnum.INCOME
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"PRZYCHODY"}
+              />
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", GoalsTypesEnum.EXPENSE)
+                }
+                variant={
+                  formik.values.type === GoalsTypesEnum.EXPENSE
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"WYDATKI"}
+              />
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", GoalsTypesEnum.SAVE)
+                }
+                variant={
+                  formik.values.type === GoalsTypesEnum.SAVE
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"OSZCZĘDNOŚCI"}
+              />
+            </div>
+
             <Input
               onChange={formik.handleChange}
               value={formik.values.title}
@@ -173,7 +244,46 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
               err={formik.errors.endDate}
             />
 
-            <ModalFooter className={"flex gap-3"}>
+            {/* <--- Set as reached ---> */}
+            {props.data?.id && !props.data.reached && (
+              <ConfirmationDialog
+                title={"Czy chcesz zaznaczyć cel jako ukończony?"}
+                description={
+                  "Potwierdzając ukończenie celu dodasz go do swoich statystyk."
+                }
+                onConfirm={() => reachGoal(props.data?.id)}
+              >
+                <div className={"grid w-full"}>
+                  <Button
+                    variant={"OUTLINED"}
+                    text={"Oznacz cel jako zrealizowany"}
+                  />
+                </div>
+              </ConfirmationDialog>
+            )}
+
+            {props.data?.reached && (
+              <div
+                className={
+                  "flex items-center gap-1 text-xs font-bold text-green-400"
+                }
+              >
+                <IoMdCheckmarkCircle /> <span>Cel zrealizowany!</span>
+              </div>
+            )}
+
+            <ModalFooter className={"flex flex-wrap gap-3"}>
+              {/* <--- Delete goal confirmation ---> */}
+              {props.data?.id && (
+                <ConfirmationDialog
+                  title={"Czy na pewno chcesz usunąć ten cel?"}
+                  description={"Wykonanej operacji nie będzie dało się cofnąć!"}
+                  onConfirm={() => removeGoal(props.data?.id)}
+                >
+                  <Button variant={"OUTLINED"} text={"Usuń cel"} />
+                </ConfirmationDialog>
+              )}
+
               <Button
                 variant={"OUTLINED"}
                 text={"Anuluj"}
@@ -189,24 +299,6 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
                 disabled={!formik.dirty || loading}
               />
             </ModalFooter>
-
-            {/* <--- Delete goal confirmation ---> */}
-            <>
-              {submitRemove && (
-                <div className={"mt-1 text-sm text-pink-600"}>
-                  Czy na pewno chcesz usunąć tą operację?
-                </div>
-              )}
-
-              {props.data?.id && (
-                <Button
-                  variant={"OUTLINED"}
-                  disabled={loading}
-                  text={submitRemove ? "Tak, usuń!" : "Usuń cel"}
-                  onClick={() => removeGoal(props.data?.id)}
-                />
-              )}
-            </>
           </form>
         </ModalBody>
       </ModalContent>

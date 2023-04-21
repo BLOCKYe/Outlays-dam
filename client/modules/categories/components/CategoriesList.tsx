@@ -31,7 +31,7 @@ const CategoriesList = () => {
       </div>
 
       {/* <--- Display categories ---> */}
-      <div className={"mt-3 grid"}>
+      <div className={"mt-3 grid gap-2"}>
         {categories &&
           categories.map((category: ICategoryData) => (
             <CategoryItem data={category} key={category.id} />

@@ -104,3 +104,24 @@ export const deleteGoal = createAsyncThunk(
     }
   }
 );
+
+/**
+ * This method is used to
+ * set goal as reached
+ */
+export const setAsReached = createAsyncThunk(
+  "goals/reached",
+  async (id: string, thunkAPI) => {
+    try {
+      const response = await httpClient.patch(`/api/goals/${id}`);
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as IGoalResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);

@@ -24,9 +24,9 @@ const GoalsView = () => {
       <TopBar />
       <MainWrapper>
         <div className={"flex flex-wrap gap-3 sm:flex-nowrap"}>
+          <AddGoalButton text={"Nowy cel"} />
           <AddOperationButton text={"Nowa operacja"} />
           <AddCategoryButton text={"Nowa kategoria"} />
-          <AddGoalButton text={"Nowy cel"} />
         </div>
 
         <div className={"pt-3"}>

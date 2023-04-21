@@ -36,6 +36,7 @@ import {
 import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 import { fetchGoals } from "../../goals/redux/GoalsRepository";
+import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 
 interface IOperationModalProps {
   isOpen: boolean;
@@ -48,7 +49,6 @@ interface IOperationModalProps {
 const OperationModal: React.FC<IOperationModalProps> = (props) => {
   const dispatch: any = useDispatch();
   const toast = useToast();
-  const [submitRemove, setSubmitRemove] = useState<boolean>(false);
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
 
@@ -82,9 +82,6 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
    */
   const removeOperation = async (id?: string): Promise<void> => {
     if (!id) return;
-
-    setSubmitRemove(true);
-    if (!submitRemove) return;
 
     try {
       await dispatch(setLoading(true));
@@ -208,7 +205,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
             <div>
               <div className={"text-xs text-w-darker"}>Wybierz kategorie</div>
 
-              <div className={"mt-2 flex flex-wrap items-center gap-2"}>
+              <div className={"mt-3 flex flex-wrap items-center gap-2"}>
                 {categories &&
                   categories.map((category: ICategoryData) => (
                     <CategoryItem
@@ -229,7 +226,18 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
               )}
             </div>
 
-            <ModalFooter className={"flex gap-3"}>
+            <ModalFooter className={"flex flex-wrap gap-3"}>
+              {/* <--- Delete goal confirmation ---> */}
+              {props.data?.id && (
+                <ConfirmationDialog
+                  title={"Czy na pewno chcesz usunąć tą operację?"}
+                  description={"Wykonanej operacji nie będzie dało się cofnąć!"}
+                  onConfirm={() => removeOperation(props.data?.id)}
+                >
+                  <Button variant={"OUTLINED"} text={"Usuń operację"} />
+                </ConfirmationDialog>
+              )}
+
               <Button
                 variant={"OUTLINED"}
                 text={"Anuluj"}
@@ -245,24 +253,6 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
                 disabled={!formik.dirty || loading}
               />
             </ModalFooter>
-
-            {/* <--- Delete outlay confirmation ---> */}
-            <>
-              {submitRemove && (
-                <div className={"mt-1 text-sm text-pink-600"}>
-                  Czy na pewno chcesz usunąć tą operację?
-                </div>
-              )}
-
-              {props.data?.id && (
-                <Button
-                  variant={"OUTLINED"}
-                  disabled={loading}
-                  text={submitRemove ? "Tak, usuń!" : "Usuń operacje"}
-                  onClick={() => removeOperation(props.data?.id)}
-                />
-              )}
-            </>
           </form>
         </ModalBody>
       </ModalContent>

@@ -10,14 +10,13 @@ import React from "react";
 import { useToast } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useDispatch } from "react-redux";
-import type { IGoalData } from "../redux/GoalsInterfaces";
+import type { IGoalData, IGoalRequest } from "../redux/GoalsInterfaces";
 import ProgressBar from "../../../common/components/dashboard/ProgressBar";
 import { MdDateRange } from "react-icons/md";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import GoalModal from "./GoalModal";
-import type { IGoalRequest } from "../redux/GoalsInterfaces";
 import { setLoading } from "../../../common/redux/UISlice";
-import { createGoal, editGoal, fetchGoals } from "../redux/GoalsRepository";
+import { editGoal, fetchGoals } from "../redux/GoalsRepository";
 
 interface IGoalItemProps {
   data: IGoalData;
@@ -93,7 +92,7 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
       <div
         onClick={onOpen}
         className={
-          "grid cursor-pointer items-center gap-1 rounded-md bg-d-light py-3 px-3 text-sm"
+          "grid cursor-pointer items-center gap-1 rounded-md border-[1px] border-d-lighter py-3 px-3 text-sm transition-all hover:bg-d-light"
         }
       >
         {/* <--- Display title ---> */}
@@ -118,7 +117,7 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
         {/* <--- Display date ---> */}
         <div
           className={
-            "mt-2 mb-2 flex flex-wrap items-center gap-1 text-xs text-w-darker"
+            "mt-2 mb-2 flex flex-wrap items-center gap-1 text-xs font-bold"
           }
         >
           <MdDateRange /> {props.data?.startDate} - {props.data?.endDate}

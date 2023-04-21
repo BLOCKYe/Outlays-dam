@@ -157,7 +157,9 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
     <>
       <div
         onClick={onOpen}
-        className={"cursor-pointer py-2 hover:bg-d-light lg:rounded-md lg:px-3"}
+        className={
+          "cursor-pointer rounded-md border-[1px] border-d-lighter py-2 px-3 transition-all hover:bg-d-light"
+        }
       >
         <div className={"item-cols grid place-items-center"}>
           <div className={"grid grid-cols-2 gap-1 justify-self-start"}>

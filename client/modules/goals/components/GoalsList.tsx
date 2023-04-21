@@ -30,14 +30,14 @@ const CategoriesList = () => {
       </div>
 
       {/* <--- Display categories ---> */}
-      <div className={"mt-3 grid gap-3"}>
+      <div className={"mt-3 grid gap-2"}>
         {goals &&
           goals.map((goal: IGoalData) => (
             <GoalItem data={goal} key={goal.id} />
           ))}
 
         {!goals && (
-          <div className={"grid gap-1"}>
+          <div className={"grid gap-2"}>
             <Skeleton startColor="black" endColor="gray" height={"44px"} />
             <Skeleton startColor="black" endColor="gray" height={"44px"} />
             <Skeleton startColor="black" endColor="gray" height={"44px"} />
