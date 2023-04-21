@@ -15,10 +15,6 @@ import GoalsRepository from "./goals.repository";
 import type { IGoalCreateData, IGoalEditData } from "./IGoals";
 import AnalyticsRepository from "../analytics/analytics.repository";
 import GoalsHelper from "./goals.helper";
-import {
-  GoalsTypesEnum,
-  IGoalType,
-} from "../../../common/goals/GoalsTypesEnum";
 
 export default class GoalsService {
   private readonly usersRepository: UsersRepository;
@@ -43,15 +39,8 @@ export default class GoalsService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const {
-        title,
-        description,
-        startDate,
-        endDate,
-        type,
-        reached,
-        goalValue,
-      } = req.body;
+      const { title, description, startDate, endDate, type, goalValue } =
+        req.body;
       // validate body
       const operationSchema = yup.object().shape({
         title: yup.string().min(1).max(50).required(),
@@ -60,7 +49,6 @@ export default class GoalsService {
         startDate: yup.string().max(255).required(),
         endDate: yup.string().max(255).required(),
         goalValue: yup.number().positive().required(),
-        reached: yup.boolean().isFalse().required(),
       });
 
       if (
@@ -71,7 +59,6 @@ export default class GoalsService {
           endDate,
           goalValue,
           type,
-          reached,
         }))
       ) {
         return Error.res(res, 400, "Invalid req body");
@@ -85,7 +72,7 @@ export default class GoalsService {
         startDate: startDate,
         endDate: endDate,
         description: description,
-        reached: reached,
+        reached: false,
       };
 
       const goalsData = await this.goalsRepository.createGoal(reqData);
@@ -220,15 +207,8 @@ export default class GoalsService {
       if (!payload) return;
       if (typeof payload === "string") return;
 
-      const {
-        title,
-        description,
-        startDate,
-        endDate,
-        type,
-        reached,
-        goalValue,
-      } = req.body;
+      const { title, description, startDate, endDate, type, goalValue } =
+        req.body;
 
       const reqData: IGoalEditData = {
         title: title,
@@ -237,7 +217,6 @@ export default class GoalsService {
         startDate: startDate,
         endDate: endDate,
         description: description,
-        reached: reached,
       };
 
       const goal: any = await this.goalsRepository.editGoal(

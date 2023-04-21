@@ -37,5 +37,4 @@ export interface IGoalRequest {
   type: IGoalType;
   startDate: string;
   endDate: string;
-  reached: boolean;
 }

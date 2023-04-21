@@ -40,7 +40,6 @@ const AddGoalButton: React.FC<IAddGoalButton> = (props) => {
         goalValue: values.goalValue,
         startDate: values.startDate,
         endDate: values.endDate,
-        reached: values.reached,
       };
 
       await dispatch(createGoal(reqData));

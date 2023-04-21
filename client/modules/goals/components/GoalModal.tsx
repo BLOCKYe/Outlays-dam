@@ -56,7 +56,6 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
       description: props.data?.description || "",
       type: props.data?.type || GoalsTypesEnum.EXPENSE,
       goalValue: props.data?.goalValue || 0,
-      reached: false,
     },
     validationSchema: goalSchema,
     onSubmit: async (values, { resetForm }) => {

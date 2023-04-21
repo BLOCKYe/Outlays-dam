@@ -43,7 +43,6 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
         goalValue: values.goalValue,
         startDate: values.startDate,
         endDate: values.endDate,
-        reached: values.reached,
       };
 
       await dispatch(editGoal({ values: reqData, id: props.data.id }));

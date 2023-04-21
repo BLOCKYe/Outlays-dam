@@ -14,6 +14,5 @@ export const goalSchema: SchemaOf<IGoalData> = Yup.object()
       .number()
       .positive("Wartość nie może być ujemna")
       .required("Pole jest wymagane"),
-    reached: yup.string().max(255).required("Pole jest wymagane"),
   })
   .required();
