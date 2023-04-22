@@ -22,6 +22,7 @@ import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { useDispatch } from "react-redux";
 import OperationPreviewModal from "./OperationPreviewModal";
 import { formatOperationValue } from "../../../common/utils/formatOperationValue";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface OperationItemProps {
   data: IOperationData;
@@ -32,7 +33,7 @@ type modalStates = "PREVIEW" | "EDIT";
 const OperationItem: React.FC<OperationItemProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [renderedModal, setRenderedModal] = useState<modalStates>("PREVIEW");
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

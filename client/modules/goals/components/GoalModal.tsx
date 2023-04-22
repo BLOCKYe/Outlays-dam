@@ -31,6 +31,7 @@ import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IGoalModalProps {
   isOpen: boolean;
@@ -41,7 +42,7 @@ interface IGoalModalProps {
 }
 
 const GoalModal: React.FC<IGoalModalProps> = (props) => {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const loading = useSelector(selectLoading);
 

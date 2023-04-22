@@ -15,6 +15,7 @@ import GoalModal from "./GoalModal";
 import { setLoading } from "../../../common/redux/UISlice";
 import type { IGoalRequest } from "../redux/GoalsInterfaces";
 import { createGoal, fetchGoals } from "../redux/GoalsRepository";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IAddGoalButton {
   text: string;
@@ -22,7 +23,7 @@ interface IAddGoalButton {
 
 const AddGoalButton: React.FC<IAddGoalButton> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

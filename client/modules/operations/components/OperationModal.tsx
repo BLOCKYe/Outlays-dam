@@ -37,6 +37,7 @@ import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 import { fetchGoals } from "../../goals/redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IOperationModalProps {
   isOpen: boolean;
@@ -47,7 +48,7 @@ interface IOperationModalProps {
 }
 
 const OperationModal: React.FC<IOperationModalProps> = (props) => {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);

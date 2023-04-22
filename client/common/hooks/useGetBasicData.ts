@@ -8,9 +8,10 @@ import {
 import { fetchOperations } from "../../modules/operations/redux/OperationsRepository";
 import { fetchCategories } from "../../modules/categories/redux/CategoriesRepository";
 import { fetchGoals } from "../../modules/goals/redux/GoalsRepository";
+import type { AppDispatch } from "../redux/store";
 
 function useGetBasicData() {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
