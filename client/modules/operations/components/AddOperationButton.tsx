@@ -21,6 +21,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import OperationModal from "./OperationModal";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 import { fetchGoals } from "../../goals/redux/GoalsRepository";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IAddButtonProps {
   text: string;
@@ -28,7 +29,7 @@ interface IAddButtonProps {
 
 const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

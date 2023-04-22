@@ -17,6 +17,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import GoalModal from "./GoalModal";
 import { setLoading } from "../../../common/redux/UISlice";
 import { editGoal, fetchGoals } from "../redux/GoalsRepository";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IGoalItemProps {
   data: IGoalData;
@@ -24,7 +25,7 @@ interface IGoalItemProps {
 
 const GoalItem: React.FC<IGoalItemProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

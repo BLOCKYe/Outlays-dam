@@ -22,11 +22,12 @@ import {
   fetchMoreOperations,
   fetchOperations,
 } from "../redux/OperationsRepository";
+import type { AppDispatch } from "../../../common/redux/store";
 
 const HistoryList: React.FC = () => {
   const operations = useSelector(selectOperations);
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [page, setPage] = useState<number>(2);
 
   // create formik instance

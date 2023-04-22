@@ -22,6 +22,7 @@ import {
   fetchLastSpending,
 } from "../redux/AnalyticsRepository";
 import "moment/locale/pl";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface ICurrentDate {
   month: string;
@@ -38,7 +39,7 @@ const getFormattedCurrentDate = (date = new Date()): ICurrentDate => {
 
 const AnalyticsView = () => {
   const basicAnalytics = useSelector(selectBasicAnalytics);
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   useGetBasicData();
 
   const [currentDate, setCurrentDate] = useState<ICurrentDate>(

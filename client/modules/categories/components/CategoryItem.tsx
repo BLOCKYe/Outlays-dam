@@ -22,6 +22,7 @@ import {
   editCategory,
   fetchCategories,
 } from "../redux/CategoriesRepository";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface ICategoryItemProps {
   data: ICategoryData;
@@ -29,7 +30,7 @@ interface ICategoryItemProps {
 
 const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

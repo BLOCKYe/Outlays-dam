@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { createCategory, fetchCategories } from "../redux/CategoriesRepository";
 import CategoryModal from "./CategoryModal";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface IAddCategoryButtonProps {
   text: string;
@@ -22,7 +23,7 @@ interface IAddCategoryButtonProps {
 
 const AddCategoryButton: React.FC<IAddCategoryButtonProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
   /**

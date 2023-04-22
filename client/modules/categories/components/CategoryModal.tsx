@@ -35,6 +35,7 @@ import {
   fetchCategories,
 } from "../redux/CategoriesRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
+import type { AppDispatch } from "../../../common/redux/store";
 
 interface ICategoryModalProps {
   isOpen: boolean;
@@ -44,7 +45,7 @@ interface ICategoryModalProps {
 }
 
 const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const loading = useSelector(selectLoading);
 
