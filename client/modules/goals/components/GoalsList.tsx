@@ -8,37 +8,36 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectCategories } from "../redux/categoriesSlice";
 import { IoList } from "react-icons/io5";
-import type { ICategoryData } from "../redux/CategoriesInterfaces";
-import CategoryItem from "./CategoryItem";
 import { Skeleton } from "@chakra-ui/react";
+import { selectGoals } from "../redux/goalsSlice";
+import GoalItem from "./GoalItem";
+import type { IGoalData } from "../redux/GoalsInterfaces";
 
 const CategoriesList = () => {
-  const categories = useSelector(selectCategories);
+  const goals = useSelector(selectGoals);
 
   return (
     <div className={"mb-20 rounded-md border-[1px] border-d-lighter bg-d p-5"}>
       <div className={"flex items-center gap-2 text-lg font-bold"}>
-        <IoList /> Twoje kategorie (
-        {Array.isArray(categories) && categories.length})
+        <IoList /> Twoje cele ({Array.isArray(goals) && goals.length})
       </div>
       <div className={"mt-3 text-sm text-w-darker"}>
-        <p>Lista wszystkich twoich kategorii.</p>
+        <p>Lista wszystkich twoich celów.</p>
         <p>
-          ✨ W tym miejscu możesz dodać nowe lub edytować istniejące kategorie.
+          ✨ W tym miejscu możesz zobaczyć swoje postępy w trwających celach.
         </p>
       </div>
 
       {/* <--- Display categories ---> */}
       <div className={"mt-3 grid gap-2"}>
-        {categories &&
-          categories.map((category: ICategoryData) => (
-            <CategoryItem data={category} key={category.id} />
+        {goals &&
+          goals.map((goal: IGoalData) => (
+            <GoalItem data={goal} key={goal.id} />
           ))}
 
-        {!categories && (
-          <div className={"grid gap-1"}>
+        {!goals && (
+          <div className={"grid gap-2"}>
             <Skeleton startColor="black" endColor="gray" height={"44px"} />
             <Skeleton startColor="black" endColor="gray" height={"44px"} />
             <Skeleton startColor="black" endColor="gray" height={"44px"} />

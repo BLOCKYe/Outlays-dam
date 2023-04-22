@@ -26,10 +26,10 @@ const Header: React.FC = () => {
   const calculateDiff = (): number => {
     const current: number =
       (lastSpending?.selected?.incomes?._sum?.value ?? 0) -
-      (lastSpending?.selected?.outcomes?._sum?.value ?? 0);
+      (lastSpending?.selected?.expenses?._sum?.value ?? 0);
     const last: number =
       (lastSpending?.previous?.incomes?._sum?.value ?? 0) -
-      (lastSpending?.previous?.outcomes?._sum?.value ?? 0);
+      (lastSpending?.previous?.expenses?._sum?.value ?? 0);
 
     return current - last;
   };
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
       <div className={"mt-1 flex flex-wrap items-center gap-3"}>
         <div className={"text-2xl font-bold text-w"}>
           {(lastSpending?.selected?.incomes?._sum?.value ?? 0) -
-            (lastSpending?.selected?.outcomes?._sum?.value ?? 0)}{" "}
+            (lastSpending?.selected?.expenses?._sum?.value ?? 0)}{" "}
           PLN
         </div>
         <div

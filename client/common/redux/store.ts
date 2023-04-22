@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import user from "../../modules/users/redux/userSlice";
 import ui from "./UISlice";
 import operations from "../../modules/operations/redux/operationsSlice";
+import goals from "../../modules/goals/redux/goalsSlice";
 import categories from "../../modules/categories/redux/categoriesSlice";
 import analytics from "../../modules/analytics/redux/analyticsSlice";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
@@ -13,6 +14,7 @@ const combinedReducer = combineReducers({
   operations,
   categories,
   analytics,
+  goals,
 });
 
 const reducer: typeof combinedReducer = (state, action) => {

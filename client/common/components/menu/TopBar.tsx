@@ -40,7 +40,7 @@ const TopBar: React.FC = () => {
       >
         <div
           className={
-            "flex w-full items-center justify-between gap-2 px-3 lg:pl-[227px]"
+            "flex w-full items-center justify-between gap-2 px-3 lg:pl-[263px]"
           }
         >
           <div className={"flex w-full flex-wrap gap-2"}>

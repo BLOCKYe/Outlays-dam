@@ -22,10 +22,10 @@ export default class AnalyticsRepository {
     startDate: string,
     endDate: string
   ) {
-    const outcomes = await prisma.operation.aggregate({
+    const expenses = await prisma.operation.aggregate({
       where: {
         userId: userId,
-        type: OperationsTypesEnum.OUTCOME,
+        type: OperationsTypesEnum.EXPENSE,
         date: {
           lte: endDate,
           gte: startDate,
@@ -50,7 +50,7 @@ export default class AnalyticsRepository {
       },
     });
 
-    return { incomes, outcomes };
+    return { incomes, expenses };
   }
 
   /**

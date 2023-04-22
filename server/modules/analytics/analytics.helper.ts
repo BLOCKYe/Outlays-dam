@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 import type { IRangeDate } from "./IAnalytics";
 
-export default class AnalyticsCommands {
+export default class AnalyticsHelper {
   /**
    * Create start - end date range from date
    * @param date

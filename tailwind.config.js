@@ -11,7 +11,7 @@ module.exports = {
         w: {
           DEFAULT: "#FFFFFF",
           dark: "#D8D8D8",
-          darker: "#777777",
+          darker: "#a7a7a7",
         },
         d: {
           DEFAULT: "#111111",

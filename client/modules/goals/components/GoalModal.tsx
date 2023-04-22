@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from "react";
-import type { IOperationData } from "../redux/OperationInterfaces";
 import {
   Modal,
   ModalBody,
@@ -19,37 +18,31 @@ import {
 } from "@chakra-ui/modal";
 import Input from "../../../common/components/inputs/Input";
 import Textarea from "../../../common/components/inputs/Textarea";
-import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
-import CategoryItem from "./CategoryItem";
 import Button from "../../../common/components/buttons/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCategories } from "../../categories/redux/categoriesSlice";
 import { useFormik } from "formik";
-import { operationSchema } from "../utils/OperationFormik";
 import moment from "moment/moment";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
 import { useToast } from "@chakra-ui/react";
-import {
-  deleteOperation,
-  fetchOperations,
-} from "../redux/OperationsRepository";
-import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
-import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
-import { fetchGoals } from "../../goals/redux/GoalsRepository";
+import type { IGoalData } from "../redux/GoalsInterfaces";
+import { GoalsTypesEnum } from "../../../../common/goals/GoalsTypesEnum";
+import { goalSchema } from "../utils/GoalFormik";
+import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 
-interface IOperationModalProps {
+interface IGoalModalProps {
   isOpen: boolean;
   onClose: () => void;
   submitForm: (values: any) => void;
-  data?: IOperationData;
+  data?: IGoalData;
   setPreview?: () => void;
 }
 
-const OperationModal: React.FC<IOperationModalProps> = (props) => {
+const GoalModal: React.FC<IGoalModalProps> = (props) => {
   const dispatch: any = useDispatch();
   const toast = useToast();
-  const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
 
   // create formik instance
@@ -58,17 +51,15 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
     validateOnBlur: false,
     enableReinitialize: true,
     initialValues: {
-      date: props.data?.date || moment(new Date()).format("yyyy-MM-DD"),
+      startDate:
+        props.data?.startDate || moment(new Date()).format("yyyy-MM-DD"),
+      endDate: props.data?.endDate || moment(new Date()).format("yyyy-MM-DD"),
       title: props.data?.title || "",
       description: props.data?.description || "",
-      type: props.data?.type || OperationsTypesEnum.EXPENSE,
-      value: props.data?.value || 0,
-      categories:
-        props.data?.categories && props.data?.categories.length > 0
-          ? [props.data?.categories[0]?.id]
-          : [] || [],
+      type: props.data?.type || GoalsTypesEnum.EXPENSE,
+      goalValue: props.data?.goalValue || 0,
     },
-    validationSchema: operationSchema,
+    validationSchema: goalSchema,
     onSubmit: async (values, { resetForm }) => {
       await props.submitForm(values);
       props.setPreview && props.setPreview();
@@ -80,24 +71,53 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
    *
    * @param id
    */
-  const removeOperation = async (id?: string): Promise<void> => {
+  const removeGoal = async (id?: string): Promise<void> => {
     if (!id) return;
 
     try {
       await dispatch(setLoading(true));
 
-      await dispatch(deleteOperation(id));
+      await dispatch(deleteGoal(id));
 
-      const promises = [
-        dispatch(fetchOperations()),
-        dispatch(fetchGoals()),
-        dispatch(fetchLastSpending({ date: new Date() })),
-      ];
+      const promises = [dispatch(fetchGoals())];
 
       await Promise.all(promises);
 
       toast({
-        title: `Usunięto operację: ${props?.data?.title}`,
+        title: `Usunięto cel: ${props?.data?.title}`,
+        status: "info",
+        isClosable: true,
+      });
+
+      await dispatch(setLoading(false));
+    } catch (e: any) {
+      toast({
+        title: e?.message,
+        status: "error",
+      });
+
+      await dispatch(setLoading(false));
+    }
+  };
+
+  /**
+   *
+   * @param id
+   */
+  const reachGoal = async (id?: string): Promise<void> => {
+    if (!id) return;
+
+    try {
+      await dispatch(setLoading(true));
+
+      await dispatch(setAsReached(id));
+
+      const promises = [dispatch(fetchGoals())];
+
+      await Promise.all(promises);
+
+      toast({
+        title: `Oznaczyłeś cel jako wypełniony: ${props?.data?.title}`,
         status: "info",
         isClosable: true,
       });
@@ -124,41 +144,54 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader className={"bg-d"}>
-          {props.data?.id ? "Edytuj operację" : "Dodaj nową operację"}
+          {props.data?.id ? "Edytuj cel" : "Dodaj nowy cel"}
         </ModalHeader>
         <ModalCloseButton />
 
         {/* <--- Form ---> */}
         <ModalBody className={"bg-d"}>
           <div className={"text-w-darker"}>
-            Aby utworzyć nową operację wypełnij formularz. Wprowadź tytuł, kwotę
-            oraz datę.
+            W tym miejscu możesz utworzyć nowy cel. <br />
+            Wybierz zakres dat oraz wprowadź wartość.
           </div>
 
           <form className={"mt-3 grid gap-5"} onSubmit={formik.handleSubmit}>
             {/* <--- Type ---> */}
-            <div className={"grid gap-3 md:grid-cols-2"}>
+            <div className={"text-xs text-w-darker"}>Wybierz rodzaj celu</div>
+
+            <div className={"grid gap-1"}>
               <Button
                 onClick={() =>
-                  formik.setFieldValue("type", OperationsTypesEnum.EXPENSE)
+                  formik.setFieldValue("type", GoalsTypesEnum.INCOME)
                 }
                 variant={
-                  formik.values.type === OperationsTypesEnum.EXPENSE
+                  formik.values.type === GoalsTypesEnum.INCOME
                     ? "CONTAINED"
                     : "OUTLINED"
                 }
-                text={"WYDATEK"}
+                text={"PRZYCHODY"}
               />
               <Button
                 onClick={() =>
-                  formik.setFieldValue("type", OperationsTypesEnum.INCOME)
+                  formik.setFieldValue("type", GoalsTypesEnum.EXPENSE)
                 }
                 variant={
-                  formik.values.type === OperationsTypesEnum.INCOME
+                  formik.values.type === GoalsTypesEnum.EXPENSE
                     ? "CONTAINED"
                     : "OUTLINED"
                 }
-                text={"PRZYCHÓD"}
+                text={"WYDATKI"}
+              />
+              <Button
+                onClick={() =>
+                  formik.setFieldValue("type", GoalsTypesEnum.SAVE)
+                }
+                variant={
+                  formik.values.type === GoalsTypesEnum.SAVE
+                    ? "CONTAINED"
+                    : "OUTLINED"
+                }
+                text={"OSZCZĘDNOŚCI"}
               />
             </div>
 
@@ -183,58 +216,71 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
 
             <Input
               onChange={formik.handleChange}
-              value={formik.values.value}
-              name={"value"}
+              value={formik.values.goalValue}
+              name={"goalValue"}
               type={"number"}
               label={"Kwota w PLN"}
               placeholder={"Kwota w PLN"}
-              err={formik.errors.value}
+              err={formik.errors.goalValue}
             />
 
             <Input
               onChange={formik.handleChange}
-              value={formik.values.date}
-              name={"date"}
+              value={formik.values.startDate}
+              name={"startDate"}
               type={"date"}
-              label={"Data operacji"}
-              placeholder={"Data operacji"}
-              err={formik.errors.date}
+              label={"Data rozpoczęcia celu"}
+              placeholder={"Data rozpoczęcia celu"}
+              err={formik.errors.startDate}
             />
 
-            {/* <--- Categories ---> */}
-            <div>
-              <div className={"text-xs text-w-darker"}>Wybierz kategorie</div>
+            <Input
+              onChange={formik.handleChange}
+              value={formik.values.endDate}
+              name={"endDate"}
+              type={"date"}
+              label={"Data zakończenia celu"}
+              placeholder={"Data zakończenia celu"}
+              err={formik.errors.endDate}
+            />
 
-              <div className={"mt-3 flex flex-wrap items-center gap-2"}>
-                {categories &&
-                  categories.map((category: ICategoryData) => (
-                    <CategoryItem
-                      selectedCategories={formik.values.categories}
-                      key={category.id}
-                      selectedCategory={() =>
-                        formik.setFieldValue("categories", [category.id])
-                      }
-                      data={category}
-                    />
-                  ))}
-              </div>
-
-              {categories && categories.length === 0 && (
-                <div className={"mt-1 text-sm text-pink-600"}>
-                  Nie utworzyłeś jeszcze żadnych kategorii.
+            {/* <--- Set as reached ---> */}
+            {props.data?.id && !props.data.reached && (
+              <ConfirmationDialog
+                title={"Czy chcesz zaznaczyć cel jako ukończony?"}
+                description={
+                  "Potwierdzając ukończenie celu dodasz go do swoich statystyk."
+                }
+                onConfirm={() => reachGoal(props.data?.id)}
+              >
+                <div className={"grid w-full"}>
+                  <Button
+                    variant={"OUTLINED"}
+                    text={"Oznacz cel jako zrealizowany"}
+                  />
                 </div>
-              )}
-            </div>
+              </ConfirmationDialog>
+            )}
+
+            {props.data?.reached && (
+              <div
+                className={
+                  "flex items-center gap-1 text-xs font-bold text-green-400"
+                }
+              >
+                <IoMdCheckmarkCircle /> <span>Cel zrealizowany!</span>
+              </div>
+            )}
 
             <ModalFooter className={"flex flex-wrap gap-3"}>
               {/* <--- Delete goal confirmation ---> */}
               {props.data?.id && (
                 <ConfirmationDialog
-                  title={"Czy na pewno chcesz usunąć tą operację?"}
+                  title={"Czy na pewno chcesz usunąć ten cel?"}
                   description={"Wykonanej operacji nie będzie dało się cofnąć!"}
-                  onConfirm={() => removeOperation(props.data?.id)}
+                  onConfirm={() => removeGoal(props.data?.id)}
                 >
-                  <Button variant={"OUTLINED"} text={"Usuń operację"} />
+                  <Button variant={"OUTLINED"} text={"Usuń cel"} />
                 </ConfirmationDialog>
               )}
 
@@ -260,4 +306,4 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
   );
 };
 
-export default OperationModal;
+export default GoalModal;

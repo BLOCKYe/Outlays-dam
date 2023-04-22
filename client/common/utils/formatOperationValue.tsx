@@ -10,9 +10,9 @@ export const formatOperationValue = (
 
   switch (type) {
     case "INCOME":
-      return <span className={"text-green-500"}>{`+${value}`}</span>;
+      return <span className={"text-green-400"}>{`+${value}`}</span>;
 
-    case "OUTCOME":
+    case "EXPENSE":
       return <span className={"text-red-500"}>{`-${value}`}</span>;
 
     default: {

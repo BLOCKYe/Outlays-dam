@@ -12,7 +12,7 @@ export interface ILastSpendingData {
 
 export interface ILastSpendingMonth {
   incomes: { _sum?: Sum };
-  outcomes: { _sum?: Sum };
+  expenses: { _sum?: Sum };
 }
 
 export interface IBasicAnalyticsOperationMonthData {

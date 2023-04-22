@@ -153,7 +153,6 @@ export default class UsersService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { userId } = payload;
       const user: any = await this.usersRepository.findUserById(userId);

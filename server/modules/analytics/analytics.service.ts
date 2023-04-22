@@ -10,7 +10,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import AnalyticsRepository from "./analytics.repository";
-import AnalyticsCommands from "./analytics.commands";
+import AnalyticsHelper from "./analytics.helper";
 import moment from "moment";
 import * as yup from "yup";
 
@@ -36,7 +36,6 @@ export default class AnalyticsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const dateAsDate = moment(date).toDate();
 
@@ -44,8 +43,8 @@ export default class AnalyticsService {
       if (!(await dateSchema.isValid(dateAsDate)))
         return Error.res(res, 400, "Wrong date");
 
-      const current = AnalyticsCommands.getMonthRange(dateAsDate);
-      const last = AnalyticsCommands.getMonthRange(
+      const current = AnalyticsHelper.getMonthRange(dateAsDate);
+      const last = AnalyticsHelper.getMonthRange(
         moment(dateAsDate).subtract(1, "month").toDate()
       );
 
@@ -86,7 +85,6 @@ export default class AnalyticsService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const dateAsDate = moment(date).toDate();
 
@@ -94,9 +92,9 @@ export default class AnalyticsService {
       if (!(await dateSchema.isValid(dateAsDate)))
         return Error.res(res, 400, "Wrong date");
 
-      const ranges = AnalyticsCommands.getLastTwelveMonthsRanged(dateAsDate);
+      const ranges = AnalyticsHelper.getLastTwelveMonthsRanged(dateAsDate);
 
-      const monthOutcomes = [];
+      const monthExpenses = [];
       const monthIncomes = [];
       for (let i = 0; i < 12; i++) {
         const monthResults: any =
@@ -105,19 +103,19 @@ export default class AnalyticsService {
             ranges[i]!.start,
             ranges[i]!.end
           );
-        const localOutcomeData = {
-          value: monthResults?.outcomes._sum?.value ?? 0,
+        const localExpenseData = {
+          value: monthResults?.expenses._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
         const localIncomeData = {
           value: monthResults?.incomes._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
-        monthOutcomes.push(localOutcomeData);
+        monthExpenses.push(localExpenseData);
         monthIncomes.push(localIncomeData);
       }
 
-      const current = AnalyticsCommands.getMonthRange(dateAsDate);
+      const current = AnalyticsHelper.getMonthRange(dateAsDate);
 
       const categories =
         await this.analyticsRepository.getLastMonthsCategoriesStats(
@@ -134,7 +132,7 @@ export default class AnalyticsService {
         );
 
       const response = {
-        outcomes: monthOutcomes,
+        expenses: monthExpenses,
         incomes: monthIncomes,
         categories: categories,
         operationsCount: operationsCount,

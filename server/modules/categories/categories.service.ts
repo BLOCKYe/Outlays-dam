@@ -31,7 +31,6 @@ export default class CategoriesService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const categories: any = await this.categoriesRepository.getUserCategories(
         payload.userId
@@ -58,7 +57,6 @@ export default class CategoriesService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const category: any = await this.categoriesRepository.findById(
         payload.userId,
@@ -88,7 +86,6 @@ export default class CategoriesService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { name, color } = req.body;
 
@@ -133,7 +130,6 @@ export default class CategoriesService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const category: any = await this.categoriesRepository.deleteById(
         payload.userId,
@@ -158,7 +154,6 @@ export default class CategoriesService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
-      if (typeof payload === "string") return;
 
       const { name, color } = req.body;
       const nameSchema = yup

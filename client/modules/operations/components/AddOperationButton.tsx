@@ -20,6 +20,7 @@ import { fetchLastSpending } from "../../analytics/redux/AnalyticsRepository";
 import { FaMoneyBillWave } from "react-icons/fa";
 import OperationModal from "./OperationModal";
 import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
+import { fetchGoals } from "../../goals/redux/GoalsRepository";
 
 interface IAddButtonProps {
   text: string;
@@ -60,6 +61,7 @@ const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
       const promises = [
         dispatch(fetchOperations()),
         dispatch(fetchLastSpending({ date: new Date() })),
+        await dispatch(fetchGoals()),
       ];
 
       await Promise.all(promises);

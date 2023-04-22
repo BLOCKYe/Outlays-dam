@@ -34,6 +34,7 @@ import {
   editCategory,
   fetchCategories,
 } from "../redux/CategoriesRepository";
+import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 
 interface ICategoryModalProps {
   isOpen: boolean;
@@ -45,7 +46,6 @@ interface ICategoryModalProps {
 const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
   const dispatch: any = useDispatch();
   const toast = useToast();
-  const [submitRemove, setSubmitRemove] = useState<boolean>(false);
   const loading = useSelector(selectLoading);
 
   // create formik instance
@@ -71,9 +71,6 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
 
   const removeCategory = async (id?: string): Promise<void> => {
     if (!id) return;
-
-    setSubmitRemove(true);
-    if (!submitRemove) return;
 
     try {
       await dispatch(setLoading(true));
@@ -145,7 +142,17 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
               </div>
             </div>
 
-            <ModalFooter className={"flex gap-3"}>
+            <ModalFooter className={"flex flex-wrap gap-3"}>
+              {/* <--- Delete goal confirmation ---> */}
+              {props.data?.id && (
+                <ConfirmationDialog
+                  title={"Czy na pewno chcesz usunąć tą kategorię?"}
+                  description={"Wykonanej operacji nie będzie dało się cofnąć!"}
+                  onConfirm={() => removeCategory(props.data?.id)}
+                >
+                  <Button variant={"OUTLINED"} text={"Usuń kategorię"} />
+                </ConfirmationDialog>
+              )}
               <Button
                 variant={"OUTLINED"}
                 text={"Anuluj"}
@@ -158,24 +165,6 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
                 disabled={!formik.dirty || loading}
               />
             </ModalFooter>
-
-            {/* <--- Delete category confirmation ---> */}
-            <>
-              {submitRemove && (
-                <div className={"mt-1 text-sm text-pink-600"}>
-                  Czy na pewno chcesz usunać kategorie?
-                </div>
-              )}
-
-              {props.data?.id && (
-                <Button
-                  variant={"OUTLINED"}
-                  text={submitRemove ? "Tak, usuń!" : "Usuń kategorie"}
-                  onClick={() => removeCategory(props.data?.id)}
-                  disabled={loading}
-                />
-              )}
-            </>
           </form>
         </ModalBody>
       </ModalContent>
