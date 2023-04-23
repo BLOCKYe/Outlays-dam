@@ -59,7 +59,7 @@ const LoginView = () => {
         isClosable: true,
       });
 
-      await router.push(Paths.HISTORY);
+      await router.push(Paths.OPERATIONS);
     } catch (e: any) {
       toast({
         title: e?.message,
