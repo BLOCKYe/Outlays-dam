@@ -18,6 +18,8 @@ import GoalModal from "./GoalModal";
 import { setLoading } from "../../../common/redux/UISlice";
 import { editGoal, fetchGoals } from "../redux/GoalsRepository";
 import type { AppDispatch } from "../../../common/redux/store";
+import { GoalsTypesDictionary } from "../../../../common/goals/GoalsTypesEnum";
+import Badge from "../../../common/components/labels/Badge";
 
 interface IGoalItemProps {
   data: IGoalData;
@@ -113,7 +115,9 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
         </div>
 
         {/* <--- Display description ---> */}
-        <div className={"text-xs"}>{props.data.description}</div>
+        <div className={"whitespace-pre-wrap text-xs"}>
+          {props.data.description}
+        </div>
 
         {/* <--- Display date ---> */}
         <div
@@ -129,6 +133,10 @@ const GoalItem: React.FC<IGoalItemProps> = (props) => {
           currentValue={props.data.result ?? 0}
           endValue={props.data.goalValue ?? 1}
         />
+
+        <div className={"mt-3 flex"}>
+          <Badge text={GoalsTypesDictionary[props.data.type].name} />
+        </div>
       </div>
 
       <GoalModal
