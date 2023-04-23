@@ -6,7 +6,7 @@
  * Time: 23:27
  */
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalBody,
@@ -25,12 +25,15 @@ import moment from "moment/moment";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
 import { useToast } from "@chakra-ui/react";
 import type { IGoalData } from "../redux/GoalsInterfaces";
-import { GoalsTypesEnum } from "../../../../common/goals/GoalsTypesEnum";
+import {
+  GoalsTypesDictionary,
+  GoalsTypesEnum,
+  GoalsTypesKeys,
+} from "../../../../common/goals/GoalsTypesEnum";
 import { goalSchema } from "../utils/GoalFormik";
 import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 import { IoMdCheckmarkCircle } from "react-icons/io";
-import { OperationsTypesEnum } from "../../../../common/operations/OperationsTypesEnum";
 import type { AppDispatch } from "../../../common/redux/store";
 
 interface IGoalModalProps {
@@ -161,39 +164,16 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
             <div className={"text-xs text-w-darker"}>Wybierz rodzaj celu</div>
 
             <div className={"grid gap-1"}>
-              <Button
-                onClick={() =>
-                  formik.setFieldValue("type", GoalsTypesEnum.INCOME)
-                }
-                variant={
-                  formik.values.type === GoalsTypesEnum.INCOME
-                    ? "CONTAINED"
-                    : "OUTLINED"
-                }
-                text={"PRZYCHODY"}
-              />
-              <Button
-                onClick={() =>
-                  formik.setFieldValue("type", GoalsTypesEnum.EXPENSE)
-                }
-                variant={
-                  formik.values.type === GoalsTypesEnum.EXPENSE
-                    ? "CONTAINED"
-                    : "OUTLINED"
-                }
-                text={"WYDATKI"}
-              />
-              <Button
-                onClick={() =>
-                  formik.setFieldValue("type", GoalsTypesEnum.SAVE)
-                }
-                variant={
-                  formik.values.type === GoalsTypesEnum.SAVE
-                    ? "CONTAINED"
-                    : "OUTLINED"
-                }
-                text={"OSZCZĘDNOŚCI"}
-              />
+              {GoalsTypesKeys.map((goalType) => (
+                <Button
+                  key={goalType}
+                  onClick={() => formik.setFieldValue("type", goalType)}
+                  variant={
+                    formik.values.type === goalType ? "CONTAINED" : "OUTLINED"
+                  }
+                  text={GoalsTypesDictionary[goalType].name}
+                />
+              ))}
             </div>
 
             <Input

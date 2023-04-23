@@ -12,17 +12,17 @@ export interface IGoalResponse {
 
 export interface IGoalData {
   id: string;
-  title?: string;
+  title: string;
   description?: string;
-  startDate?: string;
-  endDate?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  reached?: boolean;
-  goalValue?: number;
-  type?: string;
-  userId?: string;
-  result?: number;
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+  updatedAt: string;
+  reached: boolean;
+  goalValue: number;
+  type: IGoalType;
+  userId: string;
+  result: number;
 }
 
 export interface IResult {
