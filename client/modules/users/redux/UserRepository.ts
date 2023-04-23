@@ -77,7 +77,7 @@ export const fetchUserProfile = createAsyncThunk(
 
       return response?.data as IUserResponse;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response);
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   }
 );
@@ -86,7 +86,7 @@ export const fetchUserProfile = createAsyncThunk(
  * This method is used to
  * verify account
  */
-export const verify = createAsyncThunk(
+export const verifyUserAccount = createAsyncThunk(
   "user/verify",
   async (values: IVerifyRequest, thunkAPI) => {
     try {
@@ -100,7 +100,7 @@ export const verify = createAsyncThunk(
 
       return response?.data as IUserResponse;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response);
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   }
 );

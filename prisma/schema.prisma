@@ -23,6 +23,7 @@ model User {
   operations    Operation[]
   categories    Category[]
   goals         Goal[]
+  isVerified    Boolean        @default(false)
 }
 
 model RefreshToken {

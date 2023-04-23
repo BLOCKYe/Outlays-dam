@@ -6,16 +6,17 @@
  * Time: 19:49
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import { useDispatch } from "react-redux";
-import { verify } from "../redux/UserRepository";
+import { verifyUserAccount } from "../redux/UserRepository";
 import type { AppDispatch } from "../../../common/redux/store";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Paths from "../../../common/router/paths";
+import Button from "../../../common/components/buttons/Button";
 
 /**
  * This function is used to parse query
@@ -34,33 +35,34 @@ const VerifyView = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const toast = useToast();
   const { query } = useRouter();
 
-  useEffect(() => {
-    const verifyAccount = async () => {
-      try {
-        setIsProcessing(true);
-        const verifyKeyQuery = parseQuery(query?.verifyKey);
-        if (!verifyKeyQuery) throw new Error();
+  /**
+   * This function is used to
+   * verify account
+   */
+  const verifyAccount = async () => {
+    try {
+      setIsProcessing(true);
+      const verifyKeyQuery = parseQuery(query?.verifyKey);
+      if (!verifyKeyQuery) throw new Error();
 
-        await dispatch(verify({ verifyKey: verifyKeyQuery }));
+      await dispatch(verifyUserAccount({ verifyKey: verifyKeyQuery })).unwrap();
 
-        // send verify account request
-        setIsProcessing(false);
-        setIsVerified(true);
-      } catch (e: any) {
-        toast({
-          title: e?.message,
-          status: "error",
-        });
+      setIsVerified(true);
+      setIsProcessing(false);
+    } catch (e: any) {
+      toast({
+        title: e?.message,
+        status: "error",
+      });
 
-        setIsProcessing(false);
-      }
-    };
-
-    verifyAccount().then();
-  }, [query?.verifyKey, toast]);
+      setIsProcessing(false);
+      setIsError(true);
+    }
+  };
 
   return (
     <MainWrapper variant={"small"}>
@@ -84,25 +86,53 @@ const VerifyView = () => {
         <div className={"mt-2 text-w-darker"}>Weryfikacja konta.</div>
       </div>
 
+      <div className={"mt-10 grid place-items-center"}>
+        <Button
+          disabled={isError || isVerified}
+          variant={"CONTAINED"}
+          text={"Zweryfikuj konto"}
+          onClick={() => verifyAccount()}
+        />
+      </div>
+
+      {/* <--- Processing state ---> */}
       {isProcessing && (
-        <div className={"mt-10 text-center font-bold"}>
+        <div className={"mt-5 text-center font-bold"}>
           Trwa weryfikacja konta...
         </div>
       )}
 
-      {isVerified && (
-        <div className={"mt-10 text-center font-bold"}>
-          <div className={"text-xl"}>Zweryfikowano konto!</div>
-          <div className={"mt-3 text-sm"}>
-            Możesz się zalogować{" "}
-            <Link href={Paths.LOGIN}>
-              <span className={"cursor-pointer text-c-light hover:underline"}>
-                tutaj
-              </span>
-            </Link>
-          </div>
+      {/* <--- Display error ---> */}
+      {isError && (
+        <div
+          className={
+            "mt-5 rounded-md border-[1px] border-red-900 bg-red-900 bg-opacity-25 p-1 text-center font-bold text-red-500"
+          }
+        >
+          Nie udało się zweryfikować konta.
         </div>
       )}
+
+      {/* <--- Display success ---> */}
+      {isVerified && (
+        <div
+          className={
+            "mt-5 rounded-md border-[1px] border-green-900 bg-green-900 bg-opacity-25 p-1 text-center font-bold text-green-500"
+          }
+        >
+          Zweryfikowano konto!
+        </div>
+      )}
+
+      {/* <--- Display login info ---> */}
+      <div className={"mt-3 text-center text-sm font-bold"}>
+        Wróć do{" "}
+        <Link href={Paths.LOGIN}>
+          <span className={"cursor-pointer text-c-light hover:underline"}>
+            logowania
+          </span>
+        </Link>
+      </div>
     </MainWrapper>
   );
 };

@@ -133,14 +133,17 @@ const HistoryList: React.FC = () => {
       </div>
 
       {/* <--- Display history ---> */}
-      <div className={"mt-3 grid gap-2"}>
+      <div className={"mt-5 grid gap-2"}>
         {operations &&
           filteredOperations.map((operation: IOperationData) => (
             <OperationItem data={operation} key={operation.id} />
           ))}
 
         <Button
-          disabled={Array.isArray(operations) && operations.length % 10 !== 0}
+          disabled={
+            (Array.isArray(operations) && operations.length % 10 !== 0) ||
+            (Array.isArray(operations) && operations.length === 0)
+          }
           variant={"CONTAINED"}
           text={"Pokaż więcej"}
           onClick={handleFetchMoreData}

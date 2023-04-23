@@ -30,7 +30,7 @@ export const fetchOperations = createAsyncThunk(
 
       return response?.data as IOperationsResponse;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response);
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   }
 );
@@ -56,7 +56,7 @@ export const fetchMoreOperations = createAsyncThunk(
 
       return response?.data as IOperationsResponse;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response);
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   }
 );

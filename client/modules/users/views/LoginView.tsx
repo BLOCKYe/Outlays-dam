@@ -46,7 +46,6 @@ const LoginView = () => {
    * and save token in cookies
    * @param values
    */
-
   const submitForm = async (values: ILoginSchema) => {
     setIsProcessing(true);
     try {

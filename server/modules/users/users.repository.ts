@@ -8,7 +8,7 @@
 
 import { prisma } from "../../utils/prisma/prisma";
 import * as bcrypt from "bcrypt";
-import { ICreateUserReqBody } from "./IUsers";
+import type { ICreateUserReqBody } from "./IUsers";
 
 export default class UsersRepository {
   /**
@@ -44,7 +44,6 @@ export default class UsersRepository {
    * create new user
    * @param user
    */
-
   public createUserByEmailAndPassword(user: ICreateUserReqBody) {
     user.password = bcrypt.hashSync(user.password, 12);
     return prisma.user.create({
@@ -52,6 +51,22 @@ export default class UsersRepository {
         email: user.email,
         password: user.password,
         name: user.name,
+      },
+    });
+  }
+
+  /**
+   * This method is used to
+   * verify user account
+   * @param userId
+   */
+  public verifyUser(userId?: string) {
+    return prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        isVerified: true,
       },
     });
   }

@@ -85,7 +85,6 @@ export default class OperationsRepository {
    * @param userId
    * @param operationId
    */
-
   public findById(userId: string, operationId: string) {
     return prisma.operation.findFirst({
       where: {
@@ -105,7 +104,6 @@ export default class OperationsRepository {
    * @param operationId
    * @param data
    */
-
   public editOperation(
     userId: string,
     operationId: string,
