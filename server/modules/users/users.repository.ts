@@ -51,7 +51,6 @@ export default class UsersRepository {
         email: user.email,
         password: user.password,
         name: user.name,
-        isVerified: false,
       },
     });
   }
