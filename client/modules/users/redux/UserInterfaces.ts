@@ -28,7 +28,7 @@ export interface IUser {
   name?: string;
   createdAt?: string;
   updatedAt?: string;
-  isVerified: boolean;
+  isVerified?: boolean;
 }
 
 export interface IRegisterRequest {

@@ -6,7 +6,7 @@
  * Time: 22:01
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
@@ -55,7 +55,6 @@ const AnalyticsView = () => {
     const next = moment(current).add(1, "month").toDate();
 
     setCurrentDate(getFormattedCurrentDate(next));
-    dispatch(fetchLastSpending({ date: next }));
     dispatch(fetchBasicAnalytics({ date: next }));
   };
 
@@ -68,9 +67,12 @@ const AnalyticsView = () => {
     const previous = moment(current).subtract(1, "month").toDate();
 
     setCurrentDate(getFormattedCurrentDate(previous));
-    dispatch(fetchLastSpending({ date: previous }));
     dispatch(fetchBasicAnalytics({ date: previous }));
   };
+
+  useEffect(() => {
+    dispatch(fetchBasicAnalytics({ date: new Date() }));
+  }, [dispatch]);
 
   return (
     <>

@@ -19,7 +19,6 @@ function useGetBasicData() {
 
       const promises = [
         dispatch(fetchLastSpending({ date: new Date() })),
-        dispatch(fetchBasicAnalytics({ date: new Date() })),
         dispatch(fetchOperations()),
         dispatch(fetchGoals()),
         dispatch(fetchCategories()),

@@ -15,6 +15,7 @@ import AuthRepository from "../auth/auth.repository";
 import * as uuid from "uuid";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import * as yup from "yup";
+import MailService from "../../services/MailService";
 
 export default class UsersService {
   private readonly usersRepository: UsersRepository;
@@ -129,6 +130,15 @@ export default class UsersService {
           name,
         }
       );
+
+      const mailService = new MailService(
+        "kontakt@dominikobloza.pl",
+        user.email,
+        "Outlays Dam - aktywacja konta.",
+        `Ten email został użyty do utworzenia konta na platformie Outlays Dam, wejdź w ten link aby aktywować konto: ${process.env.NEXT_PUBLIC_BACKEND_API}/verify?verifyKey=${user.id}`
+      );
+      mailService.sendMail();
+
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(user, jti);
       await this.authRepository.addRefreshTokenToWhitelist({
@@ -193,10 +203,7 @@ export default class UsersService {
         return Error.res(res, 400, "Account is already verified.");
 
       // verify account
-      const user: any = await this.usersRepository.verifyUser(existingUser?.id);
-      delete user.password;
-
-      // TODO: create mail service
+      const user = await this.usersRepository.verifyUser(existingUser?.id);
 
       return res.status(200).json({ status: 200, data: user });
     } catch (err) {

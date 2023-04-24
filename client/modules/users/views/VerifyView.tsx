@@ -125,7 +125,7 @@ const VerifyView = () => {
       )}
 
       {/* <--- Display login info ---> */}
-      <div className={"mt-3 text-center text-sm font-bold"}>
+      <div className={"mt-10 text-center text-sm font-bold"}>
         Wróć do{" "}
         <Link href={Paths.LOGIN}>
           <span className={"cursor-pointer text-c-light hover:underline"}>
