@@ -203,7 +203,10 @@ export default class UsersService {
         return Error.res(res, 400, "Account is already verified.");
 
       // verify account
-      const user = await this.usersRepository.verifyUser(existingUser?.id);
+      const user = await this.usersRepository.verifyUser(
+        existingUser?.id,
+        true
+      );
 
       return res.status(200).json({ status: 200, data: user });
     } catch (err) {

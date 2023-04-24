@@ -59,14 +59,15 @@ export default class UsersRepository {
    * This method is used to
    * verify user account
    * @param userId
+   * @param value
    */
-  public verifyUser(userId?: string) {
+  public verifyUser(userId: string, value: boolean) {
     return prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        isVerified: true,
+        isVerified: value,
       },
     });
   }
