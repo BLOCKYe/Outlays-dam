@@ -184,6 +184,7 @@ export default class UsersService {
    * verify user account
    * @param req
    * @param res
+   * @param verifyKey
    */
 
   public async verify(
@@ -203,10 +204,7 @@ export default class UsersService {
         return Error.res(res, 400, "Account is already verified.");
 
       // verify account
-      const user = await this.usersRepository.verifyUser(
-        existingUser?.id,
-        true
-      );
+      const user = await this.usersRepository.verifyUser(existingUser.id);
 
       return res.status(200).json({ status: 200, data: user });
     } catch (err) {
