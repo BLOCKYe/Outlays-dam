@@ -21,11 +21,13 @@ import { useToast } from "@chakra-ui/react";
 import type { IRegisterSchema } from "../utils/RegisterFormik";
 import { registerSchema } from "../utils/RegisterFormik";
 import Paths from "../../../common/router/paths";
+import { useRouter } from "next/router";
 
 const LoginView = () => {
   const dispatch = useDispatch<AppDispatch>();
   const toast = useToast();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const router = useRouter();
 
   const formik = useFormik({
     validationSchema: registerSchema,
@@ -51,9 +53,12 @@ const LoginView = () => {
       setCookie("token", response.data?.accessToken);
 
       toast({
-        title: "Pomyślne zarejestrowano",
+        title:
+          "Dokończ rejestrację wchodząc w link aktywacyjny przesłany  na podanego maila.",
         status: "success",
       });
+
+      await router.push(Paths.LOGIN);
     } catch (e: any) {
       toast({
         title: e?.message,

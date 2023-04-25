@@ -46,7 +46,6 @@ const LoginView = () => {
    * and save token in cookies
    * @param values
    */
-
   const submitForm = async (values: ILoginSchema) => {
     setIsProcessing(true);
     try {
@@ -59,7 +58,7 @@ const LoginView = () => {
         isClosable: true,
       });
 
-      await router.push(Paths.HISTORY);
+      await router.push(Paths.OPERATIONS);
     } catch (e: any) {
       toast({
         title: e?.message,

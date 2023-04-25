@@ -11,25 +11,25 @@ import type {
   ICategoryData,
   ICategoryRequest,
 } from "../redux/CategoriesInterfaces";
-import { Tooltip, useToast } from "@chakra-ui/react";
+import {Tooltip, useToast} from "@chakra-ui/react";
 import CategoryColors from "../utils/CategoryColors";
-import { useDisclosure } from "@chakra-ui/hooks";
-import { useDispatch } from "react-redux";
+import {useDisclosure} from "@chakra-ui/hooks";
+import {useDispatch} from "react-redux";
 import CategoryModal from "./CategoryModal";
-import { setLoading } from "../../../common/redux/UISlice";
+import {setLoading} from "../../../common/redux/UISlice";
 import {
   createCategory,
   editCategory,
   fetchCategories,
 } from "../redux/CategoriesRepository";
-import type { AppDispatch } from "../../../common/redux/store";
+import type {AppDispatch} from "../../../common/redux/store";
 
 interface ICategoryItemProps {
   data: ICategoryData;
 }
 
 const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {isOpen, onOpen, onClose} = useDisclosure();
   const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
 
@@ -48,7 +48,7 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
         color: values.color,
       };
 
-      await dispatch(editCategory({ values: reqData, id: props.data.id }));
+      await dispatch(editCategory({values: reqData, id: props.data.id}));
       await dispatch(fetchCategories());
 
       toast({
@@ -71,30 +71,30 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
   };
 
   return (
-    <>
-      <div
-        className={
-          "item-cols grid cursor-pointer items-center border-[1px] border-d-lighter py-2 text-sm transition-all hover:bg-d-light lg:rounded-md lg:px-3"
-        }
-        onClick={onOpen}
-      >
+      <>
         <div
-          className={
-            "h-[10px] w-[10px] rounded-lg " +
-            CategoryColors.ColorBuilder(props.data.color, "default", "bg")
-          }
+            className={
+              "item-cols grid cursor-pointer items-center border-[1px] border-d-lighter py-2 text-sm transition-all hover:bg-d-light rounded-md px-3"
+            }
+            onClick={onOpen}
+        >
+          <div
+              className={
+                  "h-[10px] w-[10px] rounded-lg " +
+                  CategoryColors.ColorBuilder(props.data.color, "default", "bg")
+              }
+          />
+
+          <div className={"text-w"}>{props.data.name}</div>
+        </div>
+
+        <CategoryModal
+            isOpen={isOpen}
+            onClose={onClose}
+            submitForm={submitForm}
+            data={props.data}
         />
-
-        <div className={"text-w"}>{props.data.name}</div>
-      </div>
-
-      <CategoryModal
-        isOpen={isOpen}
-        onClose={onClose}
-        submitForm={submitForm}
-        data={props.data}
-      />
-    </>
+      </>
   );
 };
 

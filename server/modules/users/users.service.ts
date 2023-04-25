@@ -15,6 +15,7 @@ import AuthRepository from "../auth/auth.repository";
 import * as uuid from "uuid";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import * as yup from "yup";
+import MailService from "../../services/MailService";
 
 export default class UsersService {
   private readonly usersRepository: UsersRepository;
@@ -65,6 +66,10 @@ export default class UsersService {
       );
       if (!validPassword) return Error.res(res, 400, "Invalid password.");
 
+      // validate verify status
+      if (!existingUser.isVerified)
+        return Error.res(res, 403, "Account is not verified.");
+
       // sing-in user
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(
@@ -92,7 +97,6 @@ export default class UsersService {
    * @param req
    * @param res
    */
-
   public async register(req: NextApiRequest, res: NextApiResponse) {
     try {
       const { email, password, name } = req.body;
@@ -126,6 +130,15 @@ export default class UsersService {
           name,
         }
       );
+
+      const mailService = new MailService(
+        "kontakt@dominikobloza.pl",
+        user.email,
+        "Outlays Dam - aktywacja konta.",
+        `Ten email został użyty do utworzenia konta na platformie Outlays Dam, wejdź w ten link aby aktywować konto: ${process.env.NEXT_PUBLIC_BACKEND_API}/verify?verifyKey=${user.id}`
+      );
+      mailService.sendMail();
+
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(user, jti);
       await this.authRepository.addRefreshTokenToWhitelist({
@@ -148,7 +161,6 @@ export default class UsersService {
    * @param req
    * @param res
    */
-
   public async profile(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
@@ -156,8 +168,45 @@ export default class UsersService {
 
       const { userId } = payload;
       const user: any = await this.usersRepository.findUserById(userId);
+
+      // check if user already exists
+      if (!user) return Error.res(res, 400, "The user does not exist.");
+
       delete user.password;
       return res.status(200).json({ status: 200, data: { user } });
+    } catch (err) {
+      return Error.res(res, 500, "Something went wrong");
+    }
+  }
+
+  /**
+   * This method is used to
+   * verify user account
+   * @param req
+   * @param res
+   * @param verifyKey
+   */
+
+  public async verify(
+    req: NextApiRequest,
+    res: NextApiResponse,
+    verifyKey: string
+  ) {
+    try {
+      if (!verifyKey) return Error.res(res, 400, "Invalid verify key.");
+
+      // check if user has verified account
+      const existingUser = await this.usersRepository.findUserById(verifyKey);
+
+      if (!existingUser) return Error.res(res, 400, "The user does not exist.");
+
+      if (existingUser?.isVerified)
+        return Error.res(res, 400, "Account is already verified.");
+
+      // verify account
+      const user = await this.usersRepository.verifyUser(existingUser.id);
+
+      return res.status(200).json({ status: 200, data: user });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }

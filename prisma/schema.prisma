@@ -2,19 +2,20 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
   id            String         @id @unique @default(uuid())
   email         String         @unique
+  isVerified    Boolean        @default(false)
   name          String
   password      String
   refreshTokens RefreshToken[]
@@ -36,26 +37,26 @@ model RefreshToken {
 }
 
 model Operation {
-  id          String   @id @unique @default(uuid())
+  id          String     @id @unique @default(uuid())
   title       String
   description String
   type        String
   date        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   value       Int
   categories  Category[]
 }
 
 model Category {
-  id          String   @id @unique @default(uuid())
-  name        String
-  color       String
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  operations  Operation[]
+  id         String      @id @unique @default(uuid())
+  name       String
+  color      String
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  operations Operation[]
 }
 
 model Goal {
