@@ -12,10 +12,11 @@ import TopBar from "../../../common/components/menu/TopBar";
 import Header from "../../analytics/components/Header";
 import AddOperationButton from "../components/AddOperationButton";
 import BottomBar from "../../../common/components/menu/BottomBar";
-import HistoryList from "../components/HistoryList";
+import HistoryOperationsList from "../components/HistoryOperationsList";
 import AddCategoryButton from "../../categories/components/AddCategoryButton";
 import AddGoalButton from "../../goals/components/AddGoalButton";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
+import CategoriesOperationsList from "../components/CategoriesOperationsList";
 
 const HomeView = () => {
   useGetBasicData();
@@ -33,7 +34,11 @@ const HomeView = () => {
         </div>
 
         <div className={"pt-3"}>
-          <HistoryList />
+          <HistoryOperationsList />
+        </div>
+
+        <div className={"pt-3"}>
+          <CategoriesOperationsList />
         </div>
       </MainWrapper>
       <BottomBar selected={"HISTORY"} />

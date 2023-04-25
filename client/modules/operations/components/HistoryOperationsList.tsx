@@ -18,13 +18,10 @@ import { useFormik } from "formik";
 import { MdHistoryEdu } from "react-icons/md";
 import { Skeleton } from "@chakra-ui/react";
 import Button from "../../../common/components/buttons/Button";
-import {
-  fetchMoreOperations,
-  fetchOperations,
-} from "../redux/OperationsRepository";
+import { fetchMoreOperations } from "../redux/OperationsRepository";
 import type { AppDispatch } from "../../../common/redux/store";
 
-const HistoryList: React.FC = () => {
+const HistoryOperationsList: React.FC = () => {
   const operations = useSelector(selectOperations);
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
@@ -79,7 +76,7 @@ const HistoryList: React.FC = () => {
   };
 
   return (
-    <div className={"mb-20 rounded-md border-[1px] border-d-lighter bg-d p-5"}>
+    <div className={"rounded-md border-[1px] border-d-lighter bg-d p-5"}>
       {/* <--- Header ---> */}
       <div className={"flex items-center justify-between gap-3"}>
         {/* <--- Display history list text ---> */}
@@ -167,4 +164,4 @@ const HistoryList: React.FC = () => {
   );
 };
 
-export default HistoryList;
+export default HistoryOperationsList;

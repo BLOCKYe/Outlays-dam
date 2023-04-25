@@ -23,9 +23,11 @@ import { useDispatch } from "react-redux";
 import OperationPreviewModal from "./OperationPreviewModal";
 import { formatOperationValue } from "../../../common/utils/formatOperationValue";
 import type { AppDispatch } from "../../../common/redux/store";
+import Item from "../../../common/components/dashboard/Item";
 
 interface OperationItemProps {
   data: IOperationData;
+  updateData?: () => Promise<void>;
 }
 
 type modalStates = "PREVIEW" | "EDIT";
@@ -139,6 +141,7 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
             onClose={onClose}
             submitForm={submitForm}
             data={props.data}
+            updateData={() => props.updateData && props.updateData()}
           />
         );
 
@@ -156,12 +159,7 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
 
   return (
     <>
-      <div
-        onClick={onOpen}
-        className={
-          "cursor-pointer rounded-md border-[1px] border-d-lighter py-2 px-3 transition-all hover:bg-d-light"
-        }
-      >
+      <Item onClick={onOpen}>
         <div className={"item-cols grid place-items-center"}>
           <div className={"grid grid-cols-2 gap-1 justify-self-start"}>
             {props.data.categories.map((category: ICategoryData) => (
@@ -224,7 +222,7 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
             <span className={"text-xs font-normal text-w-dark"}>PLN</span>
           </div>
         </div>
-      </div>
+      </Item>
 
       {renderModalType()}
     </>

@@ -18,7 +18,7 @@ const CategoriesList = () => {
   const categories = useSelector(selectCategories);
 
   return (
-    <div className={"mb-20 rounded-md border-[1px] border-d-lighter bg-d p-5"}>
+    <div className={"rounded-md border-[1px] border-d-lighter bg-d p-5"}>
       <div className={"flex items-center gap-2 text-lg font-bold"}>
         <IoList /> Twoje kategorie (
         {Array.isArray(categories) && categories.length})

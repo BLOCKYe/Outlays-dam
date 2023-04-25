@@ -42,6 +42,10 @@ a {
     grid-template-columns: 25px 1fr 120px 220px;
 }
 
+.item-cols-small {
+    grid-template-columns: 1fr 120px;
+}
+
 .custom-calendar::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;

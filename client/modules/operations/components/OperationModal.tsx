@@ -6,7 +6,7 @@
  * Time: 23:27
  */
 
-import React, { useState } from "react";
+import React from "react";
 import type { IOperationData } from "../redux/OperationInterfaces";
 import {
   Modal,
@@ -45,6 +45,7 @@ interface IOperationModalProps {
   submitForm: (values: any) => void;
   data?: IOperationData;
   setPreview?: () => void;
+  updateData?: () => any;
 }
 
 const OperationModal: React.FC<IOperationModalProps> = (props) => {
@@ -73,6 +74,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
     onSubmit: async (values, { resetForm }) => {
       await props.submitForm(values);
       props.setPreview && props.setPreview();
+      props.updateData && props.updateData();
       resetForm();
     },
   });

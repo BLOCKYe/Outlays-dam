@@ -17,7 +17,6 @@ import httpClient from "../../../common/axios/HttpClient";
  * This method is used to
  * fetch user's operations
  */
-
 export const fetchOperations = createAsyncThunk(
   "operations/all",
   async (_, thunkAPI) => {
@@ -38,13 +37,68 @@ export const fetchOperations = createAsyncThunk(
 /**
  * This method is used to
  * fetch user's operations
+ * for category
  */
+export const fetchOperationsForCategory = createAsyncThunk(
+  "operations/byCategory",
+  async (categoryId: string, thunkAPI) => {
+    try {
+      const response = await httpClient.get(
+        `/api/operations/category/${categoryId}`
+      );
 
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as IOperationsResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+interface IFetchMoreOperationsForCategoryArgs {
+  page: number;
+  categoryId: string;
+}
+
+/**
+ * This method is used to
+ * fetch user's operations
+ * for category
+ */
+export const fetchMoreOperationsForCategory = createAsyncThunk(
+  "operations/byCategory",
+  async (args: IFetchMoreOperationsForCategoryArgs, thunkAPI) => {
+    const RESULTS_ON_PAGE = 10;
+    const PAGE = args.page ?? 1;
+
+    try {
+      const response = await httpClient.get(
+        `/api/operations/category/${args.categoryId}?resultsOnPage=${RESULTS_ON_PAGE}&page=${PAGE}`
+      );
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as IOperationsResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+/**
+ * This method is used to
+ * fetch user's operations
+ */
 export const fetchMoreOperations = createAsyncThunk(
   "operations/allPagination",
   async (page: number, thunkAPI) => {
-    const RESULTS_ON_PAGE = 10;
-    const PAGE = page ?? 1;
+    const RESULTS_ON_PAGE = 1;
+    const PAGE = page ?? 10;
     try {
       const response = await httpClient.get(
         `/api/operations?resultsOnPage=${RESULTS_ON_PAGE}&page=${PAGE}`
@@ -63,9 +117,8 @@ export const fetchMoreOperations = createAsyncThunk(
 
 /**
  * This method is used to
- * create new outlay
+ * create new operation
  */
-
 export const createOperation = createAsyncThunk(
   "operations/create",
   async (values: IOperationRequest, thunkAPI) => {
@@ -90,9 +143,8 @@ interface IOperationData {
 
 /**
  * This method is used to
- * edit outlay
+ * edit operation
  */
-
 export const editOperation = createAsyncThunk(
   "operations/edit",
   async (values: IOperationData, thunkAPI) => {
@@ -115,9 +167,8 @@ export const editOperation = createAsyncThunk(
 
 /**
  * This method is used to
- * remove outlay
+ * remove operation
  */
-
 export const deleteOperation = createAsyncThunk(
   "operations/delete",
   async (id: string, thunkAPI) => {
