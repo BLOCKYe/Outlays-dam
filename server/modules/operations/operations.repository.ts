@@ -42,7 +42,6 @@ export default class OperationsRepository {
    * @param resultsOnPage
    * @param page
    */
-
   public getUserOperations(userId: string, resultsOnPage = 10, page = 1) {
     return prisma.operation.findMany({
       take: resultsOnPage,
@@ -121,6 +120,43 @@ export default class OperationsRepository {
         value: data.value,
         categories: {
           set: data.categories,
+        },
+      },
+      include: {
+        categories: true,
+      },
+    });
+  }
+
+  /**
+   * This method is used to
+   * get all user operations
+   * by category
+   * @param userId
+   * @param categoryId
+   * @param resultsOnPage
+   * @param page
+   */
+  public getUserOperationsByCategory(
+    userId: string,
+    categoryId: string,
+    resultsOnPage = 10,
+    page = 1
+  ) {
+    return prisma.operation.findMany({
+      take: resultsOnPage,
+      skip: resultsOnPage * (page - 1),
+      orderBy: [
+        {
+          date: "desc",
+        },
+      ],
+      where: {
+        userId: userId,
+        categories: {
+          some: {
+            id: categoryId,
+          },
         },
       },
       include: {

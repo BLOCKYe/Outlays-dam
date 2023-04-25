@@ -25,7 +25,7 @@ export default class OperationsService {
 
   /**
    * This method is used to
-   * create new outlay
+   * create new operation
    * @param req
    * @param res
    */
@@ -80,11 +80,10 @@ export default class OperationsService {
 
   /**
    * This method is used to
-   * get user's outlays
+   * get user's operations
    * @param req
    * @param res
    */
-
   public async getOperations(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
@@ -109,12 +108,47 @@ export default class OperationsService {
 
   /**
    * This method is used to
-   * get outlay by id
+   * get user's operations
+   * by category id
+   * @param req
+   * @param res
+   * @param categoryId
+   */
+  public async getCategoryOperations(
+    req: NextApiRequest,
+    res: NextApiResponse,
+    categoryId: string
+  ) {
+    try {
+      const payload = await AuthMiddleware.isAuthenticated(req, res);
+      if (!payload) return;
+
+      const query = req.query;
+      const parsedQuery = {
+        page: Number(query?.page ?? "1"),
+        resultsOnPage: Number(query?.resultsOnPage ?? "10"),
+      };
+
+      const operations =
+        await this.operationsRepository.getUserOperationsByCategory(
+          payload.userId,
+          categoryId,
+          parsedQuery.resultsOnPage > 50 ? 50 : parsedQuery.resultsOnPage,
+          parsedQuery.page
+        );
+      return res.status(200).json({ status: 200, data: operations });
+    } catch (err) {
+      return Error.res(res, 500, "Something went wrong");
+    }
+  }
+
+  /**
+   * This method is used to
+   * get operation by id
    * @param req
    * @param res
    * @param id
    */
-
   public async getOperation(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -128,7 +162,7 @@ export default class OperationsService {
         payload.userId,
         id
       );
-      if (!operation) return Error.res(res, 404, "Outlay not found");
+      if (!operation) return Error.res(res, 404, "Operation not found");
 
       return res.status(200).json({ status: 200, data: operation });
     } catch (err) {
@@ -138,7 +172,7 @@ export default class OperationsService {
 
   /**
    * This method is used to
-   * delete outlay by id
+   * delete operation by id
    * @param req
    * @param res
    * @param id
@@ -157,7 +191,7 @@ export default class OperationsService {
         payload.userId,
         id
       );
-      if (!operation) return Error.res(res, 404, "Outlay not found");
+      if (!operation) return Error.res(res, 404, "Operation not found");
 
       return res.status(200).json({ status: 200, data: operation });
     } catch (err) {
@@ -167,7 +201,7 @@ export default class OperationsService {
 
   /**
    * This method is used to
-   * edit outlay by id
+   * edit operation by id
    * @param req
    * @param res
    * @param id

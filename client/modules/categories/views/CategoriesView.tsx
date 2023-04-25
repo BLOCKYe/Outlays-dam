@@ -15,6 +15,7 @@ import AddCategoryButton from "../components/AddCategoryButton";
 import AddOperationButton from "../../operations/components/AddOperationButton";
 import AddGoalButton from "../../goals/components/AddGoalButton";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
+import CategoriesOperationsList from "../../operations/components/CategoriesOperationsList";
 
 const CategoriesView = () => {
   useGetBasicData();
@@ -31,6 +32,10 @@ const CategoriesView = () => {
 
         <div className={"pt-3"}>
           <CategoriesList />
+        </div>
+
+        <div className={"pt-3"}>
+          <CategoriesOperationsList />
         </div>
       </MainWrapper>
       <BottomBar selected={"CATEGORIES"} />
