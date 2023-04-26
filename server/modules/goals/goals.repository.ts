@@ -8,6 +8,8 @@
 
 import { prisma } from "../../utils/prisma/prisma";
 import type { IGoalCreateData, IGoalEditData } from "./IGoals";
+import { defaultDateFormat } from "../../../common/dateTime/dateTimeFormats";
+import moment from "moment";
 
 export default class GoalsRepository {
   /**
@@ -67,7 +69,7 @@ export default class GoalsRepository {
    * This method is used to
    * get one goal by id
    * @param userId
-   * @param operationId
+   * @param goalId
    */
   public findById(userId: string, goalId: string) {
     return prisma.goal.findFirst({
@@ -115,6 +117,7 @@ export default class GoalsRepository {
       },
       data: {
         reached: true,
+        reachedDate: moment().format(defaultDateFormat),
       },
     });
   }

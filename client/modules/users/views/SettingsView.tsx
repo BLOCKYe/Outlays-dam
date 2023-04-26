@@ -16,7 +16,7 @@ import Item from "../../../common/components/dashboard/Item";
 import { useSelector } from "react-redux";
 import { selectUserProfile } from "../redux/userSlice";
 import moment from "moment";
-import { defaultDateTimeFormat } from "../../../common/dateTime/dateTimeFormats";
+import { defaultDateTimeFormat } from "../../../../common/dateTime/dateTimeFormats";
 import AccountDetails from "../components/AccountDetails";
 import AccountConfig from "../components/AccountConfig";
 import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";

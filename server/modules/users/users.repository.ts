@@ -9,6 +9,7 @@
 import { prisma } from "../../utils/prisma/prisma";
 import * as bcrypt from "bcrypt";
 import type { ICreateUserReqBody } from "./IUsers";
+import { SectionsEnum } from "../../../common/dashboard/SectionsEnum";
 
 export default class UsersRepository {
   /**
@@ -72,7 +73,7 @@ export default class UsersRepository {
         name: user.name,
         config: {
           create: {
-            defaultSection: "OPERATIONS",
+            defaultSection: SectionsEnum.OPERATIONS,
           },
         },
       },
