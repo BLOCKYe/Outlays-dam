@@ -35,6 +35,9 @@ export default class UsersRepository {
       where: {
         id,
       },
+      include: {
+        config: true,
+      },
     });
   }
 
@@ -67,6 +70,11 @@ export default class UsersRepository {
         email: user.email,
         password: user.password,
         name: user.name,
+        config: {
+          create: {
+            defaultSection: "OPERATIONS",
+          },
+        },
       },
     });
   }

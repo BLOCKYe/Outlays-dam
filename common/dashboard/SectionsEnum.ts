@@ -1,0 +1,7 @@
+export enum SectionsEnum {
+  OPERATIONS = "OPERATIONS",
+  CATEGORIES = "CATEGORIES",
+  ANALYTICS = "ANALYTICS",
+  GOALS = "GOALS",
+  SETTINGS = "SETTINGS",
+}

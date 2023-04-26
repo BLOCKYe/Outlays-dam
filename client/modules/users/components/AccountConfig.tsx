@@ -4,13 +4,16 @@ import { useSelector } from "react-redux";
 import { selectUserProfile } from "../redux/userSlice";
 import Select from "../../../common/components/inputs/Select";
 import { useFormik } from "formik";
+import type { IBottomBarParam } from "../../../common/components/menu/BottomBar";
+import { sectionsParams } from "../../../common/components/menu/BottomBar";
 
 const AccountConfig: React.FC = () => {
   const currentUser = useSelector(selectUserProfile);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      defaultSection: "OPERATIONS",
+      defaultSection: currentUser?.config?.defaultSection ?? "",
     },
     onSubmit: (values) => console.log(values),
   });
@@ -30,13 +33,9 @@ const AccountConfig: React.FC = () => {
               formik.setFieldValue("defaultSection", e.target.value);
             }}
             value={formik.values.defaultSection}
-            options={[
-              { id: "OPERATIONS", name: "Operacje" },
-              { id: "CATEGORIES", name: "Kategorie" },
-              { id: "ANALYTICS", name: "Statystyki" },
-              { id: "GOALS", name: "Cele" },
-              { id: "SETTINGS", name: "Ustawienia" },
-            ]}
+            options={sectionsParams.map((section: IBottomBarParam) => {
+              return { name: section.name ?? "", id: section.id ?? "" };
+            })}
           />
         </span>
       </div>

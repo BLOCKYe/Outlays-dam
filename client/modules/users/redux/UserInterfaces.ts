@@ -1,3 +1,5 @@
+import type { sectionTypes } from "../../../common/components/menu/BottomBar";
+
 export interface ILoginRequest {
   email: string;
   password: string;
@@ -29,6 +31,14 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
   isVerified?: boolean;
+  config: IUserConfig;
+}
+
+export interface IUserConfig {
+  id: string;
+  updatedAt: string;
+  userId: string;
+  defaultSection: sectionTypes;
 }
 
 export interface IRegisterRequest {

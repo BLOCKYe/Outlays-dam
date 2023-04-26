@@ -21,6 +21,7 @@ import { fetchBasicAnalytics } from "../redux/AnalyticsRepository";
 import "moment/locale/pl";
 import type { AppDispatch } from "../../../common/redux/store";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
+import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 
 interface ICurrentDate {
   month: string;
@@ -167,7 +168,7 @@ const AnalyticsView = () => {
           />
         </div>
       </MainWrapper>
-      <BottomBar selected={"STATS"} />
+      <BottomBar selected={SectionsEnum.ANALYTICS} />
     </>
   );
 };

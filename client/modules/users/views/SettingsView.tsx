@@ -19,6 +19,7 @@ import moment from "moment";
 import { defaultDateTimeFormat } from "../../../common/dateTime/dateTimeFormats";
 import AccountDetails from "../components/AccountDetails";
 import AccountConfig from "../components/AccountConfig";
+import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 
 const SettingsView = () => {
   useGetBasicData();
@@ -46,7 +47,7 @@ const SettingsView = () => {
 
         <AccountConfig />
       </MainWrapper>
-      <BottomBar selected={"SETTINGS"} />
+      <BottomBar selected={SectionsEnum.SETTINGS} />
     </>
   );
 };
