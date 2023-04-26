@@ -30,11 +30,27 @@ export default class UsersRepository {
    * find user by unique id
    * @param id
    */
-
   public findUserById(id: string) {
     return prisma.user.findUnique({
       where: {
         id,
+      },
+    });
+  }
+
+  /**
+   * This method is used to
+   * find user by unique id
+   * @param id
+   * @param name
+   */
+  public updateProfile(id: string, name: string) {
+    return prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
       },
     });
   }
