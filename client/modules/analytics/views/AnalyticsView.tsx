@@ -123,7 +123,7 @@ const AnalyticsView = () => {
           />
           <StatsCard
             title={"Wypełnionych celów"}
-            value={"0"}
+            value={basicAnalytics.reachedGoalsCount}
             description={
               "Ilość założonych celów jakie udało ci się wypełnić w tym miesiącu, gratulacje!"
             }

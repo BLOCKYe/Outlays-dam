@@ -12,6 +12,7 @@ interface IAnalyticsSlice {
     expenses: IBasicAnalyticsOperationMonthData[];
     categories: IBasicAnalyticsCategoryData[];
     operationsCount: number;
+    reachedGoalsCount: number;
   };
 }
 
@@ -25,6 +26,7 @@ const initialState: IAnalyticsSlice = {
     incomes: [],
     categories: [],
     operationsCount: 0,
+    reachedGoalsCount: 0,
   },
 };
 
