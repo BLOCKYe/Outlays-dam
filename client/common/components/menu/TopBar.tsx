@@ -61,7 +61,7 @@ const TopBar: React.FC = () => {
       </div>
       <Progress
         colorScheme="blue"
-        className={`max-h-[2px] w-full !bg-d-lighter ${
+        className={`max-h-[3px] w-full !bg-d ${
           loading ? "opacity-100" : "opacity-0"
         }`}
         size="xs"

@@ -14,4 +14,5 @@ export default class Paths {
   public static readonly LOGIN: string = "/login";
   public static readonly REGISTER: string = "/register";
   public static readonly VERIFY: string = "/verify";
+  public static readonly SETTINGS: string = "/settings";
 }

@@ -104,3 +104,28 @@ export const verifyUserAccount = createAsyncThunk(
     }
   }
 );
+
+export interface IUpdateUserRequest {
+  name: string;
+}
+
+/**
+ * This method is used to
+ * update user profile
+ */
+export const updateProfileDetails = createAsyncThunk(
+  "user/update",
+  async (values: IUpdateUserRequest, thunkAPI) => {
+    try {
+      const response = await httpClient.put("/api/profile/update", values);
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as ILoginResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);

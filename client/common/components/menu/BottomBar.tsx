@@ -15,12 +15,18 @@ import {
 } from "react-icons/md";
 import Paths from "../../router/paths";
 import Link from "next/link";
+import { RiSettingsFill } from "react-icons/ri";
 
 interface IBottomBarProps {
   selected: tabsTypes;
 }
 
-export type tabsTypes = "HISTORY" | "CATEGORIES" | "STATS" | "GOALS";
+export type tabsTypes =
+  | "HISTORY"
+  | "CATEGORIES"
+  | "STATS"
+  | "GOALS"
+  | "SETTINGS";
 
 export interface IBottomBarParam {
   icon: React.ReactNode;
@@ -85,6 +91,13 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
       name: "Cele",
       subName: "Cele oszczędnościowe",
     },
+    {
+      icon: <RiSettingsFill />,
+      tab: "SETTINGS",
+      link: Paths.SETTINGS,
+      name: "Ustawienia",
+      subName: "Zarządzaj kontem",
+    },
   ];
 
   return (
@@ -95,7 +108,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
     >
       <div
         className={
-          "flex w-full max-w-md flex-wrap items-center justify-between gap-2 px-5 text-2xl lg:grid lg:px-0"
+          "flex w-full max-w-md flex-wrap items-center justify-center gap-2 px-5 text-2xl lg:grid lg:px-0"
         }
       >
         <div className={"my-2 hidden p-2 lg:block"}>

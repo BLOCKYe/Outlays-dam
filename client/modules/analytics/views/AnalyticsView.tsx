@@ -17,12 +17,10 @@ import moment from "moment";
 import { GoArrowSmallLeft, GoArrowSmallRight } from "react-icons/go";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
 import { selectBasicAnalytics } from "../redux/analyticsSlice";
-import {
-  fetchBasicAnalytics,
-  fetchLastSpending,
-} from "../redux/AnalyticsRepository";
+import { fetchBasicAnalytics } from "../redux/AnalyticsRepository";
 import "moment/locale/pl";
 import type { AppDispatch } from "../../../common/redux/store";
+import { selectLoading, setLoading } from "../../../common/redux/UISlice";
 
 interface ICurrentDate {
   month: string;
@@ -39,6 +37,7 @@ const getFormattedCurrentDate = (date = new Date()): ICurrentDate => {
 
 const AnalyticsView = () => {
   const basicAnalytics = useSelector(selectBasicAnalytics);
+  const isLoading = useSelector(selectLoading);
   const dispatch: AppDispatch = useDispatch();
   useGetBasicData();
 
@@ -50,28 +49,41 @@ const AnalyticsView = () => {
    * This method is used to set
    * current date to next one
    */
-  const setNextMonth = (): void => {
+  const setNextMonth = async (): Promise<void> => {
+    if (isLoading) return;
+
     const current = currentDate.date;
     const next = moment(current).add(1, "month").toDate();
 
     setCurrentDate(getFormattedCurrentDate(next));
-    dispatch(fetchBasicAnalytics({ date: next }));
+    dispatch(setLoading(true));
+    await dispatch(fetchBasicAnalytics({ date: next }));
+    dispatch(setLoading(false));
   };
 
   /**
    * This method is used to
    * set current date to previous one
    */
-  const setPreviousMonth = (): void => {
+  const setPreviousMonth = async (): Promise<void> => {
+    if (isLoading) return;
+
     const current = currentDate.date;
     const previous = moment(current).subtract(1, "month").toDate();
 
     setCurrentDate(getFormattedCurrentDate(previous));
-    dispatch(fetchBasicAnalytics({ date: previous }));
+    dispatch(setLoading(true));
+    await dispatch(fetchBasicAnalytics({ date: previous }));
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
-    dispatch(fetchBasicAnalytics({ date: new Date() }));
+    const init = async () => {
+      dispatch(setLoading(true));
+      await dispatch(fetchBasicAnalytics({ date: new Date() }));
+      dispatch(setLoading(false));
+    };
+    init().then();
   }, [dispatch]);
 
   return (
