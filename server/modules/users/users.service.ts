@@ -186,7 +186,6 @@ export default class UsersService {
    * @param res
    * @param verifyKey
    */
-
   public async verify(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -207,6 +206,34 @@ export default class UsersService {
       const user = await this.usersRepository.verifyUser(existingUser.id);
 
       return res.status(200).json({ status: 200, data: user });
+    } catch (err) {
+      return Error.res(res, 500, "Something went wrong");
+    }
+  }
+
+  /**
+   * This method is used to
+   * update user details
+   * @param req
+   * @param res
+   * @param verifyKey
+   */
+  public async updateDetails(req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const payload = await AuthMiddleware.isAuthenticated(req, res);
+      if (!payload) return;
+
+      const { name } = req.body;
+
+      const nameSchema = yup.string().min(3).max(32).required();
+      if (!(await nameSchema.isValid(name)))
+        return Error.res(res, 400, "Invalid name field");
+
+      const { userId } = payload;
+      const user: any = await this.usersRepository.updateProfile(userId, name);
+
+      delete user.password;
+      return res.status(200).json({ status: 200, data: { user } });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
     }

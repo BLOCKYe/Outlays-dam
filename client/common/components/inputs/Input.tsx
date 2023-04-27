@@ -16,6 +16,7 @@ interface IInputProps {
   type?: "text" | "number" | "email" | "password" | "search" | "date";
   label?: string;
   err?: string;
+  disabled?: boolean;
 }
 
 const Input: React.FC<IInputProps> = (props) => {
@@ -29,13 +30,14 @@ const Input: React.FC<IInputProps> = (props) => {
       {/* <--- Input core ---> */}
       <input
         className={
-          "custom-calendar w-full cursor-text rounded border-[1px] border-d-light bg-d px-5 py-2 text-sm text-w-dark placeholder:text-sm hover:bg-d-light focus:border-d-lighter focus:outline-none active:outline-none"
+          "custom-calendar w-full cursor-text rounded border-[1px] border-d-light bg-d px-5 py-2 text-sm text-w-dark transition-all placeholder:text-sm hover:bg-d-light focus:border-d-lighter focus:outline-none active:outline-none disabled:opacity-50 disabled:hover:bg-d"
         }
         value={props.value || ""}
         onChange={props.onChange}
         placeholder={props.placeholder}
         type={props.type || "text"}
         name={props.name}
+        disabled={props.disabled}
       />
 
       {/* <--- Display error ---> */}

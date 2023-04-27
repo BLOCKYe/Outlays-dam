@@ -24,6 +24,7 @@ model User {
   operations    Operation[]
   categories    Category[]
   goals         Goal[]
+  config        Config?
 }
 
 model RefreshToken {
@@ -68,8 +69,17 @@ model Goal {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   reached     Boolean  @default(false)
+  reachedDate String?
   goalValue   Int
   type        String
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Config {
+  id             String   @id @unique @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  updatedAt      DateTime @updatedAt
+  defaultSection String
 }

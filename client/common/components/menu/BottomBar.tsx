@@ -15,20 +15,60 @@ import {
 } from "react-icons/md";
 import Paths from "../../router/paths";
 import Link from "next/link";
+import { RiSettingsFill } from "react-icons/ri";
+import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 
 interface IBottomBarProps {
-  selected: tabsTypes;
+  selected: sectionTypes;
 }
 
-export type tabsTypes = "HISTORY" | "CATEGORIES" | "STATS" | "GOALS";
+export type sectionTypes = keyof typeof SectionsEnum;
 
 export interface IBottomBarParam {
   icon: React.ReactNode;
-  tab: tabsTypes;
+  id: sectionTypes;
   link: string;
   name?: string;
   subName?: string;
 }
+
+export const sectionsParams: IBottomBarParam[] = [
+  {
+    icon: <MdHistoryEdu />,
+    id: SectionsEnum.OPERATIONS,
+    link: Paths.OPERATIONS,
+    name: "Operacje",
+    subName: "Zarządzaj wydatkami",
+  },
+  {
+    icon: <BiCategory />,
+    id: SectionsEnum.CATEGORIES,
+    link: Paths.CATEGORIES,
+    name: "Kategorie",
+    subName: "Dodaj kategorie",
+  },
+  {
+    icon: <MdQueryStats />,
+    id: SectionsEnum.ANALYTICS,
+    link: Paths.STATS,
+    name: "Statystyki",
+    subName: "Dokładne statystyki",
+  },
+  {
+    icon: <MdOutlineStarPurple500 />,
+    id: SectionsEnum.GOALS,
+    link: Paths.GOALS,
+    name: "Cele",
+    subName: "Cele oszczędnościowe",
+  },
+  {
+    icon: <RiSettingsFill />,
+    id: SectionsEnum.SETTINGS,
+    link: Paths.SETTINGS,
+    name: "Ustawienia",
+    subName: "Zarządzaj kontem",
+  },
+];
 
 const BottomBar: React.FC<IBottomBarProps> = (props) => {
   /**
@@ -40,8 +80,8 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
    */
 
   const currentSectionsFactory = (
-    selected: tabsTypes,
-    local: tabsTypes
+    selected: sectionTypes,
+    local: sectionTypes
   ): string => {
     const selectedStyles =
       "box-content p-2 lg:p-2 lg:px-5 bg-w-dark transition-all text-d cursor-pointer rounded-full lg:rounded flex items-center gap-3 border-[1px] border-d-lighter";
@@ -56,37 +96,6 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
    * Menu params
    */
 
-  const bottomBarParams: IBottomBarParam[] = [
-    {
-      icon: <MdHistoryEdu />,
-      tab: "HISTORY",
-      link: Paths.OPERATIONS,
-      name: "Operacje",
-      subName: "Zarządzaj wydatkami",
-    },
-    {
-      icon: <BiCategory />,
-      tab: "CATEGORIES",
-      link: Paths.CATEGORIES,
-      name: "Kategorie",
-      subName: "Dodaj kategorie",
-    },
-    {
-      icon: <MdQueryStats />,
-      tab: "STATS",
-      link: Paths.STATS,
-      name: "Statystyki",
-      subName: "Dokładne statystyki",
-    },
-    {
-      icon: <MdOutlineStarPurple500 />,
-      tab: "GOALS",
-      link: Paths.GOALS,
-      name: "Cele",
-      subName: "Cele oszczędnościowe",
-    },
-  ];
-
   return (
     <div
       className={
@@ -95,7 +104,7 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
     >
       <div
         className={
-          "flex w-full max-w-md flex-wrap items-center justify-between gap-2 px-5 text-2xl lg:grid lg:px-0"
+          "flex w-full max-w-md flex-wrap items-center justify-center gap-2 px-5 text-2xl lg:grid lg:px-0"
         }
       >
         <div className={"my-2 hidden p-2 lg:block"}>
@@ -105,9 +114,9 @@ const BottomBar: React.FC<IBottomBarProps> = (props) => {
           </div>
         </div>
 
-        {[].slice.call(bottomBarParams).map((param: IBottomBarParam) => (
-          <Link href={param.link} key={param.tab}>
-            <div className={currentSectionsFactory(props.selected, param.tab)}>
+        {[].slice.call(sectionsParams).map((param: IBottomBarParam) => (
+          <Link href={param.link} key={param.id}>
+            <div className={currentSectionsFactory(props.selected, param.id)}>
               {param.icon}
               <div className={"hidden lg:block"}>
                 <div className={"hidden text-sm lg:block"}>{param.name}</div>

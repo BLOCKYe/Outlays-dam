@@ -9,6 +9,7 @@
 import { prisma } from "../../utils/prisma/prisma";
 import * as bcrypt from "bcrypt";
 import type { ICreateUserReqBody } from "./IUsers";
+import { SectionsEnum } from "../../../common/dashboard/SectionsEnum";
 
 export default class UsersRepository {
   /**
@@ -30,11 +31,30 @@ export default class UsersRepository {
    * find user by unique id
    * @param id
    */
-
   public findUserById(id: string) {
     return prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        config: true,
+      },
+    });
+  }
+
+  /**
+   * This method is used to
+   * find user by unique id
+   * @param id
+   * @param name
+   */
+  public updateProfile(id: string, name: string) {
+    return prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
       },
     });
   }
@@ -51,6 +71,11 @@ export default class UsersRepository {
         email: user.email,
         password: user.password,
         name: user.name,
+        config: {
+          create: {
+            defaultSection: SectionsEnum.OPERATIONS,
+          },
+        },
       },
     });
   }

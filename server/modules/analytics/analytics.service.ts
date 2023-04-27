@@ -131,11 +131,19 @@ export default class AnalyticsService {
           current.end
         );
 
+      const reachedGoalsCount =
+        await this.analyticsRepository.getReachedGoalsCountFromRange(
+          payload.userId,
+          current.start,
+          current.end
+        );
+
       const response = {
         expenses: monthExpenses,
         incomes: monthIncomes,
         categories: categories,
         operationsCount: operationsCount,
+        reachedGoalsCount: reachedGoalsCount,
       };
 
       return res.status(200).json({ status: 200, data: response });

@@ -22,33 +22,34 @@ export default class AnalyticsRepository {
     startDate: string,
     endDate: string
   ) {
-    const expenses = await prisma.operation.aggregate({
-      where: {
-        userId: userId,
-        type: OperationsTypesEnum.EXPENSE,
-        date: {
-          lte: endDate,
-          gte: startDate,
+    const [expenses, incomes] = await Promise.all([
+      prisma.operation.aggregate({
+        where: {
+          userId: userId,
+          type: OperationsTypesEnum.EXPENSE,
+          date: {
+            lte: endDate,
+            gte: startDate,
+          },
         },
-      },
-      _sum: {
-        value: true,
-      },
-    });
-
-    const incomes = await prisma.operation.aggregate({
-      where: {
-        userId: userId,
-        type: OperationsTypesEnum.INCOME,
-        date: {
-          lte: endDate,
-          gte: startDate,
+        _sum: {
+          value: true,
         },
-      },
-      _sum: {
-        value: true,
-      },
-    });
+      }),
+      prisma.operation.aggregate({
+        where: {
+          userId: userId,
+          type: OperationsTypesEnum.INCOME,
+          date: {
+            lte: endDate,
+            gte: startDate,
+          },
+        },
+        _sum: {
+          value: true,
+        },
+      }),
+    ]);
 
     return { incomes, expenses };
   }
@@ -124,5 +125,28 @@ export default class AnalyticsRepository {
     }
 
     return parsedCategories;
+  }
+
+  /**
+   * This method is used to get number
+   * of operations from range
+   * @param userId
+   * @param startDate
+   * @param endDate
+   */
+  public async getReachedGoalsCountFromRange(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ) {
+    return prisma.goal.count({
+      where: {
+        userId: userId,
+        reachedDate: {
+          lte: endDate,
+          gte: startDate,
+        },
+      },
+    });
   }
 }

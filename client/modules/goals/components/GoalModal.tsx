@@ -35,6 +35,7 @@ import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import type { AppDispatch } from "../../../common/redux/store";
+import { validate } from "uuid/index";
 
 interface IGoalModalProps {
   isOpen: boolean;
@@ -137,6 +138,37 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
     }
   };
 
+  /**
+   * This function is used to
+   * handle change start date
+   *
+   * End date must not be before the start
+   */
+  const handleChangeStartDate = (value: string) => {
+    const endDate = formik.values.endDate;
+    if (moment(endDate).isBefore(value)) {
+      formik.setFieldValue("endDate", value);
+    }
+
+    formik.setFieldValue("startDate", value);
+  };
+
+  /**
+   * This function is used to
+   * handle change end date
+   *
+   * End date must not be before the start
+   */
+  const handleChangeEndDate = (value: string) => {
+    let date = value;
+    const startDate = formik.values.startDate;
+    if (moment(startDate).isAfter(date)) {
+      date = startDate;
+    }
+
+    formik.setFieldValue("endDate", date);
+  };
+
   return (
     <Modal
       onClose={() => {
@@ -206,7 +238,9 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
             />
 
             <Input
-              onChange={formik.handleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeStartDate(e.target.value)
+              }
               value={formik.values.startDate}
               name={"startDate"}
               type={"date"}
@@ -216,7 +250,9 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
             />
 
             <Input
-              onChange={formik.handleChange}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeEndDate(e.target.value)
+              }
               value={formik.values.endDate}
               name={"endDate"}
               type={"date"}

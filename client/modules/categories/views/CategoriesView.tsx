@@ -16,6 +16,7 @@ import AddOperationButton from "../../operations/components/AddOperationButton";
 import AddGoalButton from "../../goals/components/AddGoalButton";
 import useGetBasicData from "../../../common/hooks/useGetBasicData";
 import CategoriesOperationsList from "../../operations/components/CategoriesOperationsList";
+import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 
 const CategoriesView = () => {
   useGetBasicData();
@@ -38,7 +39,7 @@ const CategoriesView = () => {
           <CategoriesOperationsList />
         </div>
       </MainWrapper>
-      <BottomBar selected={"CATEGORIES"} />
+      <BottomBar selected={SectionsEnum.CATEGORIES} />
     </>
   );
 };
