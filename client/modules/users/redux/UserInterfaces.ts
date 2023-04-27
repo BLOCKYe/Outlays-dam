@@ -31,7 +31,7 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
   isVerified?: boolean;
-  config: IUserConfig;
+  config?: IUserConfig;
 }
 
 export interface IUserConfig {
