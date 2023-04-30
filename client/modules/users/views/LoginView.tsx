@@ -21,7 +21,7 @@ import type { AppDispatch } from "../../../common/redux/store";
 import { setCookie } from "cookies-next";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import Paths from "../../../common/router/paths";
+import Paths, { getPathBySection } from "../../../common/router/paths";
 
 const LoginView = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -58,7 +58,9 @@ const LoginView = () => {
         isClosable: true,
       });
 
-      await router.push(Paths.OPERATIONS);
+      await router.push(
+        getPathBySection(response.data?.config?.defaultSection)
+      );
     } catch (e: any) {
       toast({
         title: e?.message,

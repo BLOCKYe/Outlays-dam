@@ -15,6 +15,7 @@ import type {
   IVerifyRequest,
 } from "./UserInterfaces";
 import httpClient from "../../../common/axios/HttpClient";
+import type { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 
 /**
  * This method is used to
@@ -118,6 +119,31 @@ export const updateProfileDetails = createAsyncThunk(
   async (values: IUpdateUserRequest, thunkAPI) => {
     try {
       const response = await httpClient.put("/api/profile/update", values);
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+
+      return response?.data as ILoginResponse;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export interface IUpdateConfigRequest {
+  defaultSection: keyof typeof SectionsEnum;
+}
+
+/**
+ * This method is used to
+ * update user profile
+ */
+export const updateConfig = createAsyncThunk(
+  "user/config/update",
+  async (values: IUpdateConfigRequest, thunkAPI) => {
+    try {
+      const response = await httpClient.put("/api/config/update", values);
 
       if (response.status !== 200) {
         return thunkAPI.rejectWithValue(response.data);

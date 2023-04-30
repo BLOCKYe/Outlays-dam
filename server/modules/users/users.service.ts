@@ -82,9 +82,14 @@ export default class UsersService {
         userId: existingUser.id,
       });
 
-      return res
-        .status(200)
-        .json({ status: 200, data: { accessToken, refreshToken } });
+      return res.status(200).json({
+        status: 200,
+        data: {
+          accessToken,
+          refreshToken,
+          config: { defaultSection: existingUser?.config?.defaultSection },
+        },
+      });
     } catch (err) {
       console.log(err);
       return Error.res(res, 500, "Something went wrong");
@@ -216,7 +221,6 @@ export default class UsersService {
    * update user details
    * @param req
    * @param res
-   * @param verifyKey
    */
   public async updateDetails(req: NextApiRequest, res: NextApiResponse) {
     try {

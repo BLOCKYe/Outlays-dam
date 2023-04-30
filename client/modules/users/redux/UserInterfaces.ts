@@ -10,9 +10,14 @@ export interface ILoginResponse {
   data?: ILoginData;
 }
 
+export interface IConfig {
+  defaultSection: sectionTypes;
+}
+
 export interface ILoginData {
   accessToken?: string;
   refreshToken?: string;
+  config?: IConfig;
 }
 
 export interface IUserResponse {
