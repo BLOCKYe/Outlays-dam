@@ -75,10 +75,10 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
     <>
       <Item onClick={onOpen} className={"item-cols grid items-center "}>
         <div
-          className={
-            "h-[10px] w-[10px] rounded-lg " +
-            CategoryColors.ColorBuilder(props.data.color, "default", "bg")
-          }
+          className={"h-[10px] w-[10px] rounded-lg "}
+          style={{
+            backgroundColor: CategoryColors.getColor(props.data.color).default,
+          }}
         />
 
         <div className={"text-w"}>{props.data.name}</div>

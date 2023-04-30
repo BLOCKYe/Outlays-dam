@@ -11,26 +11,30 @@ interface ICategoryColor {
   default: string;
 }
 
-interface ICategoryColorProps {
-  bg: string;
-  text: string;
-}
-
 export interface IColorItemData {
   name: string;
   label: string;
-  styles: string;
+  styles: ICategoryColor;
 }
 
-export type IColors = "Emerald" | "Blue" | "Orange" | "Pink" | "Purple";
+export type IColors =
+  | "Emerald"
+  | "Blue"
+  | "Orange"
+  | "Pink"
+  | "Purple"
+  | "Gray"
+  | "Lime"
+  | "Yellow"
+  | "Indigo";
+
 export default class CategoryColors {
   /**
    *
    * @private
    */
-
   public static readonly Emerald: ICategoryColor = {
-    dark: "#063312",
+    dark: "#031a09",
     default: "#17CB49",
   };
 
@@ -38,9 +42,8 @@ export default class CategoryColors {
    *
    * @private
    */
-
   public static readonly Blue: ICategoryColor = {
-    dark: "#052440",
+    dark: "#031220",
     default: "#168FFF",
   };
 
@@ -48,9 +51,8 @@ export default class CategoryColors {
    *
    * @private
    */
-
   public static readonly Orange: ICategoryColor = {
-    dark: "#40280B",
+    dark: "#201406",
     default: "#FF9F2D",
   };
 
@@ -58,9 +60,8 @@ export default class CategoryColors {
    *
    * @private
    */
-
   public static readonly Pink: ICategoryColor = {
-    dark: "#390B0B",
+    dark: "#1d0606",
     default: "#F74141",
   };
 
@@ -68,78 +69,95 @@ export default class CategoryColors {
    *
    * @private
    */
-
   public static readonly Purple: ICategoryColor = {
-    dark: "#390B38",
+    dark: "#1d061c",
     default: "#C841F7",
   };
 
   /**
    *
-   * @param color
-   * @param variant
-   * @param props
-   * @constructor
+   * @private
    */
+  public static readonly Gray: ICategoryColor = {
+    dark: "#090c14",
+    default: "#9ca3af",
+  };
 
-  public static ColorBuilder(
-    color: IColors,
-    variant: "dark" | "default",
-    props: "bg" | "text"
-  ): string {
+  /**
+   *
+   * @private
+   */
+  public static readonly Lime: ICategoryColor = {
+    dark: "#0d1703",
+    default: "#a3e635",
+  };
+
+  /**
+   *
+   * @private
+   */
+  public static readonly Yellow: ICategoryColor = {
+    dark: "#392009",
+    default: "#facc15",
+  };
+
+  /**
+   *
+   * @private
+   */
+  public static readonly Indigo: ICategoryColor = {
+    dark: "#0f0e26",
+    default: "#818cf8",
+  };
+
+  /**
+   * Returns color variants
+   * by type name
+   * @param color
+   */
+  public static getColor(color: IColors) {
     switch (color) {
-      case "Orange": {
-        if (variant === "default" && props === "bg") return "bg-[#FF9F2D]";
-        else if (variant === "default" && props === "text")
-          return "text-[#FF9F2D]";
-        else if (variant === "dark" && props === "bg")
-          return "bg-[#40280B] bg-opacity-25";
-        else if (variant === "dark" && props === "text")
-          return "text-[#40280B]";
-      }
-
       case "Emerald": {
-        if (variant === "default" && props === "bg") return "bg-[#17CB49]";
-        else if (variant === "default" && props === "text")
-          return "text-[#17CB49]";
-        else if (variant === "dark" && props === "bg")
-          return "bg-[#052e16] bg-opacity-25";
-        else if (variant === "dark" && props === "text")
-          return "text-[#052e16]";
+        return CategoryColors.Emerald;
       }
 
-      case "Blue": {
-        if (variant === "default" && props === "bg") return "bg-[#168FFF]";
-        else if (variant === "default" && props === "text")
-          return "text-[#168FFF]";
-        else if (variant === "dark" && props === "bg")
-          return "bg-[#052440] bg-opacity-25";
-        else if (variant === "dark" && props === "text")
-          return "text-[#052440]";
+      case "Lime": {
+        return CategoryColors.Lime;
       }
 
-      case "Pink": {
-        if (variant === "default" && props === "bg") return "bg-[#F74141]";
-        else if (variant === "default" && props === "text")
-          return "text-[#F74141]";
-        else if (variant === "dark" && props === "bg")
-          return "bg-[#390B0B] bg-opacity-25";
-        else if (variant === "dark" && props === "text")
-          return "text-[#390B0B]";
+      case "Gray": {
+        return CategoryColors.Gray;
+      }
+
+      case "Indigo": {
+        return CategoryColors.Indigo;
+      }
+
+      case "Yellow": {
+        return CategoryColors.Yellow;
       }
 
       case "Purple": {
-        if (variant === "default" && props === "bg") return "bg-[#C841F7]";
-        else if (variant === "default" && props === "text")
-          return "text-[#C841F7]";
-        else if (variant === "dark" && props === "bg")
-          return "bg-[#390B38] bg-opacity-25";
-        else if (variant === "dark" && props === "text")
-          return "text-[#390B38]";
+        return CategoryColors.Purple;
+      }
+
+      case "Orange": {
+        return CategoryColors.Orange;
+      }
+
+      case "Pink": {
+        return CategoryColors.Pink;
+      }
+
+      case "Blue": {
+        return CategoryColors.Blue;
       }
 
       default: {
-        return "bg-d-lighter";
+        return {
+          dark: "black",
+          default: "white",
+        };
       }
     }
   }
@@ -148,42 +166,47 @@ export default class CategoryColors {
     {
       name: "Orange",
       label: "Pomarańczowy",
-      styles:
-        CategoryColors.ColorBuilder("Orange", "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder("Orange", "default", "text"),
+      styles: this.Orange,
     },
     {
       name: "Emerald",
       label: "Zielony",
-      styles:
-        CategoryColors.ColorBuilder("Emerald", "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder("Emerald", "default", "text"),
+      styles: this.Emerald,
     },
     {
       name: "Blue",
       label: "Niebieski",
-      styles:
-        CategoryColors.ColorBuilder("Blue", "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder("Blue", "default", "text"),
+      styles: this.Blue,
     },
     {
       name: "Pink",
       label: "Czerwony",
-      styles:
-        CategoryColors.ColorBuilder("Pink", "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder("Pink", "default", "text"),
+      styles: this.Pink,
     },
     {
       name: "Purple",
       label: "Fioletowy",
-      styles:
-        CategoryColors.ColorBuilder("Purple", "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder("Purple", "default", "text"),
+      styles: this.Purple,
+    },
+    {
+      name: "Gray",
+      label: "Szary",
+      styles: this.Gray,
+    },
+    {
+      name: "Lime",
+      label: "Limonkowy",
+      styles: this.Lime,
+    },
+    {
+      name: "Yellow",
+      label: "Żółty",
+      styles: this.Yellow,
+    },
+    {
+      name: "Indigo",
+      label: "Indigo",
+      styles: this.Indigo,
     },
   ];
 }

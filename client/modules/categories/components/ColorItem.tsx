@@ -6,9 +6,8 @@
  * Time: 00:33
  */
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { BsCheckLg } from "react-icons/bs";
-import autoAnimate from "@formkit/auto-animate";
 import type { IColorItemData } from "../../categories/utils/CategoryColors";
 
 interface IColorItem {
@@ -36,6 +35,10 @@ const ColorItem: React.FC<IColorItem> = (props) => {
           ? "opacity-100"
           : "opacity-50")
       }
+      style={{
+        backgroundColor: props.data.styles.dark,
+        color: props.data.styles.default,
+      }}
     >
       {props.selectedColor === props.data.name && <BsCheckLg />}
       {props.data?.label}

@@ -53,10 +53,11 @@ const OperationPreviewModal: React.FC<IOperationPreviewModal> = (props) => {
             {props.data?.categories.map((category: ICategoryData) => (
               <div key={category.id} className={"flex items-center gap-3"}>
                 <div
-                  className={
-                    "h-[10px] w-[10px] rounded-lg " +
-                    CategoryColors.ColorBuilder(category.color, "default", "bg")
-                  }
+                  className={"h-[10px] w-[10px] rounded-lg "}
+                  style={{
+                    backgroundColor: CategoryColors.getColor(category.color)
+                      .default,
+                  }}
                 />
                 {category.name}
               </div>

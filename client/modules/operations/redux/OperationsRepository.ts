@@ -97,8 +97,8 @@ export const fetchMoreOperationsForCategory = createAsyncThunk(
 export const fetchMoreOperations = createAsyncThunk(
   "operations/allPagination",
   async (page: number, thunkAPI) => {
-    const RESULTS_ON_PAGE = 1;
-    const PAGE = page ?? 10;
+    const RESULTS_ON_PAGE = 10;
+    const PAGE = page ?? 1;
     try {
       const response = await httpClient.get(
         `/api/operations?resultsOnPage=${RESULTS_ON_PAGE}&page=${PAGE}`

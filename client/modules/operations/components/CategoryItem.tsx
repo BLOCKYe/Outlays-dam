@@ -30,15 +30,16 @@ const CategoryItem: React.FC<ICategoryItem> = (props) => {
       onClick={() => props.selectedCategory(props.data.id)}
       className={
         "flex w-full cursor-pointer items-center gap-2 rounded border-[1px] border-d-lighter py-1 px-3 text-sm font-bold hover:opacity-100 " +
-        CategoryColors.ColorBuilder(props.data.color, "dark", "bg") +
-        " " +
-        CategoryColors.ColorBuilder(props.data.color, "default", "text") +
         " " +
         (props.selectedCategories &&
         props.selectedCategories.includes(props.data.id)
           ? "opacity-100"
           : "opacity-50")
       }
+      style={{
+        backgroundColor: CategoryColors.getColor(props.data.color).dark,
+        color: CategoryColors.getColor(props.data.color).default,
+      }}
     >
       {props.selectedCategories &&
         props.selectedCategories.includes(props.data.id) && <BsCheckLg />}

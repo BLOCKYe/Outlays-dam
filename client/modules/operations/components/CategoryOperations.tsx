@@ -69,12 +69,11 @@ const CategoryOperations: React.FC<ICategoryOperationsProps> = (props) => {
         >
           <div className={"justify-self-start whitespace-nowrap"}>
             <div
-              className={
-                "flex rounded-xl py-1 px-3 text-xs " +
-                CategoryColors.ColorBuilder(props.data.color, "dark", "bg") +
-                " " +
-                CategoryColors.ColorBuilder(props.data.color, "default", "text")
-              }
+              className={"flex rounded-xl py-1 px-3 text-xs "}
+              style={{
+                backgroundColor: CategoryColors.getColor(props.data.color).dark,
+                color: CategoryColors.getColor(props.data.color).default,
+              }}
             >
               {props.data.name}
             </div>
