@@ -6,10 +6,10 @@
  * Time: 00:53
  */
 
-import { prisma } from "../../utils/prisma/prisma";
+import {prisma} from "../../utils/prisma/prisma";
 import * as bcrypt from "bcrypt";
-import type { ICreateUserReqBody } from "./IUsers";
-import { SectionsEnum } from "../../../common/dashboard/SectionsEnum";
+import type {ICreateUserReqBody} from "./IUsers";
+import {SectionsEnum} from "../../../common/dashboard/SectionsEnum";
 
 export default class UsersRepository {
   /**
@@ -22,6 +22,9 @@ export default class UsersRepository {
     return prisma.user.findUnique({
       where: {
         email,
+      },
+      include: {
+        config: true,
       },
     });
   }
