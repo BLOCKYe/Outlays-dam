@@ -166,14 +166,11 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
               <div key={category.id}>
                 <Tooltip label={category.name}>
                   <div
-                    className={
-                      "h-[10px] w-[10px] rounded-lg " +
-                      CategoryColors.ColorBuilder(
-                        category.color,
-                        "default",
-                        "bg"
-                      )
-                    }
+                    className={"h-[10px] w-[10px] rounded-lg "}
+                    style={{
+                      backgroundColor: CategoryColors.getColor(category.color)
+                        .default,
+                    }}
                   />
                 </Tooltip>
               </div>
@@ -193,16 +190,12 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
             {props.data.categories.map((category: ICategoryData) => (
               <div key={category.id}>
                 <div
-                  className={
-                    "rounded-xl py-1 px-3 text-xs " +
-                    CategoryColors.ColorBuilder(category.color, "dark", "bg") +
-                    " " +
-                    CategoryColors.ColorBuilder(
-                      category.color,
-                      "default",
-                      "text"
-                    )
-                  }
+                  className={"rounded-xl py-1 px-3 text-xs "}
+                  style={{
+                    backgroundColor: CategoryColors.getColor(category.color)
+                      .dark,
+                    color: CategoryColors.getColor(category.color).default,
+                  }}
                 >
                   {category.name}
                 </div>
