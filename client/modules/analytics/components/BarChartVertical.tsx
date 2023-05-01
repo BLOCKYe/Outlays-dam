@@ -6,7 +6,7 @@
  * Time: 18:04
  */
 
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import { MdQueryStats } from "react-icons/md";
 import { Tooltip } from "@chakra-ui/react";
 import type { IColors } from "../../categories/utils/CategoryColors";
@@ -24,7 +24,7 @@ interface IBarChart {
   data?: IBarChartData[];
 }
 
-const BarChart: React.FC<IBarChart> = (props) => {
+const BarChartVertical: React.FC<IBarChart> = (props) => {
   /**
    * Get max value from data
    * used to calibrate char
@@ -47,37 +47,39 @@ const BarChart: React.FC<IBarChart> = (props) => {
       <div className={"mt-14 flex h-[200px] w-full items-end gap-3"}>
         {Array.isArray(props.data) &&
           props.data.map((item: IBarChartData) => (
-            <Tooltip
-              label={`${item.label} (${item.value} PLN)`}
-              placement={"top"}
-              key={String(item.label)}
-            >
-              <div
-                className={
-                  "relative w-full rounded bg-c-light hover:opacity-80"
-                }
-                style={{
-                  backgroundColor: item.color
-                    ? CategoryColors[item.color].default
-                    : "#168FFF",
-                  height: item.value
-                    ? `${(item.value / maxValue) * 100}%`
-                    : `2%`,
-                }}
+            <Fragment key={String(item.label)}>
+              <Tooltip
+                label={`${item.label} (${item.value} PLN)`}
+                placement={"top"}
+                key={String(item.label)}
               >
                 <div
                   className={
-                    "absolute -top-[20px] left-1/2 -translate-x-1/2 transform text-center text-xs"
+                    "relative w-full rounded bg-c-light hover:opacity-80"
                   }
+                  style={{
+                    backgroundColor: item.color
+                      ? CategoryColors[item.color].default
+                      : "#168FFF",
+                    height: item.value
+                      ? `${(item.value / maxValue) * 100}%`
+                      : `1%`,
+                  }}
                 >
-                  {item.value}
+                  <div
+                    className={
+                      "absolute -top-[20px] left-1/2 -translate-x-1/2 transform text-center text-xs"
+                    }
+                  >
+                    {item.value}
+                  </div>
                 </div>
-              </div>
-            </Tooltip>
+              </Tooltip>
+            </Fragment>
           ))}
       </div>
     </div>
   );
 };
 
-export default BarChart;
+export default BarChartVertical;

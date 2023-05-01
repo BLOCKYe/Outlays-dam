@@ -22,11 +22,10 @@ const CategoriesOperationsList: React.FC = () => {
       {/* <--- Header ---> */}
       <div className={"flex items-center justify-between gap-3"}>
         {/* <--- Display history list text ---> */}
-
         <>
           <div className={"flex items-center gap-2 text-lg font-bold"}>
             <IoList />
-            Operacje kategorii
+            Kategorie i ich operacje
           </div>
         </>
       </div>

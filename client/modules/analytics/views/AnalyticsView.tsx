@@ -11,7 +11,7 @@ import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
 import { useDispatch, useSelector } from "react-redux";
-import BarChart from "../components/BarChart";
+import BarChartVertical from "../components/BarChartVertical";
 import StatsCard from "../components/StatsCard";
 import moment from "moment";
 import { GoArrowSmallLeft, GoArrowSmallRight } from "react-icons/go";
@@ -22,6 +22,8 @@ import "moment/locale/pl";
 import type { AppDispatch } from "../../../common/redux/store";
 import { selectLoading, setLoading } from "../../../common/redux/UISlice";
 import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
+import BarChartHorizontal from "../components/BarChartHorizontal";
+import BarChartHorizontalExtra from "../components/BarChartHorizontalExtra";
 
 interface ICurrentDate {
   month: string;
@@ -145,26 +147,34 @@ const AnalyticsView = () => {
         </div>
 
         <div className={"mt-3 mb-20 grid gap-3 lg:grid-cols-2"}>
-          <BarChart
-            title={"Podział wydatków na kategorie"}
-            description={
-              "Wykres przedstawia rozkład wydatków z podziałem na kategorie."
-            }
-            data={basicAnalytics.categories}
-          />
-          <BarChart
-            title={"Podział wydatków na miesiące"}
+          <BarChartVertical
+            title={"Wydatki w ostatnich miesiącach"}
             description={
               "Wykres przedstawia wydatki z podziałem na ostatnie 12 miesięcy."
             }
             data={basicAnalytics.expenses}
           />
-          <BarChart
-            title={"Podział przychodów na miesiące"}
+          <BarChartVertical
+            title={"Przychody w ostatnich miesiącach"}
             description={
               "Wykres przedstawia przychody z podziałem na ostatnie 12 miesięcy."
             }
             data={basicAnalytics.incomes}
+          />
+          <BarChartHorizontal
+            title={"Operacje z podziałem na kategorie"}
+            description={
+              "Wykres przedstawia rozkład wydatków z podziałem na kategorie."
+            }
+            data={basicAnalytics.categories}
+          />
+          <BarChartHorizontalExtra
+            title={"Zestawienie wydatków z przychodami"}
+            description={
+              "Wykres przedstawia zestawienie wydatków z przychodami z podziałem na ostatnie 6 miesięcy."
+            }
+            data={basicAnalytics.incomes}
+            secondData={basicAnalytics.expenses}
           />
         </div>
       </MainWrapper>
