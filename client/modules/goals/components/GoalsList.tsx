@@ -27,6 +27,10 @@ const CategoriesList = () => {
         <p>
           ✨ W tym miejscu możesz zobaczyć swoje postępy w trwających celach.
         </p>
+        <p>
+          Jeśli uznasz, że cel został zrealizowany - zmień jego status i dodaj
+          go do swoich statystyk.
+        </p>
       </div>
 
       {/* <--- Display categories ---> */}

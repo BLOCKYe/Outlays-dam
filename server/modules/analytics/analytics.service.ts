@@ -92,7 +92,7 @@ export default class AnalyticsService {
       if (!(await dateSchema.isValid(dateAsDate)))
         return Error.res(res, 400, "Wrong date");
 
-      const ranges = AnalyticsHelper.getLastTwelveMonthsRanged(dateAsDate);
+      const ranges = AnalyticsHelper.getLastTwelveMonthsRanges(dateAsDate);
 
       const monthExpenses = [];
       const monthIncomes = [];
@@ -103,14 +103,17 @@ export default class AnalyticsService {
             ranges[i]!.start,
             ranges[i]!.end
           );
+
         const localExpenseData = {
           value: monthResults?.expenses._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
+
         const localIncomeData = {
           value: monthResults?.incomes._sum?.value ?? 0,
           label: moment(ranges[i]?.date).format("MMMM"),
         };
+
         monthExpenses.push(localExpenseData);
         monthIncomes.push(localIncomeData);
       }

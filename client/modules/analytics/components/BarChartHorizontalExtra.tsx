@@ -72,13 +72,14 @@ const BarChartHorizontal: React.FC<IBarChart> = (props) => {
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur deserunt explicabo ipsa ipsam minus, modi mollitia placeat sit."}
       </div>
 
-      <div className={"mt-10 grid w-full gap-3"}>
+      <div className={"mt-5 grid w-full gap-3"}>
         {Array.isArray(connectedData) &&
           connectedData.map((item: IBarChartDataExtended) => (
             <Fragment key={String(item.label)}>
               <div>
                 <p className={"py-2 text-xs font-bold"}>{item.label}</p>
 
+                {/* <--- Render incomes ---> */}
                 <div className={"flex w-full items-center gap-3"}>
                   <div
                     className={"h-[20px] rounded bg-c-light hover:opacity-80"}
@@ -94,6 +95,7 @@ const BarChartHorizontal: React.FC<IBarChart> = (props) => {
                   <div className={"text-center text-xs"}>{item.value}</div>
                 </div>
 
+                {/* <--- Render expenses ---> */}
                 <div className={"mt-1 flex w-full items-center gap-3"}>
                   <div
                     className={"h-[20px] rounded bg-c-light hover:opacity-80"}

@@ -88,7 +88,7 @@ const VerifyView = () => {
 
       <div className={"mt-10 grid place-items-center"}>
         <Button
-          disabled={isError || isVerified}
+          disabled={isError || isVerified || isProcessing}
           variant={"CONTAINED"}
           text={"Zweryfikuj konto"}
           onClick={() => verifyAccount()}

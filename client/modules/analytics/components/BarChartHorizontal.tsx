@@ -44,15 +44,13 @@ const BarChartHorizontal: React.FC<IBarChart> = (props) => {
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur deserunt explicabo ipsa ipsam minus, modi mollitia placeat sit."}
       </div>
 
-      <div className={"mt-10 grid w-full gap-3"}>
+      <div className={"mt-5 grid w-full gap-3"}>
         {Array.isArray(props.data) &&
           props.data.map((item: IBarChartData) => (
             <Fragment key={String(item.label)}>
-              <Tooltip
-                label={`${item.label} (${item.value} PLN)`}
-                placement={"top"}
-                key={String(item.label)}
-              >
+              <div>
+                <p className={"py-2 text-xs font-bold"}>{item.label}</p>
+
                 <div className={"flex w-full items-center gap-3"}>
                   <div
                     className={"h-[20px] rounded bg-c-light hover:opacity-80"}
@@ -67,7 +65,7 @@ const BarChartHorizontal: React.FC<IBarChart> = (props) => {
                   />
                   <div className={"text-center text-xs"}>{item.value}</div>
                 </div>
-              </Tooltip>
+              </div>
             </Fragment>
           ))}
       </div>

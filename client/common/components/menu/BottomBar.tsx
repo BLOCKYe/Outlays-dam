@@ -48,18 +48,18 @@ export const sectionsParams: IBottomBarParam[] = [
     subName: "Dodaj kategorie",
   },
   {
-    icon: <MdQueryStats />,
-    id: SectionsEnum.ANALYTICS,
-    link: Paths.STATS,
-    name: "Statystyki",
-    subName: "Dokładne statystyki",
-  },
-  {
     icon: <MdOutlineStarPurple500 />,
     id: SectionsEnum.GOALS,
     link: Paths.GOALS,
     name: "Cele",
     subName: "Cele oszczędnościowe",
+  },
+  {
+    icon: <MdQueryStats />,
+    id: SectionsEnum.ANALYTICS,
+    link: Paths.STATS,
+    name: "Statystyki",
+    subName: "Dokładne statystyki",
   },
   {
     icon: <RiSettingsFill />,
