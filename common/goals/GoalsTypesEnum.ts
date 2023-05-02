@@ -7,8 +7,8 @@ export enum GoalsTypesEnum {
 }
 
 export const GoalsTypesDictionary = {
-  INCOME: { type: GoalsTypesEnum.INCOME, name: "Wydatki" },
-  EXPENSE: { type: GoalsTypesEnum.EXPENSE, name: "Przychody" },
+  INCOME: { type: GoalsTypesEnum.INCOME, name: "Przychody" },
+  EXPENSE: { type: GoalsTypesEnum.EXPENSE, name: "Wydatki" },
   SAVE: { type: GoalsTypesEnum.SAVE, name: "Oszczędności" },
 };
 

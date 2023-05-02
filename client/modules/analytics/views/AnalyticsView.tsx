@@ -6,7 +6,7 @@
  * Time: 22:01
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MainWrapper from "../../../common/components/dashboard/MainWrapper";
 import TopBar from "../../../common/components/menu/TopBar";
 import BottomBar from "../../../common/components/menu/BottomBar";
@@ -25,6 +25,7 @@ import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 import BarChartHorizontal from "../components/BarChartHorizontal";
 import BarChartHorizontalExtra from "../components/BarChartHorizontalExtra";
 import SavingCalculator from "../components/SavingCalculator";
+import Header from "../components/Header";
 
 interface ICurrentDate {
   month: string;
@@ -90,10 +91,31 @@ const AnalyticsView = () => {
     init().then();
   }, [dispatch]);
 
+  /**
+   * The difference between last
+   * and current month
+   */
+  const getLimitedExpenses = useMemo(() => {
+    const lastMonth =
+      (basicAnalytics.incomes[1]?.value ?? 0) -
+      (basicAnalytics.expenses[1]?.value ?? 0);
+
+    const currentMonth =
+      (basicAnalytics.incomes[0]?.value ?? 0) -
+      (basicAnalytics.expenses[0]?.value ?? 0);
+
+    const value = currentMonth - lastMonth;
+    const indicator = ((currentMonth ?? 1) / (lastMonth ?? 1)) * 100;
+
+    return { value, indicator };
+  }, [basicAnalytics.expenses, basicAnalytics.incomes]);
+
   return (
     <>
       <TopBar />
       <MainWrapper>
+        <Header />
+
         <div
           className={
             "mt-3 flex flex-wrap items-center gap-3 rounded-md border-[1px] border-d-lighter bg-d p-5 text-3xl font-bold"
@@ -133,16 +155,16 @@ const AnalyticsView = () => {
           />
           <StatsCard
             title={"Współczynnik oszczędności"}
-            value={0}
+            value={getLimitedExpenses.indicator.toFixed(2) + "%"}
             description={
-              "Współczynnik pokazuje stopień oszczędności na podstawie ostatnich miesięcy"
+              "Współczynnik pokazuje stopień oszczędności na podstawie poprzedniego miesiąca"
             }
           />
           <StatsCard
-            title={"Ograniczonych wydatków"}
-            value={0}
+            title={"Zaoszczędzono"}
+            value={getLimitedExpenses.value.toLocaleString() + " PLN"}
             description={
-              "Ilość zaoszczędzonych pieniędzy na podstawie średniej z ostatnich miesięcy"
+              "Ilość zaoszczędzonych pieniędzy na podstawie poprzedniego miesiąca"
             }
           />
         </div>
@@ -163,7 +185,12 @@ const AnalyticsView = () => {
             data={basicAnalytics.incomes}
           />
 
-          <SavingCalculator />
+          <SavingCalculator
+            lastMonthSavings={
+              (basicAnalytics.incomes[1]?.value ?? 0) -
+              (basicAnalytics.expenses[1]?.value ?? 0)
+            }
+          />
 
           <BarChartHorizontal
             title={"Operacje z podziałem na kategorie"}

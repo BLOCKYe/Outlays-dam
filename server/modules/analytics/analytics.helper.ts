@@ -17,7 +17,7 @@ export default class AnalyticsHelper {
    * Get array of 12 ranges
    * @param date
    */
-  public static getLastTwelveMonthsRanged(date: Date): IRangeDate[] {
+  public static getLastTwelveMonthsRanges(date: Date): IRangeDate[] {
     const ranges: IRangeDate[] = [];
 
     for (let i = 0; i < 12; i++) {
