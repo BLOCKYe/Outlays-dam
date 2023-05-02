@@ -105,7 +105,7 @@ const AnalyticsView = () => {
       (basicAnalytics.expenses[0]?.value ?? 0);
 
     const value = currentMonth - lastMonth;
-    const indicator = ((currentMonth ?? 1) / (lastMonth ?? 1)) * 100;
+    const indicator = ((lastMonth || 1) / (currentMonth || 1)) * 100;
 
     return { value, indicator };
   }, [basicAnalytics.expenses, basicAnalytics.incomes]);
@@ -155,16 +155,16 @@ const AnalyticsView = () => {
           />
           <StatsCard
             title={"Współczynnik oszczędności"}
-            value={getLimitedExpenses.indicator.toFixed(2) + "%"}
+            value={getLimitedExpenses.indicator.toFixed(2)}
             description={
-              "Współczynnik pokazuje stopień oszczędności na podstawie poprzedniego miesiąca"
+              "Współczynnik pokazuje stopień zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
             }
           />
           <StatsCard
             title={"Zaoszczędzono"}
             value={getLimitedExpenses.value.toLocaleString() + " PLN"}
             description={
-              "Ilość zaoszczędzonych pieniędzy na podstawie poprzedniego miesiąca"
+              "Zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
             }
           />
         </div>
