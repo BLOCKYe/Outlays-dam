@@ -24,6 +24,7 @@ import { selectLoading, setLoading } from "../../../common/redux/UISlice";
 import { SectionsEnum } from "../../../../common/dashboard/SectionsEnum";
 import BarChartHorizontal from "../components/BarChartHorizontal";
 import BarChartHorizontalExtra from "../components/BarChartHorizontalExtra";
+import SavingCalculator from "../components/SavingCalculator";
 
 interface ICurrentDate {
   month: string;
@@ -146,7 +147,7 @@ const AnalyticsView = () => {
           />
         </div>
 
-        <div className={"mt-3 mb-20 grid gap-3 lg:grid-cols-2"}>
+        <div className={"mt-3 grid gap-3 lg:grid-cols-2"}>
           <BarChartVertical
             title={"Wydatki w ostatnich miesiącach"}
             description={
@@ -161,6 +162,9 @@ const AnalyticsView = () => {
             }
             data={basicAnalytics.incomes}
           />
+
+          <SavingCalculator />
+
           <BarChartHorizontal
             title={"Operacje z podziałem na kategorie"}
             description={
@@ -168,6 +172,9 @@ const AnalyticsView = () => {
             }
             data={basicAnalytics.categories}
           />
+        </div>
+
+        <div className={"mt-3 mb-20"}>
           <BarChartHorizontalExtra
             title={"Zestawienie wydatków z przychodami"}
             description={

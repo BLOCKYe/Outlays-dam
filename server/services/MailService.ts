@@ -41,18 +41,21 @@ export default class MailService {
    * send mail
    * @private
    */
-  public sendMail() {
+  public async sendMail() {
     if (!this.transporter) return;
     if (!this.mailOptions) return;
 
-    this.transporter.sendMail(this.mailOptions, (error: any, info: any) => {
-      if (error) {
-        console.log(error);
-        return "ERROR";
-      } else {
-        console.log("Sent: " + info.response);
-        return "SUCCESS";
+    await this.transporter.sendMail(
+      this.mailOptions,
+      (error: any, info: any) => {
+        if (error) {
+          console.log(error);
+          return "ERROR";
+        } else {
+          console.log("Sent: " + info.response);
+          return "SUCCESS";
+        }
       }
-    });
+    );
   }
 }

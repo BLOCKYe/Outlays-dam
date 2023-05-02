@@ -76,45 +76,41 @@ const BarChartHorizontal: React.FC<IBarChart> = (props) => {
         {Array.isArray(connectedData) &&
           connectedData.map((item: IBarChartDataExtended) => (
             <Fragment key={String(item.label)}>
-              <Tooltip
-                label={`${item.label} (${item.value} PLN)`}
-                placement={"top"}
-                key={String(item.label)}
-              >
-                <div>
-                  <div className={"flex w-full items-center gap-3"}>
-                    <div
-                      className={"h-[20px] rounded bg-c-light hover:opacity-80"}
-                      style={{
-                        backgroundColor: item.color
-                          ? CategoryColors[item.color].default
-                          : "#22c55e",
-                        width: item.value
-                          ? `${(item.value / maxValue) * 100}%`
-                          : `1%`,
-                      }}
-                    />
-                    <div className={"text-center text-xs"}>{item.value}</div>
-                  </div>
+              <div>
+                <p className={"py-2 text-xs font-bold"}>{item.label}</p>
 
-                  <div className={"mt-1 flex w-full items-center gap-3"}>
-                    <div
-                      className={"h-[20px] rounded bg-c-light hover:opacity-80"}
-                      style={{
-                        backgroundColor: item.color
-                          ? CategoryColors[item.color].default
-                          : "#ef4444",
-                        width: item.secondValue
-                          ? `${(item.secondValue / maxValue) * 100}%`
-                          : `1%`,
-                      }}
-                    />
-                    <div className={"text-center text-xs"}>
-                      {item.secondValue}
-                    </div>
+                <div className={"flex w-full items-center gap-3"}>
+                  <div
+                    className={"h-[20px] rounded bg-c-light hover:opacity-80"}
+                    style={{
+                      backgroundColor: item.color
+                        ? CategoryColors[item.color].default
+                        : "#22c55e",
+                      width: item.value
+                        ? `${(item.value / maxValue) * 100}%`
+                        : `1%`,
+                    }}
+                  />
+                  <div className={"text-center text-xs"}>{item.value}</div>
+                </div>
+
+                <div className={"mt-1 flex w-full items-center gap-3"}>
+                  <div
+                    className={"h-[20px] rounded bg-c-light hover:opacity-80"}
+                    style={{
+                      backgroundColor: item.color
+                        ? CategoryColors[item.color].default
+                        : "#ef4444",
+                      width: item.secondValue
+                        ? `${(item.secondValue / maxValue) * 100}%`
+                        : `1%`,
+                    }}
+                  />
+                  <div className={"text-center text-xs"}>
+                    {item.secondValue}
                   </div>
                 </div>
-              </Tooltip>
+              </div>
             </Fragment>
           ))}
       </div>
