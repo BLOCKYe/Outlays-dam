@@ -35,7 +35,7 @@ const Login: NextPage = () => {
       </Head>
 
       {!isAuth && !isProcessing && <LoginView />}
-      {isAuth && <LoaderView />}
+      {(isAuth || isProcessing) && <LoaderView />}
     </div>
   );
 };
