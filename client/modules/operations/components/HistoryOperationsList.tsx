@@ -136,16 +136,6 @@ const HistoryOperationsList: React.FC = () => {
             <OperationItem data={operation} key={operation.id} />
           ))}
 
-        <Button
-          disabled={
-            (Array.isArray(operations) && operations.length % 10 !== 0) ||
-            (Array.isArray(operations) && operations.length === 0)
-          }
-          variant={"CONTAINED"}
-          text={"Pokaż więcej"}
-          onClick={handleFetchMoreData}
-        />
-
         {!operations && (
           <div className={"grid gap-1"}>
             <Skeleton startColor="black" endColor="gray" height={"48px"} />
@@ -159,6 +149,17 @@ const HistoryOperationsList: React.FC = () => {
             <Skeleton startColor="black" endColor="gray" height={"48px"} />
           </div>
         )}
+
+        <Button
+          disabled={
+            !operations ||
+            (Array.isArray(operations) && operations.length % 10 !== 0) ||
+            (Array.isArray(operations) && operations.length === 0)
+          }
+          variant={"CONTAINED"}
+          text={"Pokaż więcej"}
+          onClick={handleFetchMoreData}
+        />
       </div>
     </div>
   );

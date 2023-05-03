@@ -10,15 +10,13 @@ import { fetchUserProfile } from "../../modules/users/redux/UserRepository";
 function useAuth() {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(true);
   const [isAuth, setIsAuth] = useState<boolean>(
     !!store.getState().user.token ?? false
   );
 
   useEffect(() => {
     const init = async () => {
-      setIsProcessing(true);
-
       // check token in local storage
       const token = localStorage.getItem("token");
       if (!token) {
