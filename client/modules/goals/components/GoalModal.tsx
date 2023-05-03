@@ -6,7 +6,7 @@
  * Time: 23:27
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Modal,
   ModalBody,
@@ -35,7 +35,6 @@ import { deleteGoal, fetchGoals, setAsReached } from "../redux/GoalsRepository";
 import ConfirmationDialog from "../../../common/components/modals/ConfirmationDialog";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import type { AppDispatch } from "../../../common/redux/store";
-import { validate } from "uuid/index";
 
 interface IGoalModalProps {
   isOpen: boolean;
@@ -168,6 +167,27 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
 
     formik.setFieldValue("endDate", date);
   };
+
+  /**
+   *
+   */
+  const disabledButtonController = useMemo(() => {
+    if (!formik.dirty) return true;
+    if (!formik.values.title) return true;
+    if (!formik.values.goalValue) return true;
+    if (!formik.values.startDate) return true;
+    if (!formik.values.endDate) return true;
+    if (loading) return true;
+
+    return false;
+  }, [
+    formik.dirty,
+    formik.values.startDate,
+    formik.values.endDate,
+    formik.values.title,
+    formik.values.goalValue,
+    loading,
+  ]);
 
   return (
     <Modal
@@ -313,7 +333,7 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
                 variant={"CONTAINED"}
                 text={"Zapisz"}
                 type={"submit"}
-                disabled={!formik.dirty || loading}
+                disabled={disabledButtonController}
               />
             </ModalFooter>
           </form>

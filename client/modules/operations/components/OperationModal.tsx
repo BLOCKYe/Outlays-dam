@@ -6,7 +6,7 @@
  * Time: 23:27
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import type { IOperationData } from "../redux/OperationInterfaces";
 import {
   Modal,
@@ -116,6 +116,25 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
     }
   };
 
+  /**
+   *
+   */
+  const disabledButtonController = useMemo(() => {
+    if (!formik.dirty) return true;
+    if (!formik.values.title) return true;
+    if (!formik.values.value) return true;
+    if (!formik.values.date) return true;
+    if (loading) return true;
+
+    return false;
+  }, [
+    formik.dirty,
+    formik.values.date,
+    formik.values.title,
+    formik.values.value,
+    loading,
+  ]);
+
   return (
     <Modal
       onClose={() => {
@@ -224,7 +243,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
 
               {categories && categories.length === 0 && (
                 <div className={"mt-1 text-sm text-pink-600"}>
-                  Nie utworzyłeś jeszcze żadnych kategorii.
+                  Zanim utworzysz operację, stwórz nową kategorię.
                 </div>
               )}
             </div>
@@ -253,7 +272,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
                 variant={"CONTAINED"}
                 text={"Zapisz"}
                 type={"submit"}
-                disabled={!formik.dirty || loading}
+                disabled={disabledButtonController}
               />
             </ModalFooter>
           </form>

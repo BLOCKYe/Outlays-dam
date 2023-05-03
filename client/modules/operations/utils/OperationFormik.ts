@@ -17,7 +17,7 @@ export const initialValues: IOperationRequest = {
 export const operationSchema: SchemaOf<any> = Yup.object().shape({
   title: yup.string().min(1).max(50).required("Pole jest wymagane"),
   description: yup.string().max(255),
-  type: yup.string().max(255),
+  type: yup.string().max(255).required("Pole jest wymagane"),
   date: yup.string().max(255).required("Pole jest wymagane"),
   value: yup
     .number()
