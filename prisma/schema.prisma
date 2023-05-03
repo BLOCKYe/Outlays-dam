@@ -47,7 +47,7 @@ model Operation {
   updatedAt   DateTime   @updatedAt
   userId      String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  value       Float
+  value       Decimal
   categories  Category[]
 }
 
@@ -70,7 +70,7 @@ model Goal {
   updatedAt   DateTime @updatedAt
   reached     Boolean  @default(false)
   reachedDate String?
-  goalValue   Float
+  goalValue   Decimal
   type        String
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
