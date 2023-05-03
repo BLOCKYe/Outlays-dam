@@ -10,18 +10,24 @@ import { fetchUserProfile } from "../../modules/users/redux/UserRepository";
 function useAuth() {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(
     !!store.getState().user.token ?? false
   );
 
   useEffect(() => {
     const init = async () => {
+      setIsProcessing(true);
+
       // check token in local storage
       const token = localStorage.getItem("token");
       if (!token) {
         await dispatch(setToken(null));
+        setIsProcessing(false);
         localStorage.clear();
-        await router.push(Paths.LOGIN);
+        if (router.pathname !== Paths.LOGIN) {
+          await router.push(Paths.LOGIN);
+        }
         return;
       }
 
@@ -31,17 +37,21 @@ function useAuth() {
       const userProfileResponse = await dispatch(fetchUserProfile()).unwrap();
       if (userProfileResponse.status !== 200) {
         await dispatch(setToken(null));
+        setIsProcessing(false);
         localStorage.clear();
-        await router.push(Paths.LOGIN);
+        if (router.pathname !== Paths.LOGIN) {
+          await router.push(Paths.LOGIN);
+        }
       }
 
       setIsAuth(true);
+      setIsProcessing(false);
     };
 
     init().then();
   }, [dispatch, router]);
 
-  return { isAuth };
+  return { isAuth, isProcessing };
 }
 
 export default useAuth;

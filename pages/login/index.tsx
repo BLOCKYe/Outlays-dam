@@ -16,7 +16,7 @@ import Paths from "../../client/common/router/paths";
 import LoaderView from "../../client/common/components/dashboard/LoaderView";
 
 const Login: NextPage = () => {
-  const { isAuth } = useAuth();
+  const { isAuth, isProcessing } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Login: NextPage = () => {
         <meta property="og:image" content="/mini.png" />
       </Head>
 
-      {!isAuth && <LoginView />}
+      {!isAuth && !isProcessing && <LoginView />}
       {isAuth && <LoaderView />}
     </div>
   );
