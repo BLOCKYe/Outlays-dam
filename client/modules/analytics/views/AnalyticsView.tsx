@@ -26,6 +26,7 @@ import BarChartHorizontal from "../components/BarChartHorizontal";
 import BarChartHorizontalExtra from "../components/BarChartHorizontalExtra";
 import SavingCalculator from "../components/SavingCalculator";
 import Header from "../components/Header";
+import { Skeleton } from "@chakra-ui/react";
 
 interface ICurrentDate {
   month: string;
@@ -43,6 +44,7 @@ const getFormattedCurrentDate = (date = new Date()): ICurrentDate => {
 const AnalyticsView = () => {
   const basicAnalytics = useSelector(selectBasicAnalytics);
   const isLoading = useSelector(selectLoading);
+  const [localLoading, setLocalLoading] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   useGetBasicData();
 
@@ -62,8 +64,10 @@ const AnalyticsView = () => {
 
     setCurrentDate(getFormattedCurrentDate(next));
     dispatch(setLoading(true));
+    setLocalLoading(true);
     await dispatch(fetchBasicAnalytics({ date: next }));
     dispatch(setLoading(false));
+    setLocalLoading(false);
   };
 
   /**
@@ -78,15 +82,19 @@ const AnalyticsView = () => {
 
     setCurrentDate(getFormattedCurrentDate(previous));
     dispatch(setLoading(true));
+    setLocalLoading(true);
     await dispatch(fetchBasicAnalytics({ date: previous }));
     dispatch(setLoading(false));
+    setLocalLoading(false);
   };
 
   useEffect(() => {
     const init = async () => {
       dispatch(setLoading(true));
+      setLocalLoading(true);
       await dispatch(fetchBasicAnalytics({ date: new Date() }));
       dispatch(setLoading(false));
+      setLocalLoading(false);
     };
     init().then();
   }, [dispatch]);
@@ -138,78 +146,97 @@ const AnalyticsView = () => {
           </span>
         </div>
 
+        {/* <--- Quick cards ---> */}
         <div className={"mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"}>
-          <StatsCard
-            title={"Wykonanych akcji"}
-            value={basicAnalytics.operationsCount}
-            description={
-              "Liczba wszystkich akcji wykonanych przez ciebie w tym miesiącu."
-            }
-          />
-          <StatsCard
-            title={"Wypełnionych celów"}
-            value={basicAnalytics.reachedGoalsCount}
-            description={
-              "Ilość założonych celów jakie udało ci się wypełnić w tym miesiącu, gratulacje!"
-            }
-          />
-          <StatsCard
-            title={"Współczynnik oszczędności"}
-            value={getLimitedExpenses.indicator.toFixed(2)}
-            description={
-              "Współczynnik pokazuje stopień zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
-            }
-          />
-          <StatsCard
-            title={"Zaoszczędzono"}
-            value={getLimitedExpenses.value.toLocaleString() + " PLN"}
-            description={
-              "Zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
-            }
-          />
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <StatsCard
+              title={"Wykonanych akcji"}
+              value={basicAnalytics.operationsCount}
+              description={
+                "Liczba wszystkich akcji wykonanych przez ciebie w tym miesiącu."
+              }
+            />
+          </Skeleton>
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <StatsCard
+              title={"Wypełnionych celów"}
+              value={basicAnalytics.reachedGoalsCount}
+              description={
+                "Ilość założonych celów jakie udało ci się wypełnić w tym miesiącu, gratulacje!"
+              }
+            />
+          </Skeleton>
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <StatsCard
+              title={"Współczynnik oszczędności"}
+              value={getLimitedExpenses.indicator.toFixed(2)}
+              description={
+                "Współczynnik pokazuje stopień zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
+              }
+            />
+          </Skeleton>
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <StatsCard
+              title={"Zaoszczędzono"}
+              value={getLimitedExpenses.value.toLocaleString() + " PLN"}
+              description={
+                "Zaoszczędzonych pieniędzy w odniesieniu do poprzedniego miesiąca."
+              }
+            />
+          </Skeleton>
         </div>
 
+        {/* <--- Charts ---> */}
         <div className={"mt-3 grid gap-3 lg:grid-cols-2"}>
-          <BarChartVertical
-            title={"Wydatki w ostatnich miesiącach"}
-            description={
-              "Wykres przedstawia wydatki z podziałem na ostatnie 12 miesięcy."
-            }
-            data={basicAnalytics.expenses}
-          />
-          <BarChartVertical
-            title={"Przychody w ostatnich miesiącach"}
-            description={
-              "Wykres przedstawia przychody z podziałem na ostatnie 12 miesięcy."
-            }
-            data={basicAnalytics.incomes}
-          />
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <BarChartVertical
+              title={"Wydatki w ostatnich miesiącach"}
+              description={
+                "Wykres przedstawia wydatki z podziałem na ostatnie 12 miesięcy."
+              }
+              data={basicAnalytics.expenses}
+            />
+          </Skeleton>
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <BarChartVertical
+              title={"Przychody w ostatnich miesiącach"}
+              description={
+                "Wykres przedstawia przychody z podziałem na ostatnie 12 miesięcy."
+              }
+              data={basicAnalytics.incomes}
+            />
+          </Skeleton>
 
-          <SavingCalculator
-            lastMonthSavings={
-              (basicAnalytics.incomes[1]?.value ?? 0) -
-              (basicAnalytics.expenses[1]?.value ?? 0)
-            }
-          />
-
-          <BarChartHorizontal
-            title={"Operacje z podziałem na kategorie"}
-            description={
-              "Wykres przedstawia rozkład wydatków z podziałem na kategorie."
-            }
-            data={basicAnalytics.categories}
-          />
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <SavingCalculator
+              lastMonthSavings={
+                (basicAnalytics.incomes[1]?.value ?? 0) -
+                (basicAnalytics.expenses[1]?.value ?? 0)
+              }
+            />
+          </Skeleton>
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <BarChartHorizontal
+              title={"Operacje z podziałem na kategorie"}
+              description={
+                "Wykres przedstawia rozkład wydatków z podziałem na kategorie."
+              }
+              data={basicAnalytics.categories}
+            />
+          </Skeleton>
         </div>
 
         <div className={"mt-3 mb-20"}>
-          <BarChartHorizontalExtra
-            title={"Zestawienie wydatków z przychodami"}
-            description={
-              "Wykres przedstawia zestawienie wydatków z przychodami z podziałem na ostatnie 6 miesięcy."
-            }
-            data={basicAnalytics.incomes}
-            secondData={basicAnalytics.expenses}
-          />
+          <Skeleton startColor="black" endColor="gray" isLoaded={!localLoading}>
+            <BarChartHorizontalExtra
+              title={"Zestawienie wydatków z przychodami"}
+              description={
+                "Wykres przedstawia zestawienie wydatków z przychodami z podziałem na ostatnie 6 miesięcy."
+              }
+              data={basicAnalytics.incomes}
+              secondData={basicAnalytics.expenses}
+            />
+          </Skeleton>
         </div>
       </MainWrapper>
       <BottomBar selected={SectionsEnum.ANALYTICS} />
