@@ -8,14 +8,12 @@
 
 import type { NextPage } from "next";
 import Head from "next/head";
-import AuthMiddleware from "../../client/common/axios/authMiddleware";
 import CategoriesView from "../../client/modules/categories/views/CategoriesView";
-import { useEffect } from "react";
+import useAuth from "../../client/common/hooks/useAuth";
+import LoaderView from "../../client/common/components/dashboard/LoaderView";
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    AuthMiddleware.checkToken().then();
-  }, []);
+  const { isAuth } = useAuth();
 
   return (
     <div>
@@ -25,7 +23,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <CategoriesView />
+      {isAuth && <CategoriesView />}
+      {!isAuth && <LoaderView />}
     </div>
   );
 };

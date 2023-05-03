@@ -20,7 +20,6 @@
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "chakra-dayzed-datepicker": "^0.2.3",
-    "cookies-next": "^2.1.1",
     "date-fns": "^2.29.2",
     "dayzed": "^3.2.3",
     "dotenv": "^16.0.3",

@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import WelcomeView from "../client/modules/users/views/WelcomeView";
 
 const Home: NextPage = () => {
@@ -8,8 +7,12 @@ const Home: NextPage = () => {
     <div>
       <Head>
         <title>Outlays Dam - monitoruj swoje wydatki</title>
-        <meta name="description" content="Twoje cele" />
+        <meta
+          name="description"
+          content="Najwygodniejsza aplikacja do monitorowania swoich wydatków."
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:image" content="/mini.png" />
       </Head>
 
       <WelcomeView />
