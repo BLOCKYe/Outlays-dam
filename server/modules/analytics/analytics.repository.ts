@@ -111,8 +111,10 @@ export default class AnalyticsRepository {
     for (const category of categoriesStats) {
       let sumOfOperationsValues = 0;
       for (const outlay of category.operations) {
-        sumOfOperationsValues += outlay.value;
+        sumOfOperationsValues = sumOfOperationsValues + Number(outlay.value);
       }
+
+      console.log(sumOfOperationsValues);
 
       const data = {
         label: category.name,
