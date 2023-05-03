@@ -26,7 +26,8 @@ export type IColors =
   | "Gray"
   | "Lime"
   | "Yellow"
-  | "Indigo";
+  | "Indigo"
+  | "Red";
 
 export default class CategoryColors {
   /**
@@ -60,9 +61,9 @@ export default class CategoryColors {
    *
    * @private
    */
-  public static readonly Pink: ICategoryColor = {
-    dark: "#1d0606",
-    default: "#F74141",
+  public static readonly Red: ICategoryColor = {
+    dark: "#230505",
+    default: "#ef4444",
   };
 
   /**
@@ -79,8 +80,8 @@ export default class CategoryColors {
    * @private
    */
   public static readonly Gray: ICategoryColor = {
-    dark: "#090c14",
-    default: "#9ca3af",
+    dark: "#050505",
+    default: "#d4d4d4",
   };
 
   /**
@@ -108,6 +109,15 @@ export default class CategoryColors {
   public static readonly Indigo: ICategoryColor = {
     dark: "#0f0e26",
     default: "#818cf8",
+  };
+
+  /**
+   *
+   * @private
+   */
+  public static readonly Pink: ICategoryColor = {
+    dark: "#20030e",
+    default: "#ec4899",
   };
 
   /**
@@ -145,12 +155,16 @@ export default class CategoryColors {
         return CategoryColors.Orange;
       }
 
-      case "Pink": {
-        return CategoryColors.Pink;
+      case "Red": {
+        return CategoryColors.Red;
       }
 
       case "Blue": {
         return CategoryColors.Blue;
+      }
+
+      case "Pink": {
+        return CategoryColors.Pink;
       }
 
       default: {
@@ -179,9 +193,9 @@ export default class CategoryColors {
       styles: this.Blue,
     },
     {
-      name: "Pink",
+      name: "Red",
       label: "Czerwony",
-      styles: this.Pink,
+      styles: this.Red,
     },
     {
       name: "Purple",
@@ -207,6 +221,11 @@ export default class CategoryColors {
       name: "Indigo",
       label: "Indigo",
       styles: this.Indigo,
+    },
+    {
+      name: "Pink",
+      label: "Różowy",
+      styles: this.Pink,
     },
   ];
 }

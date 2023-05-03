@@ -119,7 +119,7 @@ export default class UsersService {
           "The password should contain at least 5 characters"
         );
 
-      const nameSchema = yup.string().min(3).max(32).required();
+      const nameSchema = yup.string().min(1).max(32).required();
       if (!(await nameSchema.isValid(name)))
         return Error.res(res, 400, "Invalid name field");
 

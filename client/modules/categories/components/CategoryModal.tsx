@@ -6,7 +6,7 @@
  * Time: 11:54
  */
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Modal,
   ModalBody,
@@ -59,8 +59,8 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
       color: props.data?.color || "",
     },
     validationSchema: categorySchema,
-    onSubmit: (values, { resetForm }) => {
-      props.submitForm(values);
+    onSubmit: async (values, { resetForm }) => {
+      await props.submitForm(values);
       resetForm();
     },
   });
@@ -96,6 +96,18 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
     }
   };
 
+  /**
+   *
+   */
+  const disabledButtonController = useMemo(() => {
+    if (!formik.dirty) return true;
+    if (!formik.values.name) return true;
+    if (!formik.values.color) return true;
+    if (loading) return true;
+
+    return false;
+  }, [formik.dirty, formik.values.color, formik.values.name, loading]);
+
   return (
     <Modal onClose={props.onClose} isOpen={props.isOpen}>
       <ModalOverlay />
@@ -108,7 +120,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
         {/* <--- Form ---> */}
         <ModalBody className={"bg-d"}>
           <div className={"text-w-darker"}>
-            Aby utworzyć nowa kategorię wypełnij formularz. Wprowadź nazwe i
+            Aby utworzyć nowa kategorię wypełnij formularz. Wprowadź nazwę i
             wybierz kolor.
           </div>
 
@@ -163,7 +175,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
                 variant={"CONTAINED"}
                 text={"Zapisz"}
                 type={"submit"}
-                disabled={!formik.dirty || loading}
+                disabled={disabledButtonController}
               />
             </ModalFooter>
           </form>
