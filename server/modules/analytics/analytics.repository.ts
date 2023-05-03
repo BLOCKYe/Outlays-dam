@@ -109,9 +109,9 @@ export default class AnalyticsRepository {
     const parsedCategories = [];
 
     for (const category of categoriesStats) {
-      let sumOfOperationsValues = 0;
+      let sumOfOperationsValues: any = 0;
       for (const outlay of category.operations) {
-        sumOfOperationsValues += outlay.value;
+        sumOfOperationsValues = sumOfOperationsValues + Number(outlay.value);
       }
 
       const data = {
