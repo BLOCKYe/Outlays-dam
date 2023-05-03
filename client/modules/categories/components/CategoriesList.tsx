@@ -9,10 +9,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCategories } from "../redux/categoriesSlice";
-import { IoList } from "react-icons/io5";
 import type { ICategoryData } from "../redux/CategoriesInterfaces";
 import CategoryItem from "./CategoryItem";
 import { Skeleton } from "@chakra-ui/react";
+import { BiCategory } from "react-icons/bi";
 
 const CategoriesList = () => {
   const categories = useSelector(selectCategories);
@@ -20,7 +20,7 @@ const CategoriesList = () => {
   return (
     <div className={"rounded-md border-[1px] border-d-lighter bg-d p-5"}>
       <div className={"flex items-center gap-2 text-lg font-bold"}>
-        <IoList /> Twoje kategorie (
+        <BiCategory /> Twoje kategorie (
         {Array.isArray(categories) && categories.length})
       </div>
       <div className={"mt-3 text-sm text-w-darker"}>

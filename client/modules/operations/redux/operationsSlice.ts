@@ -4,11 +4,11 @@ import { fetchMoreOperations, fetchOperations } from "./OperationsRepository";
 import type { IOperationData } from "./OperationInterfaces";
 
 interface IOperationsSlice {
-  operations?: IOperationData[];
+  operations?: IOperationData[] | null;
 }
 
 const initialState: IOperationsSlice = {
-  operations: [],
+  operations: null,
 };
 
 export const operationsSlice = createSlice({

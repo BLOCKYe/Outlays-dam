@@ -45,7 +45,7 @@ export const sectionsParams: IBottomBarParam[] = [
     id: SectionsEnum.CATEGORIES,
     link: Paths.CATEGORIES,
     name: "Kategorie",
-    subName: "Dodaj kategorie",
+    subName: "Zarządzaj kategoriami",
   },
   {
     icon: <MdOutlineStarPurple500 />,

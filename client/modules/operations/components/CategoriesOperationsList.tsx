@@ -8,11 +8,11 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { IoList } from "react-icons/io5";
 import { Skeleton } from "@chakra-ui/react";
 import { selectCategories } from "../../categories/redux/categoriesSlice";
 import type { ICategoryData } from "../../categories/redux/CategoriesInterfaces";
 import CategoryOperations from "./CategoryOperations";
+import { BiCategory } from "react-icons/bi";
 
 const CategoriesOperationsList: React.FC = () => {
   const categories = useSelector(selectCategories);
@@ -24,7 +24,7 @@ const CategoriesOperationsList: React.FC = () => {
         {/* <--- Display history list text ---> */}
         <>
           <div className={"flex items-center gap-2 text-lg font-bold"}>
-            <IoList />
+            <BiCategory />
             Kategorie i ich operacje
           </div>
         </>
