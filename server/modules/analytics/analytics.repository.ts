@@ -114,8 +114,6 @@ export default class AnalyticsRepository {
         sumOfOperationsValues = sumOfOperationsValues + Number(outlay.value);
       }
 
-      console.log(sumOfOperationsValues);
-
       const data = {
         label: category.name,
         color: category.color,
