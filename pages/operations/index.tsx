@@ -9,23 +9,25 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import HomeView from "../../client/modules/operations/views/HomeView";
-import AuthMiddleware from "../../client/common/axios/authMiddleware";
-import { useEffect } from "react";
+import useAuth from "../../client/common/hooks/useAuth";
+import LoaderView from "../../client/common/components/dashboard/LoaderView";
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    AuthMiddleware.checkToken().then();
-  }, []);
+  const { isAuth } = useAuth();
 
   return (
     <div>
       <Head>
-        <title>Strona głowna - Outlays Dam - monitoruj swoje wydatki</title>
-        <meta name="description" content="Strona główna" />
+        <title>Operacje - Outlays Dam - monitoruj swoje wydatki</title>
+        <meta
+          name="description"
+          content="Lista wszystkich twoich ostatnich operacji."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <HomeView />
+      {isAuth && <HomeView />}
+      {!isAuth && <LoaderView />}
     </div>
   );
 };

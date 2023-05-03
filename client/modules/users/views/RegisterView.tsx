@@ -16,7 +16,6 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { register } from "../redux/UserRepository";
 import type { AppDispatch } from "../../../common/redux/store";
-import { setCookie } from "cookies-next";
 import { useToast } from "@chakra-ui/react";
 import type { IRegisterSchema } from "../utils/RegisterFormik";
 import { registerSchema } from "../utils/RegisterFormik";
@@ -50,7 +49,6 @@ const LoginView = () => {
     setIsProcessing(true);
     try {
       const response = await dispatch(register(values)).unwrap();
-      setCookie("token", response.data?.accessToken);
 
       toast({
         title:

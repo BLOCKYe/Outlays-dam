@@ -9,7 +9,7 @@
 import type { sectionTypes } from "../components/menu/BottomBar";
 
 export default class Paths {
-  public static readonly OPERATIONS: string = "/home";
+  public static readonly OPERATIONS: string = "/operations";
   public static readonly CATEGORIES: string = "/categories";
   public static readonly STATS: string = "/stats";
   public static readonly GOALS: string = "/goals";

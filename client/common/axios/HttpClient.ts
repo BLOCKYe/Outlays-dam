@@ -11,13 +11,13 @@ import axios from "axios";
 import Router from "next/router";
 import Paths from "../router/paths";
 import { store } from "../redux/store";
-import { deleteCookie, removeCookies } from "cookies-next";
+import { setToken } from "../../modules/users/redux/userSlice";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_API || "http://localhost:3000";
 
 const httpClient = axios.create({
   baseURL: API_URL,
-  timeout: 5000,
+  timeout: 60000,
 });
 
 /**
@@ -49,8 +49,13 @@ httpClient.interceptors.response.use(
     return response;
   },
   async function (error: AxiosError) {
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      deleteCookie("token");
+    if (
+      error.response?.status === 401 ||
+      error.response?.status === 403 ||
+      error.response?.status === 400
+    ) {
+      localStorage.clear();
+      await store.dispatch(setToken(null));
       await Router.push(Paths.LOGIN);
       return Promise.resolve(error.response);
     } else {

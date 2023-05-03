@@ -8,14 +8,12 @@
 
 import type { NextPage } from "next";
 import Head from "next/head";
-import AuthMiddleware from "../../client/common/axios/authMiddleware";
-import { useEffect } from "react";
 import GoalsView from "../../client/modules/goals/views/GoalsView";
+import useAuth from "../../client/common/hooks/useAuth";
+import LoaderView from "../../client/common/components/dashboard/LoaderView";
 
 const Goals: NextPage = () => {
-  useEffect(() => {
-    AuthMiddleware.checkToken().then();
-  }, []);
+  const { isAuth } = useAuth();
 
   return (
     <div>
@@ -25,7 +23,8 @@ const Goals: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <GoalsView />
+      {isAuth && <GoalsView />}
+      {!isAuth && <LoaderView />}
     </div>
   );
 };

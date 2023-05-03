@@ -7,19 +7,23 @@
  */
 
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectUserProfile } from "../../../modules/users/redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUserProfile,
+  setToken,
+} from "../../../modules/users/redux/userSlice";
 import { Progress, Tooltip } from "@chakra-ui/react";
 import { selectLoading } from "../../redux/UISlice";
 import { AiOutlineLogout } from "react-icons/ai";
-import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Paths from "../../router/paths";
+import type { AppDispatch } from "../../redux/store";
 
 const TopBar: React.FC = () => {
   // current logged-in user
   const user = useSelector(selectUserProfile);
   const loading = useSelector(selectLoading);
+  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
 
   /**
@@ -27,7 +31,8 @@ const TopBar: React.FC = () => {
    */
 
   const logout = async (): Promise<void> => {
-    deleteCookie("token");
+    localStorage.clear();
+    await dispatch(setToken(null));
     await router.push(Paths.LOGIN);
   };
 

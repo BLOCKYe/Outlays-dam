@@ -18,10 +18,10 @@ import { loginSchema } from "../utils/LoginFormik";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/UserRepository";
 import type { AppDispatch } from "../../../common/redux/store";
-import { setCookie } from "cookies-next";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Paths, { getPathBySection } from "../../../common/router/paths";
+import { setToken } from "../redux/userSlice";
 
 const LoginView = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,13 +50,11 @@ const LoginView = () => {
     setIsProcessing(true);
     try {
       const response = await dispatch(login(values)).unwrap();
-      setCookie("token", response.data?.accessToken);
+      if (!response?.data) throw new Error();
+      if (!response?.data?.accessToken) throw new Error();
 
-      toast({
-        title: "Zalogowano",
-        status: "success",
-        isClosable: true,
-      });
+      localStorage.setItem("token", response.data?.accessToken);
+      await dispatch(setToken(response.data?.accessToken));
 
       await router.push(
         getPathBySection(response.data?.config?.defaultSection)

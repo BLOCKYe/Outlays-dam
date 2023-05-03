@@ -1,10 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setLoading } from "../redux/UISlice";
-import {
-  fetchBasicAnalytics,
-  fetchLastSpending,
-} from "../../modules/analytics/redux/AnalyticsRepository";
+import { fetchLastSpending } from "../../modules/analytics/redux/AnalyticsRepository";
 import { fetchOperations } from "../../modules/operations/redux/OperationsRepository";
 import { fetchCategories } from "../../modules/categories/redux/CategoriesRepository";
 import { fetchGoals } from "../../modules/goals/redux/GoalsRepository";
