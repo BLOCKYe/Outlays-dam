@@ -15,7 +15,8 @@ import AuthRepository from "../auth/auth.repository";
 import * as uuid from "uuid";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import * as yup from "yup";
-import MailService from "../../services/MailService";
+import MailService, { MailResponseStatuses } from "../../services/MailService";
+import type { User } from ".prisma/client";
 
 export default class UsersService {
   private readonly usersRepository: UsersRepository;
@@ -128,22 +129,27 @@ export default class UsersService {
       if (existingUser) return Error.res(res, 400, "Email already in use.");
 
       // create user
-      const user: any = await this.usersRepository.createUserByEmailAndPassword(
-        {
+      const user: User =
+        await this.usersRepository.createUserByEmailAndPassword({
           email,
           password,
           name,
-        }
-      );
+        });
 
+      // send mail with verification link
       const mailService = new MailService(
         "kontakt@dominikobloza.pl",
         user.email,
         "Outlays Dam - aktywacja konta.",
         `Ten email został użyty do utworzenia konta na platformie Outlays Dam, wejdź w ten link aby aktywować konto: ${process.env.NEXT_PUBLIC_BACKEND_API}/verify?verifyKey=${user.id}`
       );
-      await mailService.sendMail();
+      const mailResponse = await mailService.sendMail();
 
+      if (mailResponse !== MailResponseStatuses.SUCCESS) {
+        return Error.res(res, 400, "Failed to send verification link.");
+      }
+
+      // generate token
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(user, jti);
       await this.authRepository.addRefreshTokenToWhitelist({

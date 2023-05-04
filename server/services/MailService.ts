@@ -1,5 +1,10 @@
 import type { Transporter } from "nodemailer";
 
+export enum MailResponseStatuses {
+  SUCCESS = "SUCCESS",
+  ERROR = "ERROR",
+}
+
 export interface IMailOptions {
   from: string;
   to: string;
@@ -45,17 +50,14 @@ export default class MailService {
     if (!this.transporter) return;
     if (!this.mailOptions) return;
 
-    await this.transporter.sendMail(
-      this.mailOptions,
-      (error: any, info: any) => {
-        if (error) {
-          console.log(error);
-          return "ERROR";
-        } else {
-          console.log("Sent: " + info.response);
-          return "SUCCESS";
-        }
-      }
-    );
+    try {
+      const mailResponse = await this.transporter.sendMail(this.mailOptions);
+      console.log(mailResponse);
+
+      return MailResponseStatuses.SUCCESS;
+    } catch (error: any) {
+      console.log(error);
+      return MailResponseStatuses.ERROR;
+    }
   }
 }
