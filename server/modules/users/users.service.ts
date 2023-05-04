@@ -14,9 +14,13 @@ import Jwt from "../../utils/jwt/jwt";
 import AuthRepository from "../auth/auth.repository";
 import * as uuid from "uuid";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
-import * as yup from "yup";
 import MailService, { MailResponseStatuses } from "../../services/MailService";
 import type { User } from ".prisma/client";
+import PasswordValidator from "../../utils/validator/PasswordValidator";
+import EmailValidator from "../../utils/validator/EmailValidator";
+import StringValidator from "../../utils/validator/StringValidator";
+import type { JwtPayload } from "jsonwebtoken";
+import type { IUser } from "./IUsers";
 
 export default class UsersService {
   private readonly usersRepository: UsersRepository;
@@ -40,36 +44,32 @@ export default class UsersService {
     try {
       const { email, password } = req.body;
 
-      // validate body
-      const emailSchema = yup.string().email().required();
-      if (!(await emailSchema.isValid(email)))
-        return Error.res(res, 400, "Invalid email field");
-
-      const passwordSchema = yup.string().min(5).required();
-      if (!(await passwordSchema.isValid(password)))
-        return Error.res(
-          res,
-          400,
-          "The password should contain at least 5 characters"
-        );
+      await new EmailValidator(res).validate(email);
+      await new PasswordValidator(res).validate(password);
 
       // check if user already exists
-      const existingUser: any = await this.usersRepository.findUserByEmail(
+      const existingUser: IUser = await this.usersRepository.findUserByEmail(
         email
       );
-      if (!existingUser)
-        return Error.res(res, 403, "Invalid login credentials.");
+
+      if (!existingUser) {
+        return Error.res(res, 403, "The account does not exist.");
+      }
 
       // validate password
       const validPassword = await bcrypt.compare(
         password,
         existingUser.password
       );
-      if (!validPassword) return Error.res(res, 400, "Invalid password.");
+
+      if (!validPassword) {
+        return Error.res(res, 400, "Invalid password.");
+      }
 
       // validate verify status
-      if (!existingUser.isVerified)
+      if (!existingUser.isVerified) {
         return Error.res(res, 403, "Account is not verified.");
+      }
 
       // sing-in user
       const jti = uuid.v4();
@@ -77,6 +77,7 @@ export default class UsersService {
         existingUser,
         jti
       );
+
       await this.authRepository.addRefreshTokenToWhitelist({
         jti,
         refreshToken,
@@ -108,25 +109,18 @@ export default class UsersService {
       const { email, password, name } = req.body;
 
       // validate body
-      const emailSchema = yup.string().email().required();
-      if (!(await emailSchema.isValid(email)))
-        return Error.res(res, 400, "Invalid email field");
-
-      const passwordSchema = yup.string().min(5).required();
-      if (!(await passwordSchema.isValid(password)))
-        return Error.res(
-          res,
-          400,
-          "The password should contain at least 5 characters"
-        );
-
-      const nameSchema = yup.string().min(1).max(32).required();
-      if (!(await nameSchema.isValid(name)))
-        return Error.res(res, 400, "Invalid name field");
+      await new EmailValidator(res).validate(email);
+      await new PasswordValidator(res).validate(password);
+      await new StringValidator(res, 1).validate(name);
 
       // check if user already exists
-      const existingUser = await this.usersRepository.findUserByEmail(email);
-      if (existingUser) return Error.res(res, 400, "Email already in use.");
+      const existingUser: IUser = await this.usersRepository.findUserByEmail(
+        email
+      );
+
+      if (existingUser) {
+        return Error.res(res, 400, "Email already in use.");
+      }
 
       // create user
       const user: User =
@@ -174,16 +168,21 @@ export default class UsersService {
    */
   public async profile(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const payload = await AuthMiddleware.isAuthenticated(req, res);
+      const payload: void | JwtPayload = await AuthMiddleware.isAuthenticated(
+        req,
+        res
+      );
       if (!payload) return;
 
       const { userId } = payload;
-      const user: any = await this.usersRepository.findUserById(userId);
+      const user: IUser = await this.usersRepository.findUserById(userId);
 
       // check if user already exists
-      if (!user) return Error.res(res, 400, "The user does not exist.");
+      if (!user) {
+        return Error.res(res, 400, "The user does not exist.");
+      }
+      user.password = "";
 
-      delete user.password;
       return res.status(200).json({ status: 200, data: { user } });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
@@ -203,18 +202,25 @@ export default class UsersService {
     verifyKey: string
   ) {
     try {
-      if (!verifyKey) return Error.res(res, 400, "Invalid verify key.");
+      if (!verifyKey) {
+        return Error.res(res, 400, "Invalid verify key.");
+      }
 
       // check if user has verified account
-      const existingUser = await this.usersRepository.findUserById(verifyKey);
+      const existingUser: IUser = await this.usersRepository.findUserById(
+        verifyKey
+      );
 
-      if (!existingUser) return Error.res(res, 400, "The user does not exist.");
+      if (!existingUser) {
+        return Error.res(res, 400, "The user does not exist.");
+      }
 
-      if (existingUser?.isVerified)
+      if (existingUser?.isVerified) {
         return Error.res(res, 400, "Account is already verified.");
+      }
 
       // verify account
-      const user = await this.usersRepository.verifyUser(existingUser.id);
+      const user: User = await this.usersRepository.verifyUser(existingUser.id);
 
       return res.status(200).json({ status: 200, data: user });
     } catch (err) {
@@ -235,14 +241,12 @@ export default class UsersService {
 
       const { name } = req.body;
 
-      const nameSchema = yup.string().min(3).max(32).required();
-      if (!(await nameSchema.isValid(name)))
-        return Error.res(res, 400, "Invalid name field");
+      await new StringValidator(res, 1).validate(name);
 
       const { userId } = payload;
-      const user: any = await this.usersRepository.updateProfile(userId, name);
+      const user: User = await this.usersRepository.updateProfile(userId, name);
+      user.password = "";
 
-      delete user.password;
       return res.status(200).json({ status: 200, data: { user } });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
