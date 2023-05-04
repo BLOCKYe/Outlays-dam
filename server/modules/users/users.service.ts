@@ -142,7 +142,7 @@ export default class UsersService {
         "Outlays Dam - aktywacja konta.",
         `Ten email został użyty do utworzenia konta na platformie Outlays Dam, wejdź w ten link aby aktywować konto: ${process.env.NEXT_PUBLIC_BACKEND_API}/verify?verifyKey=${user.id}`
       );
-      mailService.sendMail();
+      await mailService.sendMail();
 
       const jti = uuid.v4();
       const { accessToken, refreshToken } = this.jwt.generateTokens(user, jti);
