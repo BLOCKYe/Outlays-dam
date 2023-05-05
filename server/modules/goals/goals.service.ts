@@ -1,20 +1,24 @@
 /*
- * Project: outlays-dam
+ * Project: Outlays-dam
  * Author: Dominik Obłoza
  * User: @BLOCKYe
- * Date: 13/08/2022
- * Time: 22:37
+ * Date: 05.05.2023
+ * Time: 02:55
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import UsersRepository from "../users/users.repository";
-import * as yup from "yup";
 import GoalsRepository from "./goals.repository";
-import type { IGoalCreateData, IGoalEditData } from "./IGoals";
+import type { IGoal, IGoalCreateData, IGoalEditData } from "./IGoals";
 import AnalyticsRepository from "../analytics/analytics.repository";
 import GoalsHelper from "./goals.helper";
+import StringValidator from "../../utils/validator/StringValidator";
+import TypeValidator from "../../utils/validator/TypeValidator";
+import NumberValidator from "../../utils/validator/NumberValidator";
+import { GoalsTypesEnum } from "../../../common/goals/GoalsTypesEnum";
+import { IResult } from "../../../client/modules/goals/redux/GoalsInterfaces";
 
 export default class GoalsService {
   private readonly usersRepository: UsersRepository;
@@ -40,28 +44,14 @@ export default class GoalsService {
 
       const { title, description, startDate, endDate, type, goalValue } =
         req.body;
-      // validate body
-      const operationSchema = yup.object().shape({
-        title: yup.string().min(1).max(50).required(),
-        description: yup.string().max(255),
-        type: yup.string().max(255).required(),
-        startDate: yup.string().max(255).required(),
-        endDate: yup.string().max(255).required(),
-        goalValue: yup.number().positive().required(),
-      });
-
-      if (
-        !(await operationSchema.isValid({
-          title,
-          description,
-          startDate,
-          endDate,
-          goalValue,
-          type,
-        }))
-      ) {
-        return Error.res(res, 400, "Invalid req body");
-      }
+      await new StringValidator(res, true, 1, 50).validate(title);
+      await new StringValidator(res, false, 0, 255).validate(description);
+      await new TypeValidator(res, Object.keys(GoalsTypesEnum), true).validate(
+        type
+      );
+      await new StringValidator(res, true, 1, 255).validate(startDate);
+      await new StringValidator(res, true, 1, 255).validate(endDate);
+      await new NumberValidator(res, true, true).validate(goalValue);
 
       const reqData: IGoalCreateData = {
         userId: payload.userId,
@@ -74,7 +64,7 @@ export default class GoalsService {
         reached: false,
       };
 
-      const goalsData = await this.goalsRepository.createGoal(reqData);
+      const goalsData: IGoal = await this.goalsRepository.createGoal(reqData);
       return res.status(200).json({ status: 200, data: goalsData });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
@@ -93,10 +83,14 @@ export default class GoalsService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const goals = await this.goalsRepository.getUserGoals(payload.userId);
+      const goals: IGoal[] = await this.goalsRepository.getUserGoals(
+        payload.userId
+      );
       const copyOfGoals = [];
+
       // get results from every goal
       for (const goal of goals) {
+        if (!goal) return;
         const goalResult: any =
           await this.analyticsRepository.getOperationsResultsFromRange(
             payload.userId,
@@ -130,7 +124,10 @@ export default class GoalsService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const Goal = await this.goalsRepository.findById(payload.userId, id);
+      const Goal: IGoal = await this.goalsRepository.findById(
+        payload.userId,
+        id
+      );
       if (!Goal) return Error.res(res, 404, "Goal not found");
 
       return res.status(200).json({ status: 200, data: Goal });
@@ -155,7 +152,10 @@ export default class GoalsService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const Goal = await this.goalsRepository.deleteById(payload.userId, id);
+      const Goal: IGoal = await this.goalsRepository.deleteById(
+        payload.userId,
+        id
+      );
       if (!Goal) return Error.res(res, 404, "Goal not found");
 
       return res.status(200).json({ status: 200, data: Goal });
@@ -180,7 +180,10 @@ export default class GoalsService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const Goal = await this.goalsRepository.setAsReached(payload.userId, id);
+      const Goal: IGoal = await this.goalsRepository.setAsReached(
+        payload.userId,
+        id
+      );
       if (!Goal) return Error.res(res, 404, "Goal not found");
 
       return res.status(200).json({ status: 200, data: Goal });
@@ -204,6 +207,15 @@ export default class GoalsService {
       const { title, description, startDate, endDate, type, goalValue } =
         req.body;
 
+      await new StringValidator(res, false, 1, 50).validate(title);
+      await new StringValidator(res, false, 0, 255).validate(description);
+      await new TypeValidator(res, Object.keys(GoalsTypesEnum), false).validate(
+        type
+      );
+      await new StringValidator(res, false, 1, 255).validate(startDate);
+      await new StringValidator(res, false, 1, 255).validate(endDate);
+      await new NumberValidator(res, false, true).validate(goalValue);
+
       const reqData: IGoalEditData = {
         title: title,
         goalValue: goalValue,
@@ -213,7 +225,7 @@ export default class GoalsService {
         description: description,
       };
 
-      const goal: any = await this.goalsRepository.editGoal(
+      const goal: IGoal = await this.goalsRepository.editGoal(
         payload.userId,
         id,
         reqData

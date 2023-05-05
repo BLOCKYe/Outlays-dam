@@ -1,3 +1,5 @@
+import type { Goal } from ".prisma/client";
+
 export interface IGoalCreateData {
   title: string;
   description: string;
@@ -19,3 +21,5 @@ export interface IGoalEditData {
   endDate?: string;
   reached?: boolean;
 }
+
+export type IGoal = Goal | null;

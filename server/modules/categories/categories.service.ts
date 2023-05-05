@@ -151,8 +151,8 @@ export default class CategoriesService {
       if (!payload) return;
 
       const { name, color } = req.body;
-      await new StringValidator(res, false, 1, 32).validate(name);
-      await new StringValidator(res, false, 1, 32).validate(color);
+      await new StringValidator(res, true, 1, 32).validate(name);
+      await new StringValidator(res, true, 1, 32).validate(color);
 
       const reqData: ICategoryCreateData = {
         userId: payload.userId,
