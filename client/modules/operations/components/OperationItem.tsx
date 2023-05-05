@@ -64,7 +64,9 @@ const OperationItem: React.FC<OperationItemProps> = (props) => {
         categories: parsedSelectedCategories,
       };
 
-      await dispatch(editOperation({ values: reqData, id: props.data.id }));
+      await dispatch(
+        editOperation({ values: reqData, id: props.data.id })
+      ).unwrap();
       displayToast("SUCCESS");
       await updateData();
 

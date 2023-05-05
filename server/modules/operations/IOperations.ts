@@ -19,4 +19,4 @@ export interface IOperationEditData {
   categories: any[];
 }
 
-export type IOperation = Operation & { categories: Category[] };
+export type IOperation = (Operation & { categories: Category[] }) | null;
