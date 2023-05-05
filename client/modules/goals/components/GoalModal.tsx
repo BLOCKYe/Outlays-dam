@@ -317,7 +317,7 @@ const GoalModal: React.FC<IGoalModalProps> = (props) => {
                   description={"Wykonanej operacji nie będzie dało się cofnąć!"}
                   onConfirm={() => removeGoal(props.data?.id)}
                 >
-                  <Button variant={"OUTLINED"} text={"Usuń cel"} />
+                  <Button variant={"OUTLINED"} text={"Usuń"} />
                 </ConfirmationDialog>
               )}
 

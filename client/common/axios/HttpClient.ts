@@ -49,11 +49,7 @@ httpClient.interceptors.response.use(
     return response;
   },
   async function (error: AxiosError) {
-    if (
-      error.response?.status === 401 ||
-      error.response?.status === 403 ||
-      error.response?.status === 400
-    ) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       localStorage.clear();
       await store.dispatch(setToken(null));
       await Router.push(Paths.LOGIN);

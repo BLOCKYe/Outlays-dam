@@ -15,10 +15,12 @@ import { setLoading } from "../../../common/redux/UISlice";
 import Button from "../../../common/components/buttons/Button";
 import type { FormikValues } from "formik";
 import { useFormik } from "formik";
+import { useToast } from "@chakra-ui/react";
 
-const AccountDetails: React.FC = (props) => {
+const AccountDetails: React.FC = () => {
   const currentUser = useSelector(selectUserProfile);
   const dispatch: AppDispatch = useDispatch();
+  const toast = useToast();
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -33,14 +35,22 @@ const AccountDetails: React.FC = (props) => {
    * update user details
    */
   const handleSubmitForm = async (formValues: FormikValues) => {
-    const values: IUpdateUserRequest = {
-      name: formValues.name,
-    };
-
     dispatch(setLoading(true));
-    await dispatch(updateProfileDetails(values));
-    await dispatch(fetchUserProfile());
-    dispatch(setLoading(false));
+
+    try {
+      const values: IUpdateUserRequest = {
+        name: formValues.name,
+      };
+      await dispatch(updateProfileDetails(values)).unwrap();
+      await dispatch(fetchUserProfile());
+      dispatch(setLoading(false));
+    } catch (error: any) {
+      toast({
+        title: error?.message,
+        status: "error",
+      });
+      dispatch(setLoading(false));
+    }
   };
 
   return (

@@ -256,7 +256,7 @@ const OperationModal: React.FC<IOperationModalProps> = (props) => {
                   description={"Wykonanej operacji nie będzie dało się cofnąć!"}
                   onConfirm={() => removeOperation(props.data?.id)}
                 >
-                  <Button variant={"OUTLINED"} text={"Usuń operację"} />
+                  <Button variant={"OUTLINED"} text={"Usuń"} />
                 </ConfirmationDialog>
               )}
 

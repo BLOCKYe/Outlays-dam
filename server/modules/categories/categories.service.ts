@@ -10,8 +10,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import CategoriesRepository from "./categories.repository";
-import type { ICategoryCreateData, ICategoryEditData } from "./ICategories";
-import * as yup from "yup";
+import type {
+  ICategory,
+  ICategoryCreateData,
+  ICategoryEditData,
+} from "./ICategories";
+import StringValidator from "../../utils/validator/StringValidator";
 
 export default class CategoriesService {
   private readonly categoriesRepository: CategoriesRepository;
@@ -26,15 +30,13 @@ export default class CategoriesService {
    * @param req
    * @param res
    */
-
   public async getCategories(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const categories: any = await this.categoriesRepository.getUserCategories(
-        payload.userId
-      );
+      const categories: ICategory[] =
+        await this.categoriesRepository.getUserCategories(payload.userId);
       return res.status(200).json({ status: 200, data: categories });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");
@@ -48,7 +50,6 @@ export default class CategoriesService {
    * @param res
    * @param id
    */
-
   public async getCategory(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -58,7 +59,7 @@ export default class CategoriesService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const category: any = await this.categoriesRepository.findById(
+      const category: ICategory = await this.categoriesRepository.findById(
         payload.userId,
         id
       );
@@ -89,19 +90,15 @@ export default class CategoriesService {
 
       const { name, color } = req.body;
 
-      const nameSchema = yup.string().max(32);
-      const colorSchema = yup.string().max(32);
-      if (!(await nameSchema.isValid(name)))
-        return Error.res(res, 400, "Name can have a maximum of 32 characters");
-      if (!(await colorSchema.isValid(color)))
-        return Error.res(res, 400, "Color can have a maximum of 32 characters");
+      await new StringValidator(res, false, 1, 32).validate(name);
+      await new StringValidator(res, false, 1, 32).validate(color);
 
       const reqData: ICategoryEditData = {
         name: name,
         color: color,
       };
 
-      const category: any = await this.categoriesRepository.editCategory(
+      const category: ICategory = await this.categoriesRepository.editCategory(
         payload.userId,
         id,
         reqData
@@ -121,7 +118,6 @@ export default class CategoriesService {
    * @param res
    * @param id
    */
-
   public async deleteCategory(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -131,7 +127,7 @@ export default class CategoriesService {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
-      const category: any = await this.categoriesRepository.deleteById(
+      const category: ICategory = await this.categoriesRepository.deleteById(
         payload.userId,
         id
       );
@@ -149,25 +145,14 @@ export default class CategoriesService {
    * @param req
    * @param res
    */
-
   public async createCategory(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
 
       const { name, color } = req.body;
-      const nameSchema = yup
-        .string()
-        .max(32, "Name can have a maximum of 32 characters")
-        .required();
-      const colorSchema = yup
-        .string()
-        .max(32, "Color can have a maximum of 32 characters")
-        .required();
-      if (!(await nameSchema.isValid(name)))
-        return Error.res(res, 400, "Invalid name field");
-      if (!(await colorSchema.isValid(color)))
-        return Error.res(res, 400, "Invalid color field");
+      await new StringValidator(res, true, 1, 32).validate(name);
+      await new StringValidator(res, true, 1, 32).validate(color);
 
       const reqData: ICategoryCreateData = {
         userId: payload.userId,
@@ -175,9 +160,8 @@ export default class CategoriesService {
         color: color,
       };
 
-      const categoryData = await this.categoriesRepository.createCategory(
-        reqData
-      );
+      const categoryData: ICategory =
+        await this.categoriesRepository.createCategory(reqData);
       return res.status(200).json({ status: 200, data: categoryData });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");

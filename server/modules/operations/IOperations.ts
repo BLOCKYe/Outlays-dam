@@ -1,3 +1,5 @@
+import type { Category, Operation } from ".prisma/client";
+
 export interface IOperationCreateData {
   title: string;
   description: string;
@@ -16,3 +18,5 @@ export interface IOperationEditData {
   value?: number;
   categories: any[];
 }
+
+export type IOperation = (Operation & { categories: Category[] }) | null;

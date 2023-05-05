@@ -7,7 +7,7 @@
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { JwtPayload, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import Error from "../Error/Error";
 
 export default class AuthMiddleware {

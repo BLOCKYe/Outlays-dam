@@ -49,7 +49,9 @@ const CategoryItem: React.FC<ICategoryItemProps> = (props) => {
         color: values.color,
       };
 
-      await dispatch(editCategory({ values: reqData, id: props.data.id }));
+      await dispatch(
+        editCategory({ values: reqData, id: props.data.id })
+      ).unwrap();
       await dispatch(fetchCategories());
 
       toast({
