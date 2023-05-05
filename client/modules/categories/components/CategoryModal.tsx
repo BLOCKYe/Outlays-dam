@@ -163,7 +163,7 @@ const CategoryModal: React.FC<ICategoryModalProps> = (props) => {
                   description={"Wykonanej operacji nie będzie dało się cofnąć!"}
                   onConfirm={() => removeCategory(props.data?.id)}
                 >
-                  <Button variant={"OUTLINED"} text={"Usuń kategorię"} />
+                  <Button variant={"OUTLINED"} text={"Usuń"} />
                 </ConfirmationDialog>
               )}
               <Button
