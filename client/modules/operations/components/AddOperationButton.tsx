@@ -57,7 +57,7 @@ const AddOperationButton: React.FC<IAddButtonProps> = (props) => {
         categories: parsedSelectedCategories,
       };
 
-      await dispatch(createOperation(reqData));
+      await dispatch(createOperation(reqData)).unwrap();
 
       const promises = [
         dispatch(fetchOperations()),

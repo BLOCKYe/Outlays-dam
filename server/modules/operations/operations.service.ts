@@ -11,8 +11,16 @@ import AuthMiddleware from "../../utils/middlewares/auth.middleware";
 import Error from "../../utils/Error/Error";
 import UsersRepository from "../users/users.repository";
 import OperationsRepository from "./operations.repository";
-import type { IOperationCreateData, IOperationEditData } from "./IOperations";
-import * as yup from "yup";
+import type {
+  IOperation,
+  IOperationCreateData,
+  IOperationEditData,
+} from "./IOperations";
+import StringValidator from "../../utils/validator/StringValidator";
+import TypeValidator from "../../utils/validator/TypeValidator";
+import { OperationsTypesEnum } from "../../../common/operations/OperationsTypesEnum";
+import NumberValidator from "../../utils/validator/NumberValidator";
+import ArrayValidator from "../../utils/validator/ArrayValidator";
 
 export default class OperationsService {
   private readonly usersRepository: UsersRepository;
@@ -36,28 +44,16 @@ export default class OperationsService {
       if (!payload) return;
 
       const { title, description, date, type, value, categories } = req.body;
-      // validate body
-      const operationSchema = yup.object().shape({
-        title: yup.string().min(1).max(50).required(),
-        description: yup.string().max(255),
-        type: yup.string().max(255).required(),
-        date: yup.string().max(255).required(),
-        value: yup.number().positive().required(),
-        categories: yup.array(),
-      });
-
-      if (
-        !(await operationSchema.isValid({
-          title,
-          description,
-          date,
-          value,
-          type,
-          categories,
-        }))
-      ) {
-        return Error.res(res, 400, "Invalid req body");
-      }
+      await new StringValidator(res, true, 1, 50).validate(title);
+      await new StringValidator(res, false, 0, 255).validate(description);
+      await new TypeValidator(
+        res,
+        Object.keys(OperationsTypesEnum),
+        true
+      ).validate(type);
+      await new StringValidator(res, true, 1, 255).validate(date);
+      await new NumberValidator(res, true, true).validate(value);
+      await new ArrayValidator(res).validate(categories);
 
       const reqData: IOperationCreateData = {
         userId: payload.userId,
@@ -69,9 +65,8 @@ export default class OperationsService {
         categories: categories || [],
       };
 
-      const operationData = await this.operationsRepository.createOperation(
-        reqData
-      );
+      const operationData: IOperation =
+        await this.operationsRepository.createOperation(reqData);
       return res.status(200).json({ status: 200, data: operationData });
     } catch (err) {
       return Error.res(res, 500, "Something went wrong");

@@ -44,8 +44,8 @@ export default class UsersService {
     try {
       const { email, password } = req.body;
 
-      await new EmailValidator(res).validate(email);
-      await new PasswordValidator(res).validate(password);
+      await new EmailValidator(res, true).validate(email);
+      await new PasswordValidator(res, true).validate(password);
 
       // check if user already exists
       const existingUser: IUser = await this.usersRepository.findUserByEmail(
@@ -109,9 +109,9 @@ export default class UsersService {
       const { email, password, name } = req.body;
 
       // validate body
-      await new EmailValidator(res).validate(email);
-      await new PasswordValidator(res).validate(password);
-      await new StringValidator(res, 1).validate(name);
+      await new EmailValidator(res, true).validate(email);
+      await new PasswordValidator(res, true).validate(password);
+      await new StringValidator(res, true, 1, 50).validate(name);
 
       // check if user already exists
       const existingUser: IUser = await this.usersRepository.findUserByEmail(
@@ -179,7 +179,7 @@ export default class UsersService {
 
       // check if user already exists
       if (!user) {
-        return Error.res(res, 400, "The user does not exist.");
+        return Error.res(res, 401, "The user does not exist.");
       }
       user.password = "";
 
@@ -238,12 +238,11 @@ export default class UsersService {
     try {
       const payload = await AuthMiddleware.isAuthenticated(req, res);
       if (!payload) return;
+      const { userId } = payload;
 
       const { name } = req.body;
 
-      await new StringValidator(res, 1).validate(name);
-
-      const { userId } = payload;
+      await new StringValidator(res, true, 1, 50).validate(name);
       const user: User = await this.usersRepository.updateProfile(userId, name);
       user.password = "";
 

@@ -3,20 +3,13 @@ import * as yup from "yup";
 import Error from "../Error/Error";
 import type { NextApiResponse } from "next";
 
-export default class StringValidator extends Validator {
-  private readonly MIN_LENGTH: number = 0;
-  private readonly MAX_LENGTH: number = 255;
+export default class TypeValidator extends Validator {
+  private readonly types: any[] = [];
 
-  constructor(
-    res: NextApiResponse,
-    required?: boolean,
-    min?: number,
-    max?: number
-  ) {
+  constructor(res: NextApiResponse, types: any[], required?: boolean) {
     super(res, required);
 
-    if (min) this.MIN_LENGTH = min;
-    if (max) this.MAX_LENGTH = max;
+    this.types = types;
   }
 
   /**
@@ -28,12 +21,8 @@ export default class StringValidator extends Validator {
   public async validate(value: number | string | null, message?: string) {
     if (!this.res) return;
 
-    let validationSchema = yup
-      .string()
-      .min(this.MIN_LENGTH)
-      .max(this.MAX_LENGTH);
+    let validationSchema = yup.string().oneOf(this.types);
     if (this.REQUIRED) validationSchema = validationSchema.required();
-
     const isValid = await validationSchema.isValid(value);
 
     if (!isValid) {
@@ -41,7 +30,7 @@ export default class StringValidator extends Validator {
         this.res,
         400,
         message ??
-          `Invalid value: ${value}. Allowed number of characters: ${this.MIN_LENGTH} - ${this.MAX_LENGTH}`
+          `Invalid value: ${value}. Allowed types: ${this.types.join(", ")}`
       );
 
       throw new Error();
